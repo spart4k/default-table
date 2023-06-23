@@ -1,0 +1,88 @@
+
+
+<html>
+ <head>
+  <meta charset="utf-8">
+  <title>Chat CRM</title>
+ </head>
+ <body>
+  <div class="body">
+    <div class="leftbar">
+    
+    </div>
+    <div class="chat" id="chat">
+      <div class="wrap">
+        <div class="chat-contacts">
+          <div class="chat-contacts__search">
+            <div class="search">
+              <input v-model="chat.searchField" placeholder="Поиск" type="text">
+              <div class="search-close">
+                <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="black"/>
+                </svg>                  
+              </div>
+            </div>
+          </div>
+          <div class="chat-contacts-wrap">
+            <div v-if="searchedContacts.length" class="chat-contacts-list">
+              <div v-for="(item) in searchedContacts" :class="item.active ? 'active' : ''" @click="openDialog(item)" class="chat-contacts-list__dialog contact">
+                <div class="contact-avatar">
+                  <img :src="item.avatar" alt="">
+                </div>
+                <div class="contact-info">
+                  <div class="contact-title" :class="item.active ? 'active' : ''">
+                    {{ item.title }}
+                  </div>
+                  <div class="contact-message clip" :class="item.active ? 'active' : ''">
+                    <!-- {{ item.messages[item.messages.length - 1].text }} -->
+                    {{ getLastMessage(item) }}
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-else class="chat-contacts__notfound">
+              Ничего не найдено
+            </div>
+          </div>
+          
+        </div>
+        <div class="chat-dialog">
+          <div class="chat-dialog-wrap">
+            <!-- <div class="chat-dialog-header">
+              <div class="chat-dialog-header-info">
+                <div v-if="activeDialog.title" class="title">
+                  {{ activeDialog.title }}
+                </div>
+                <div class="online">
+                </div>
+              </div>
+            </div> -->
+            <div class="chat-dialog-content">
+              <div v-if="activeDialog && activeDialog.messages.length" class="chat-dialog-content-wrap">
+                <div v-for="(item) in activeDialog.messages" class="chat-dialog-content-box">
+                  <div class="date-row">
+                    <div class="chat-dialog-content-date">{{ item.date }}</div>
+                  </div>
+                    <div v-for="(message) in item.messages" class="message" :class="message.author.id === chat.user.id ? 'yourself' : 'companion'">
+                      <div class="message-row">
+                        {{ message.text }} 
+                      </div>
+                    </div>
+                </div>
+              </div>
+              
+            </div>
+            <div class="chat-dialog-field">
+              
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/chat.css?ver=1">
+  <script type="module" src="./js/chat.js"></script>
+
+ </body>
+</html>
+

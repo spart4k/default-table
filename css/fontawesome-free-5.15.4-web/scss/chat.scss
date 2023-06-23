@@ -1,0 +1,291 @@
+* {
+  box-sizing: border-box;
+  padding: 0;
+  margin: 0;
+  font-family: "Helvetica Neue","Segoe UI",helvetica,verdana,sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+html {
+  height: 100%;
+}
+body {
+  height: 100%;
+}
+
+$dialogMenu: 240px;
+$mainColor: #002F55;
+$subColor: rgba(0,0,0,.4);
+$textSize: 14px;
+$titleSize: 16px;
+$avatarWidth: 60px;
+$marginWidth: 10px;
+$activeColor: rgb(19, 94, 129);
+$padding: 5px;
+$transitionContant: .15s;
+$panelHeight: 40px;
+
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
+@mixin flexFullCenter {
+  @include flex-column;
+  justify-content: center;
+}
+
+@mixin text {
+  color: $subColor;
+  font-size: $textSize;
+  font-weight: 400;
+}
+
+@mixin title {
+  color: #000;
+  font-size: $titleSize;
+  font-weight: 600;
+}
+
+.body {
+  display: flex;
+  height: 100%;
+}
+
+.chat {
+  flex: 1;
+  padding: 20px;
+  // background-color: $mainColor;
+  height: 100%;
+  .wrap {
+    display: flex;
+    height: 100%;
+    width: 100%;
+    box-shadow: 0px -1px 8px 0px rgba(34, 60, 80, 0.23);
+    position: relative;
+  }
+  &-contacts {
+    position: relative;
+    @include flex-column;
+    
+    height: 100%;
+    border-right: 1px solid rgba(0,0,0, .05);
+    width: $dialogMenu;
+    &-wrap {
+      flex: 1;
+      padding-top: $panelHeight;
+      overflow-y: auto;
+      &::-webkit-scrollbar {
+        display: none;
+      }
+      &::-webkit-scrollbar-track {
+        display: none;
+      }
+      &::-webkit-scrollbar-thumb {
+        display: none;
+      }
+    }
+    &__search {
+      position: absolute;
+      top: 0;
+      background-color: #fff;
+      width: 100%;
+      height: $panelHeight;
+      padding: 5px;
+    }
+    &-list {
+      @include flex-column;
+      &__dialog {
+        width: 100%;
+        color: #fff;
+      }
+    }
+    &__notfound {
+      text-align: center;
+      padding: 5px;
+    }
+  }
+  .contact {
+    display: flex;
+    align-items: center;
+    transition: $transitionContant;
+    cursor: pointer;
+    &-info {
+      padding-right: 10px;
+      flex: 1;
+    }
+    &-avatar {
+      width: $avatarWidth;
+      height: $avatarWidth;
+      // margin-right: $marginWidth;
+      padding: 5px 5px;
+      @include flexFullCenter;
+      img {
+        width: 100%;
+        height: 100%;
+        border-radius: 100px;
+        object-fit: cover;
+      }
+    }
+    &-title {
+      @include title;
+      transition: $transitionContant;
+      &.active {
+        color: #fff
+      }
+    }
+    &-message {
+      @include text;
+      transition: $transitionContant;
+      &.active {
+        color: #fff
+      }
+    }
+    
+    &:hover {
+      background-color: rgba(0,0,0,0.2);
+    }
+    &.active {
+      background-color: $activeColor;
+    }
+  }
+  &-dialog {
+    flex: 1;
+    background-color: rgba(0,0,0, .05);
+    &-wrap {
+      position: relative;
+      @include flex-column;
+      justify-content: space-between;
+      height: 100%;
+      padding: $panelHeight 0;
+    }
+    &-header {
+      height: $panelHeight;
+      background-color: #fff;
+      padding: 5px;
+      position: absolute;
+      width: 100%;
+      top: 0;
+    }
+    &-content {
+      flex: 1;
+      max-height: 100%;
+      padding: 0 10px 0 10px;
+      &-box {
+        &:not(:last-child) {
+          margin-bottom: 10px;
+        }
+        .date-row {
+          display: flex;
+          justify-content: center;
+          margin-bottom: 5px;
+        }
+        .message {
+          margin-bottom: 10px;
+        }
+        .yourself {
+          display: flex;
+          justify-content: flex-end;
+          .message-row {
+            background-color: rgba(111, 204, 111, 0.2);
+          }
+        }
+        .companion {
+          display: flex;
+          justify-content: flex-start;
+        }
+        .message-row {
+          display: flex;
+          border: 1px solid #000;
+          border-radius: 20px;
+          padding: 5px 10px;
+          background-color: #fff;
+          @include text;
+          color: #000;
+        }
+      }
+      &-date {
+        // border: 1px solid #000;
+        text-align: center;
+        padding: 2px 10px;
+        border-radius: 20px;
+        background-color: rgba(0,0,0,.2);
+        color: #fff;
+      }
+      &-wrap {
+        height: 100%;
+        overflow: auto;
+      }
+    }
+    &-field {
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      height: $panelHeight;
+      background-color: #fff;
+    }
+  }
+  input {
+    border: 0;
+    outline: none;
+
+  }
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+  &::-webkit-scrollbar-track {
+    background-color: darkgrey;
+  }
+  &::-webkit-scrollbar-thumb {
+    box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+  }
+}
+.search {
+  position: relative;
+  input {
+    background-color: rgba(0,0,0, .05);
+    padding: 5px 10px;
+    transition: .2s;
+    border: 1px solid #fff;
+    width: 100%;
+    &:focus {
+      background-color: #fff;
+      border: 1px solid rgba(0,0,0, .05) !important;
+    }
+  }
+  &-close {
+    position: absolute;
+    right: 5px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;
+    height: 10px;
+    @include flexFullCenter;
+    cursor: pointer;
+    svg {
+      width: 100%;
+      height: 100%;
+    }
+  }
+}
+.leftbar {
+  background-color: #002F55;
+  width: 240px;
+  height: 100%;
+  transition: .3s;
+}
+
+@media (max-width: 768px) {
+  .leftbar {
+    width: 0;
+  }
+}
+
+.clip {
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: calc($dialogMenu - $avatarWidth - 20px);
+  // max-width: 100%;
+}
