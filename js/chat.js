@@ -1,4 +1,4 @@
-import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.esm.browser.js'
+// import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.esm.browser.js'
 
 new Vue({
 		el: '#chat',
@@ -6,10 +6,11 @@ new Vue({
 			chat: {
 				user: {
 					id: 777,
-					title: 'Алексей Тихонравов'
+					title: 'Алексей Тихонравов',
+					avatar: 'https://yt3.googleusercontent.com/oOuggkIDNLwK60lN_W-ZR5p8psudkgU3V7YmcFJj92MX77GzqvonsqwW2qvXfZaR_WlwQTup=s900-c-k-c0x00ffffff-no-rj'
 				},
 				searchField: '',
-				dialogs: []
+				dialogs: [],
 			},
 			templateMessages: [
 				"Не забудьте закрыть окно перед уходом.",
@@ -134,22 +135,33 @@ new Vue({
 					title: "Александр Афанасьев",
 					avatar: 'https://tvkrasnodar.ru/upload/resize_cache/webp/iblock/a07/9ibsobyk4gqfdmvffzkzg6lnnrx93m9f.webp',
 				}
-			]
+			],
+			emptyMessage: {
+				text: ''
+			}
 		},
 		
 		methods: {
+			even_or_odd(number) {
+				return number % 2 === 0 ? true : false
+			},
+			isYourselfMessage(message) {
+				return message.author.id === this.chat.user.id
+			},
 			initTestData() {
-				function even_or_odd(number) {
-					return number % 2 === 0 ? true : false
-				}
 				for (let i = 0; i < 20; i++) {
 					this.persons[i].id = i
 					const messages = []
+					console.log(this.getRandomInt(10000))
 					this.templateMessages.forEach((item, index) => {
 						messages.push({
+							id: this.getRandomInt(10000),
 							text: item + i,
-							author: even_or_odd(index) ? this.chat.user : this.persons[i]
+							author: this.even_or_odd(index) ? this.chat.user : this.persons[i],
+							time: '20:13',
+							checked: false
 						})
+						console.log(messages)
 					})
 					const data = [
 						{
@@ -157,15 +169,15 @@ new Vue({
 							messages
 						},
 						{
-							date: '10 Апреля',
+							date: '12 Апреля',
 							messages
 						},
 						{
-							date: '10 Апреля',
+							date: '14 Апреля',
 							messages
 						},
 						{
-							date: '10 Апреля',
+							date: '16 Апреля',
 							messages
 						}
 					]
@@ -179,7 +191,10 @@ new Vue({
 						open: true,
 						task: false,
 						active: i === 0 ? true : false,
-						messages: data
+						messages: data,
+						newMessage: {
+							text: '',
+						}
 						// messages: [
 						// 	{
 						// 		text: this.templateMessages[i],
@@ -212,10 +227,15 @@ new Vue({
 			},
 			openDialog(item) {
 				this.chat.dialogs.forEach(element => {
-					if (item.id !== element.id) element.active = false
-					else {
+					// ОСТАВИТЬ И ВЕРНУТЬ КОГДА БУДЕТ ПОДКЛЮЧЕН БЕК
+					// if (item.id !== element.id) element.active = false
+					// else {
+					// 	item.active = true
+					// }
+					element.active = false
+					setTimeout(() => {
 						item.active = true
-					}
+					}, 500)
 				});
 
 			},
@@ -224,7 +244,73 @@ new Vue({
 				const lastMessage = contact.messages[contact.messages.length - 1].messages.at(-1)
 				return lastMessage.text
 				// .text
-			}
+			},
+			clearSearch() {
+				this.chat.searchField = ''
+			},
+			sendMessage() {
+				if (!this.activeDialog.newMessage.text) return
+				console.log('enter')
+				const lastDateBlock = this.activeDialog.messages.at()
+				// Для теста
+				lastDateBlock.messages.push({
+					id: this.getRandomInt(10000),
+					text: this.activeDialog.newMessage.text,
+					// author: this.chat.user,
+					author: this.even_or_odd(lastDateBlock.messages.length) ? this.chat.user : this.persons[3],
+					time: '20:13',
+					checked: false
+				})
+				console.log(this.emptyMessage)
+				this.activeDialog.newMessage = {
+					text: ''
+				}
+			},
+			getRandomInt(max) {
+				return Math.floor(Math.random() * max);
+			},
+			startObservMessage(mode) {
+				let options = {
+					root: document.querySelector('.chat-dialog-content'),
+					rootMargin: '5px',
+					threshold: 0.5
+				}
+				
+				// функция обратного вызова
+				const initialValue = [];
+				// const initialValue = 0;
+				const sumWithInitial = this.activeDialog.messages.reduce(
+					(accumulator, currentValue) => {
+						console.log(accumulator)
+						console.log(currentValue.messages)
+						accumulator.push(currentValue.messages)
+						return accumulator
+					},
+					initialValue
+				);
+				console.log(sumWithInitial)
+				// const fullArray = this.activeDialog.messages.forEach(dateBox => {
+				// 	dateBox.
+				// })
+				let callback = function(entries, observer){
+					// console.log(entries)
+					entries.forEach(el => {
+						// el
+					})
+				}
+				
+				// наблюдатель
+				let observer = new IntersectionObserver(callback, options)
+				if (mode === 'start') {
+					let target = document.querySelectorAll('.message')
+					target.forEach(el => {
+						observer.observe(el)
+					})
+					// console.log(target)
+					// observer.observe(target)
+				}
+				
+				}
 		},
 		computed: {
 			activeDialog() {
@@ -242,5 +328,8 @@ new Vue({
 		},
 		mounted() {
 			this.initTestData()
+			setTimeout(() => {
+				this.startObservMessage('start')
+			}, 500)
 		}
 })
