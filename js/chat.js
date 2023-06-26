@@ -1,7 +1,13 @@
 // import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.esm.browser.js'
+import message from '../src/components/message/index.js'
+import modal from '../src/components/modal/index.js'
 
 new Vue({
 		el: '#chat',
+		components: {
+			message,
+			modal
+		},
 		data: {
 			chat: {
 				user: {
@@ -151,37 +157,37 @@ new Vue({
 			initTestData() {
 				for (let i = 0; i < 20; i++) {
 					this.persons[i].id = i
-					const messages = []
-					console.log(this.getRandomInt(10000))
-					this.templateMessages.forEach((item, index) => {
-						messages.push({
-							id: this.getRandomInt(10000),
-							text: item + i,
-							author: this.even_or_odd(index) ? this.chat.user : this.persons[i],
-							time: '20:13',
-							checked: false
-						})
-						console.log(messages)
-					})
-					const data = [
+					
+					console.log(this.getRandomInt(9999999999999))
+					const dateBoxes = [
 						{
 							date: '10 Апреля',
-							messages
 						},
 						{
 							date: '12 Апреля',
-							messages
 						},
 						{
 							date: '14 Апреля',
-							messages
 						},
 						{
-							date: '16 Апреля',
-							messages
+							date: '18 Апреля',
 						}
 					]
-					this.chat.dialogs.push({
+					dateBoxes.forEach((box, indexBox) => {
+						const messages = []
+						this.templateMessages.forEach((item, index) => {
+							// item.id = this.getRandomInt(10000)
+							messages.push({
+								id: this.getRandomInt(10000),
+								text: item + i,
+								author: this.even_or_odd(index) ? this.chat.user : this.persons[i],
+								time: '20:13',
+								checked: indexBox === 0 ? false : true
+							})
+							box.messages = messages
+						})
+					})
+					const dialog = {
 						id: i,
 						group: false,
 						cover: '',
@@ -191,58 +197,49 @@ new Vue({
 						open: true,
 						task: false,
 						active: i === 0 ? true : false,
-						messages: data,
+						messages: dateBoxes,
+						allMessages: [],
 						newMessage: {
 							text: '',
 						}
-						// messages: [
-						// 	{
-						// 		text: this.templateMessages[i],
-						// 		author: {
-						// 			title: ''
-						// 		},
-						// 	},
-						// 	{
-						// 		text: this.templateMessages[i],
-						// 		author: {
-						// 			title: ''
-						// 		},
-						// 	},
-						// 	{
-						// 		text: this.templateMessages[i],
-						// 		author: {
-						// 			title: ''
-						// 		},
-						// 	},
-						// 	{
-						// 		text: this.templateMessages[i],
-						// 		author: {
-						// 			title: ''
-						// 		},
-						// 	}
-						// ]
-					})
-				}
-				
+					}
+					const initialValue = []
+					const allMessages = dialog.messages.reduce(
+						(accumulator, currentValue) => {
+							accumulator.push(currentValue.messages)
+							return accumulator
+						},
+						initialValue
+					);
+					dialog.allMessages = allMessages.flat()
+					this.chat.dialogs.push(dialog)
+				}	
 			},
 			openDialog(item) {
+				console.log(item)
 				this.chat.dialogs.forEach(element => {
 					// ОСТАВИТЬ И ВЕРНУТЬ КОГДА БУДЕТ ПОДКЛЮЧЕН БЕК
 					// if (item.id !== element.id) element.active = false
 					// else {
 					// 	item.active = true
 					// }
+					let target = document.querySelectorAll('.message')
+					target.forEach(el => {
+						this.checkMessageObserver.unobserve(el)
+					})
 					element.active = false
+					item.active = true
 					setTimeout(() => {
-						item.active = true
+						
+						this.startObservMessage('start')
 					}, 500)
 				});
 
 			},
 			getLastMessage(contact) {
 				console.log()
-				const lastMessage = contact.messages[contact.messages.length - 1].messages.at(-1)
-				return lastMessage.text
+				const lastMessage = contact.messages[0].messages.at(-1)
+				return lastMessage
 				// .text
 			},
 			clearSearch() {
@@ -253,14 +250,28 @@ new Vue({
 				console.log('enter')
 				const lastDateBlock = this.activeDialog.messages.at()
 				// Для теста
+				const newId = this.getRandomInt(10000)
 				lastDateBlock.messages.push({
-					id: this.getRandomInt(10000),
+					id: newId,
 					text: this.activeDialog.newMessage.text,
 					// author: this.chat.user,
 					author: this.even_or_odd(lastDateBlock.messages.length) ? this.chat.user : this.persons[3],
 					time: '20:13',
 					checked: false
 				})
+				console.log(`[data-message="${newId}"]`)
+				let htmlMessageFounded = undefined
+				const htmlNewMessage = document.querySelectorAll(`[data-message]`)
+				console.log(htmlNewMessage)
+				htmlNewMessage.forEach((elements) => {
+					console.log(elements)
+					console.log(elements.getAttribute('message'))
+					if (elements.getAttribute('message') == newId) [
+						htmlMessageFounded = elements
+					]
+				})
+				console.log(htmlMessageFounded)
+				this.checkMessageObserver.observe(htmlNewMessage)
 				console.log(this.emptyMessage)
 				this.activeDialog.newMessage = {
 					text: ''
@@ -271,46 +282,66 @@ new Vue({
 			},
 			startObservMessage(mode) {
 				let options = {
-					root: document.querySelector('.chat-dialog-content'),
+					root: document.querySelector('.chat-dialog-wrap'),
 					rootMargin: '5px',
-					threshold: 0.5
+					threshold: 1
 				}
 				
 				// функция обратного вызова
-				const initialValue = [];
-				// const initialValue = 0;
-				const sumWithInitial = this.activeDialog.messages.reduce(
-					(accumulator, currentValue) => {
-						console.log(accumulator)
-						console.log(currentValue.messages)
-						accumulator.push(currentValue.messages)
-						return accumulator
-					},
-					initialValue
-				);
-				console.log(sumWithInitial)
-				// const fullArray = this.activeDialog.messages.forEach(dateBox => {
-				// 	dateBox.
-				// })
+				const vm = this
+				let scrolled = false
+				
 				let callback = function(entries, observer){
-					// console.log(entries)
-					entries.forEach(el => {
+					entries.forEach(message => {
 						// el
+						
+						const id = message.target.dataset.message
+						// console.log(vm.activeDialog)
+						const findMessage = vm.activeDialog.allMessages.find(el => el.id === +id)
+						const notCheckedMessage = vm.activeDialog.allMessages.find(el => !el.checked)
+						let firstElFounded = false
+						
+						if (!firstElFounded) {
+							if (!scrolled) {
+								console.log(scrolled)
+								message.target.scrollIntoView()
+								scrolled = true
+							}
+							firstElFounded = true
+
+						} else {
+
+						}
+						if (message.isIntersecting) {
+							setTimeout(() => {
+								if (!findMessage.checked) {
+									findMessage.checked = true
+								}
+							}, 200)
+						}
+						
 					})
 				}
 				
 				// наблюдатель
-				let observer = new IntersectionObserver(callback, options)
+				this.checkMessageObserver = new IntersectionObserver(callback, options)
+				
 				if (mode === 'start') {
 					let target = document.querySelectorAll('.message')
 					target.forEach(el => {
-						observer.observe(el)
+						this.checkMessageObserver.observe(el)
+						setTimeout(() => {
+							this.checkMessageObserver
+						}, 3000)
 					})
 					// console.log(target)
 					// observer.observe(target)
 				}
 				
-				}
+			},
+			chooseMessage(message) {
+				console.log('db')
+			}
 		},
 		computed: {
 			activeDialog() {

@@ -150,6 +150,42 @@ body {
   font-weight: 400;
   -webkit-transition: 0.15s;
   transition: 0.15s;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.chat .contact-message__state {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.chat .contact-message__state svg {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.chat .contact-message__state svg:last-child {
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+.chat .contact-message__state.checked svg {
+  color: rgb(6, 188, 66);
+}
+.chat .contact-message__state.checked svg:last-child {
+  -webkit-transform: translateX(-55%);
+          transform: translateX(-55%);
+}
+.chat .contact-message__state svg {
+  width: 10px;
+  height: 10px;
 }
 .chat .contact-message.active {
   color: #fff;
@@ -190,6 +226,8 @@ body {
   width: 100%;
   top: 0;
   overflow: hidden;
+  z-index: 5;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 .chat-dialog-content {
   -webkit-box-flex: 1;
@@ -278,16 +316,24 @@ body {
           align-items: center;
   color: rgba(0, 0, 0, 0.2);
 }
-.chat-dialog-content-box .message-panel__state.checked {
+.chat-dialog-content-box .message-panel__state svg {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.chat-dialog-content-box .message-panel__state svg:last-child {
+  -webkit-transform: translateX(-100%);
+          transform: translateX(-100%);
+}
+.chat-dialog-content-box .message-panel__state.checked svg {
   color: rgb(6, 188, 66);
+}
+.chat-dialog-content-box .message-panel__state.checked svg:last-child {
+  -webkit-transform: translateX(-55%);
+          transform: translateX(-55%);
 }
 .chat-dialog-content-box .message-panel__state svg {
   width: 10px;
   height: 10px;
-}
-.chat-dialog-content-box .message-panel__state svg:last-child {
-  -webkit-transform: translateX(-55%);
-          transform: translateX(-55%);
 }
 .chat-dialog-content-date {
   text-align: center;

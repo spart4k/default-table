@@ -111,6 +111,7 @@ $panelHeight: 40px;
       text-align: center;
       padding: 5px;
     }
+    
   }
   .contact {
     display: flex;
@@ -144,6 +145,39 @@ $panelHeight: 40px;
     &-message {
       @include text;
       transition: $transitionContant;
+      flex: 1;
+      display: flex;
+      justify-content: space-between;
+      &-message {
+        
+      }
+      &__state {
+        // width: 1;
+        display: flex;
+        align-items: center;
+        // @include flexFullCenter()
+        svg {
+          transition: .2s;
+          &:last-child {
+            transform: translateX(-100%);
+          }
+          
+        }
+        
+        &.checked {
+          
+          svg {
+            color: rgb(6,188,66);
+            &:last-child {
+              transform: translateX(-55%);
+            }
+          }
+        }
+        svg {
+          width: 10px;
+          height: 10px;
+        }
+      }
       &.active {
         color: #fff
       }
@@ -175,6 +209,9 @@ $panelHeight: 40px;
       width: 100%;
       top: 0;
       overflow: hidden;
+      z-index: 5;
+      // box-shadow: 0px 0px 6px 1px rgba(34, 60, 80, 0.2);
+      border-bottom: 1px solid rgba(0,0,0, .05);
     }
     &-content {
       flex: 1;
@@ -232,15 +269,28 @@ $panelHeight: 40px;
               display: flex;
               align-items: center;
               color: rgba(0,0,0, .2);
+              
+              // transform: translateX(0);
+              svg {
+                transition: .2s;
+                &:last-child {
+                  transform: translateX(-100%);
+                }
+                
+              }
+              
               &.checked {
-                color: rgb(6,188,66);
+                
+                svg {
+                  color: rgb(6,188,66);
+                  &:last-child {
+                    transform: translateX(-55%);
+                  }
+                }
               }
               svg {
                 width: 10px;
                 height: 10px;
-                &:last-child {
-                  transform: translateX(-55%);
-                }
               }
             }
           }
@@ -466,3 +516,4 @@ $panelHeight: 40px;
   transform: translateY(100%);
   opacity: 0;
 }
+
