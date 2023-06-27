@@ -65,12 +65,14 @@ $panelHeight: 40px;
   padding: 20px;
   // background-color: $mainColor;
   height: 100%;
+  z-index: 10;
   .wrap {
     display: flex;
     height: 100%;
     width: 100%;
     box-shadow: 0px -1px 8px 0px rgba(34, 60, 80, 0.23);
     position: relative;
+    overflow: hidden;
   }
   &-contacts {
     position: relative;
@@ -243,6 +245,7 @@ $panelHeight: 40px;
       max-height: 100%;
       padding: 0 10px 0 10px;
       position: relative;
+      transition: .2s;
       &-box {
         &:not(:last-child) {
           margin-bottom: 10px;
@@ -253,7 +256,7 @@ $panelHeight: 40px;
           margin-bottom: 5px;
           position: sticky;
           top: 10px;
-          z-index: 10;
+          z-index: 5;
         }
         .message {
           margin-bottom: 10px;
@@ -377,6 +380,119 @@ $panelHeight: 40px;
           // display: none;
         }
       }
+      &.paddingAnswering {
+        padding-bottom: $panelHeight;
+      }
+    }
+    &-attachment {
+      &-wrap {
+        position: relative;
+      }
+      position: absolute;
+      bottom: $panelHeight;
+      background-color: #fff;
+      left: 0;
+      width: 100%;
+      padding: 5px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      z-index: 10;
+      &-list {
+        display: flex;
+        &__file {
+          width: 80px;
+          border-radius: 5px;
+          overflow: hidden;
+          .fileWrap {
+            width: 100%;
+            position: relative;
+            &__close {
+              position: absolute;
+              right: 5px;
+              top: 5px;
+              width: 10px;
+              height: 10px;
+              mix-blend-mode: difference;
+              color: #fff;
+              cursor: pointer;
+              svg {
+                width: 100%;
+                height: 100%;
+              }
+            }
+            img {
+              max-width: 100%;
+              height: 100%;
+              object-fit: cover;
+            }
+          }
+          &:not(:last-child) {
+            margin-right: 5px;
+          }
+        }
+      }
+      &__close {
+        position: absolute;
+        right: 10px;
+        top: 10px;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.3);
+        transition: .2s;
+        &:hover {
+          color: #000;
+        }
+      }
+    }
+    &-answer {
+      &-wrap {
+        position: relative;
+      }
+      position: absolute;
+      bottom: $panelHeight;
+      background-color: #fff;
+      left: 0;
+      width: 100%;
+      padding: 5px;
+      border-top: 1px solid rgba(0, 0, 0, 0.1);
+      display: flex;
+      align-items: center;
+      &__icon {
+        width: calc($panelHeight/1.5);
+        height: calc($panelHeight/1.5);
+        color: $mainColor;
+        margin-right: 5px;
+        svg {
+          width: 100%;
+          height: 100%;
+        }
+      }
+      &-content {
+        &__messages {
+          position: relative;
+          display: flex;
+          justify-content: space-between;
+          width: 110px;
+          display: flex;
+          font-size: 16px;
+          .emptyNumber {
+            position: relative;
+          }
+          span {
+            min-width: 5px;
+          }
+        }
+      }
+      &__close {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+        color: rgba(0, 0, 0, 0.3);
+        transition: .2s;
+        &:hover {
+          color: #000;
+        }
+      }
     }
     .loading {
       position: absolute;
@@ -390,18 +506,21 @@ $panelHeight: 40px;
       width: 100%;
       min-height: $panelHeight;
       background-color: #fff;
+      z-index: 5;
       &-wrap {
         display: flex;
         align-items: flex-end;
         padding: 10px;
       }
-      &__attach {
+      &-attach {
         width: calc($panelHeight/2);
         height: calc($panelHeight/2);
         // padding: 10px;
         color: rgba(0,0,0, .2);
         transition: .2s;
         margin-right: 10px;
+        position: relative;
+        cursor: pointer;
         svg {
           width: 100%;
           height: 100%;
@@ -409,6 +528,20 @@ $panelHeight: 40px;
         &:hover {
           cursor: pointer;
           color: #000;
+        }
+        input {
+          display: none;
+        }
+        &-modal {
+          position: absolute;
+          bottom: 100%;
+          left: 0;
+          height: 300px;
+          width: 100px;
+          background-color: #fff;
+          border-radius: 5px;
+          border: 1px solid rgba(0, 0, 0, 0.05);
+          transform-origin: bottom;
         }
       }
       &__input {
@@ -454,6 +587,7 @@ $panelHeight: 40px;
     cursor: pointer;
     transition: .2s;
     font-weight: 500;
+    text-transform: uppercase;
     &:hover {
       background-color: #002f55;
     }
@@ -521,106 +655,4 @@ $panelHeight: 40px;
   .leftbar {
     width: 0;
   }
-}
-
-.testanim-leave-active {
-  transition: all .25s ease;
-}
-
-.testanim-leave-from {
-  opacity: 1;
-}
-
-.testanim-leave-to {
-  opacity: 0;
-}
-
-.testanim-enter-active {
-  transition: all .25s ease;
-}
-
-// .testanim-enter,
-// .testanim-leave-to {
-//   transform: translateX(20px);
-//   opacity: 0;
-// }
-
-.testanim-enter.yourself, .testanim-leave-to.yourself {
-  transform: translateX(100%);
-  opacity: 0;
-}
-
-.testanim-enter.companion, .testanim-leave-to.companion {
-  transform: translateX(-100%);
-  opacity: 0;
-}
-
-.testanim-leave-active {
-  /* position: absolute; */
-}
-
-.testanim-move {
-  transition: all .25s ease;
-}
-
-.slide-fade-enter-active {
-  transition: all .1s ease;
-}
-
-.slide-fade-leave-active {
-  transition: all .1s cubic-bezier(1.0, 0.5, 0.8, 1.0);
-}
-
-.slide-fade-enter {
-  transform: translateY(-100%);
-  opacity: 0;
-}
-.slide-fade-leave-to {
-  transform: translateY(100%);
-  opacity: 0;
-}
-
-
-.chat-fade-enter-active {
-  transition: all .2s ease;
-  position: absolute;
-  transform: translateY(-100%);
-  opacity: 0;
-}
-
-.chat-fade-leave-active {
-  position: absolute;
-  transition: all .2s ease;
-}
-
-.chat-fade-enter-to {
-  transform: translateY(0);
-  opacity: 1;
-}
-.chat-fade-leave-to {
-  transform: translateY(100%);
-  opacity: 0;
-}
-
-.chat-fade-out-enter-active {
-  transition: all .2s ease;
-  position: absolute;
-  opacity: 0;
-  transform: translateY(100%);
-}
-
-.chat-fade-out-leave-active {
-  position: absolute;
-  transition: all .2s ease;
-  transform: translateY(-100%);
-}
-
-.chat-fade-out-enter-to {
-  transform: translateY(0%);
-
-  opacity: 1;
-}
-.chat-fade-out-leave-to {
-  transform: translateY(-100%);
-  opacity: 0;
 }

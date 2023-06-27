@@ -18,6 +18,18 @@ new Vue({
         selectedMessages: [],
 				searchField: '',
 				dialogs: [],
+        answering: false,
+        attachment: {
+          isShow: false,
+          list: [
+            {
+              label: 'Фотография'
+            },
+            {
+              label: 'Документ'
+            }
+          ]
+        }
 			},
 			templateMessages: [
 				"Не забудьте закрыть окно перед уходом.",
@@ -183,7 +195,8 @@ new Vue({
 								author: this.even_or_odd(index) ? this.chat.user : this.persons[i],
 								time: '20:13',
                 choosed: false,
-								checked: (indexBox === 0 || indexBox === 1 || indexBox === 2) ? false : true
+								checked: (indexBox === 0 || indexBox === 1 || indexBox === 2) ? false : true,
+                type: 'default'
 							})
 							box.messages = messages
 						})
@@ -202,7 +215,12 @@ new Vue({
 						allMessages: [],
 						newMessage: {
 							text: '',
-						}
+              type: 'default',
+              attachment: {
+                files: []
+              }
+						},
+
 					}
 					const initialValue = []
 					const allMessages = dialog.messages.reduce(
@@ -271,7 +289,8 @@ new Vue({
 					author: this.even_or_odd(lastDateBlock.messages.length) ? this.chat.user : this.persons[3],
 					time: '20:13',
 					checked: false,
-          choosed: false
+          choosed: false,
+          type: 'default'
 				})
 				let htmlMessageFounded = undefined
 				//const htmlNewMessage = document.querySelectorAll(`[data-message]`)
@@ -285,8 +304,12 @@ new Vue({
 				//})
 				//this.checkMessageObserver.observe(htmlNewMessage)
 				this.activeDialog.newMessage = {
-					text: ''
-				}
+          text: '',
+          type: 'default',
+          attachment: {
+            files: []
+          }
+        }
 			},
 			getRandomInt(max) {
 				return Math.floor(Math.random() * max);
@@ -409,7 +432,92 @@ new Vue({
             }
           })
         })
-      }
+      },
+      answerMessage() {
+        this.chat.answering = true
+      },
+      closeAnswering() {
+        this.chat.answering = false
+      },
+      openAttachment() {
+        //this.chat.attachment.isShow = true
+
+        if (this.chat.attachment.isShow) this.chat.attachment.isShow = false
+        else {
+          this.chat.attachment.isShow = true
+        }
+        //if (!this.chat.attachment.isShow) this.chat.attachment.isShow = false
+        //else {
+        //  this.chat.attachment.isShow = true
+        //}
+
+      },
+      loadAttachment(newFiles) {
+        const files = newFiles.target.files
+        console.log(files)
+        const vm = this
+
+        Array.from(files).forEach(file => {
+          console.log(file)
+          let src = ''
+          const reader = new FileReader();
+          reader.onload = function(event) {
+
+            src = event.target.result;
+            console.log(src)
+            vm.activeDialog.newMessage.attachment.files.push({
+              file: file,
+              src
+            })
+          };
+          reader.readAsDataURL(file);
+
+
+        });
+      },
+      closeAttachment() {
+        this.activeDialog.newMessage.attachment.files = []
+      },
+      isFileImage(file) {
+        return file && file['type'].split('/')[0] === 'image';
+      },
+      //async uploadDocuments (event) {
+
+      //  const files = event.target.files
+      //  console.log(files)
+      //  const filePromises = files.map((file) => {
+      //    // Return a promise per file
+      //    return new Promise((resolve, reject) => {
+      //      const reader = new FileReader();
+      //      reader.onload = async () => {
+      //        try {
+      //          const response = await this.submitFile(
+      //            reader.result,
+      //            file.name,
+      //            fileType
+      //          );
+      //          // Resolve the promise with the response value
+      //          resolve(response);
+      //        } catch (err) {
+      //          reject(err);
+      //        }
+      //      };
+      //      reader.onerror = (error) => {
+      //        reject(error);
+      //      };
+      //      reader.readAsDataURL(file);
+      //    });
+      //  });
+
+      //  // Wait for all promises to be resolved
+      //  const fileInfos = await Promise.all(filePromises);
+
+      //  console.log('COMPLETED');
+
+      //  // Profit
+      //  console.log(fileInfos)
+      //  return fileInfos;
+      //}
 		},
 		computed: {
 			activeDialog() {
@@ -433,7 +541,9 @@ new Vue({
         if (this.selectedMessages.length) {
           return 'chat-fade'
         } else {
+          if (this.chat.answering) this.chat.answering = false
           return 'chat-fade-out'
+
         }
       }
 		},

@@ -86,7 +86,7 @@
                     <button class="chat-btn">
                       Переслать
                     </button>
-                    <button class="chat-btn">
+                    <button @click="answerMessage" class="chat-btn">
                       Ответить
                     </button>
                     <button @click="removeMessage" class="chat-btn">
@@ -96,7 +96,7 @@
                 </transition>
               </div>
             </div>
-            <div class="chat-dialog-content">
+            <div :class="chat.answering ? 'paddingAnswering' : ''" class="chat-dialog-content">
               <!-- v-if="activeDialog && activeDialog.messages.length" -->
               <div v-if="activeDialog && activeDialog.messages.length" class="chat-dialog-content-wrap">
                 <div v-for="(item) in activeDialog.messages" class="chat-dialog-content-box">
@@ -104,56 +104,89 @@
                     <div class="chat-dialog-content-date">{{ item.date }}</div>
                   </div>
                   <transition-group name="testanim" tag="div">
-                    <!-- <div v-for="(message, index) in item.messages" :key="message.id" class="message" data- :class="isYourselfMessage(message) ? 'yourself' : 'companion'">
-                      <div class="message-row">
-                        <p>{{ message.text }} </p>
-                        <div class="message-panel">
-                          <p class="message-panel__time">{{ message.time }}</p>
-                          <div v-if="true" class="message-panel__state">
-                            {{ message.checked }}
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
-                              <defs>
-                              </defs>
-                              <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-                                <path d="M 89.122 3.486 L 89.122 3.486 c -2.222 -3.736 -7.485 -4.118 -10.224 -0.742 L 33.202 59.083 c -1.118 1.378 -3.245 1.303 -4.262 -0.151 L 17.987 43.291 c -3.726 -5.322 -11.485 -5.665 -15.666 -0.693 l 0 0 c -2.883 3.428 -3.102 8.366 -0.533 12.036 L 24.206 86.65 c 2.729 3.897 8.503 3.89 11.222 -0.014 l 6.435 -9.239 L 88.87 10.265 C 90.28 8.251 90.378 5.598 89.122 3.486 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: currentColor; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                              </g>
-                            </svg>
-                            <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
-                              <defs>
-                              </defs>
-                              <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-                                <path d="M 89.122 3.486 L 89.122 3.486 c -2.222 -3.736 -7.485 -4.118 -10.224 -0.742 L 33.202 59.083 c -1.118 1.378 -3.245 1.303 -4.262 -0.151 L 17.987 43.291 c -3.726 -5.322 -11.485 -5.665 -15.666 -0.693 l 0 0 c -2.883 3.428 -3.102 8.366 -0.533 12.036 L 24.206 86.65 c 2.729 3.897 8.503 3.89 11.222 -0.014 l 6.435 -9.239 L 88.87 10.265 C 90.28 8.251 90.378 5.598 89.122 3.486 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: currentColor; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                              </g>
-                            </svg>
-                          </div>
-                        </div>
-                      </div>
-                    </div> -->
                     <message @click="chooseMessageOther(message)" @dblclick="chooseMessage(message)" :choosedState="!!selectedMessages.length" :key="message.id" class="message" :data-message="message.id" :isYourselfMessage="isYourselfMessage(message)" :class="[isYourselfMessage(message) ? 'yourself' : 'companion', message.choosed ? 'choosed' : '']" v-for="(message, index) in item.messages" :message="message"/>
                   </transition-group>
                 </div>
               </div>
 
             </div>
+            <transition name="answer-field">
+              <div v-if="chat.answering" class="chat-dialog-answer">
+                <div class="chat-dialog-answer__icon">
+                  <svg height="512px" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+                    <g><path fill="currentColor" d="M288,298.1v92.3L448,256L288,112v80C100.8,192,64,400,64,400C117,307,186.4,298.1,288,298.1z"/></g>
+                  </svg>
+                </div>
+                <div class="chat-dialog-answer-content">
+                  <div class="chat-dialog-answer-content__messages">
+                    <p>
+                      Cообщений:
+                    </p>
+                    <transition tag="div" class="emptyNumber" name="number-change">
+                      <span :key="selectedMessages.length">
+                        {{ selectedMessages.length }}
+                      </span>
+                    </transition>
+
+                  </div>
+                </div>
+                <div @click="closeAnswering" class="chat-dialog-answer__close">
+                  <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
+                  </svg>
+                </div>
+              </div>
+            </transition>
+            <transition name="attachment-field">
+              <div v-if="activeDialog.newMessage.attachment.files.length" class="chat-dialog-attachment">
+                <div>
+                  <div class="chat-dialog-attachment-wrap">
+                    <div class="chat-dialog-attachment-list">
+                      <div v-for="(file, index) in activeDialog.newMessage.attachment.files" :key="index" class="chat-dialog-attachment-list__file">
+                        <div class="fileWrap">
+                          <img :src="file.src" alt="">
+                          <svg class="fileWrap__close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
+                          </svg>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div @click="closeAttachment" class="chat-dialog-attachment__close">
+                    <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </transition>
             <div class="chat-dialog-field">
               <div class="chat-dialog-field-wrap">
-                <div class="chat-dialog-field__attach">
-                  <svg fill="currentColor" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+                <div class="chat-dialog-field-attach">
+                  <label>
+                    <svg @click="openAttachment" fill="currentColor" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                       viewBox="0 0 511.988 511.988" xml:space="preserve">
-                    <g>
                       <g>
-                        <path d="M459.1,37.48c-49.999-49.973-131.045-49.973-181.018,0L21.594,295.355c-8.309,8.354-8.272,21.861,0.081,30.17
-                          c8.354,8.309,21.861,8.272,30.17-0.081L308.293,67.609c33.271-33.271,87.308-33.271,120.641,0.045
-                          c33.328,33.328,33.328,87.359,0,120.67L164.912,453.755c-20.787,20.772-54.563,20.772-75.396-0.046
-                          c-20.826-20.826-20.826-54.593,0.006-75.425l218.731-218.731c0.007-0.007,0.013-0.015,0.02-0.022
-                          c8.332-8.309,21.816-8.303,30.139,0.02c8.33,8.33,8.33,21.831,0,30.161l-105.58,105.602c-8.33,8.332-8.329,21.84,0.003,30.17
-                          c8.332,8.33,21.84,8.329,30.17-0.003l105.579-105.6c24.991-24.991,24.991-65.507-0.002-90.499
-                          c-24.993-24.993-65.508-24.993-90.501,0c-0.014,0.014-0.026,0.03-0.04,0.044L59.352,348.115
-                          c-37.494,37.494-37.494,98.276,0,135.77c37.498,37.471,98.272,37.471,135.764,0.006L459.14,218.458
-                          C509.096,168.528,509.096,87.476,459.1,37.48z"/>
+                        <g>
+                          <path d="M459.1,37.48c-49.999-49.973-131.045-49.973-181.018,0L21.594,295.355c-8.309,8.354-8.272,21.861,0.081,30.17
+                            c8.354,8.309,21.861,8.272,30.17-0.081L308.293,67.609c33.271-33.271,87.308-33.271,120.641,0.045
+                            c33.328,33.328,33.328,87.359,0,120.67L164.912,453.755c-20.787,20.772-54.563,20.772-75.396-0.046
+                            c-20.826-20.826-20.826-54.593,0.006-75.425l218.731-218.731c0.007-0.007,0.013-0.015,0.02-0.022
+                            c8.332-8.309,21.816-8.303,30.139,0.02c8.33,8.33,8.33,21.831,0,30.161l-105.58,105.602c-8.33,8.332-8.329,21.84,0.003,30.17
+                            c8.332,8.33,21.84,8.329,30.17-0.003l105.579-105.6c24.991-24.991,24.991-65.507-0.002-90.499
+                            c-24.993-24.993-65.508-24.993-90.501,0c-0.014,0.014-0.026,0.03-0.04,0.044L59.352,348.115
+                            c-37.494,37.494-37.494,98.276,0,135.77c37.498,37.471,98.272,37.471,135.764,0.006L459.14,218.458
+                            C509.096,168.528,509.096,87.476,459.1,37.48z"/>
+                        </g>
                       </g>
-                    </g>
-                  </svg>
+                    </svg>
+                    <input multiple @change="loadAttachment" type="file" accept="image/png, image/jpeg">
+                  </label>
+
+                  <!--// -<transition name="modal-open">
+                  // -  <div v-if="chat.attachment.isShow" class="chat-dialog-field-attach-modal">
+                  // -  </div>
+                  // -</transition>-->
                 </div>
                 <div class="chat-dialog-field__input">
                   <textarea v-model="activeDialog.newMessage.text" @keyup.ctrl.enter="sendMessage" placeholder="Введите сообщение" name="" id=""></textarea>
@@ -192,6 +225,7 @@
     </div>
   </div>
   <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/chat.css?ver=1">
+  <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/transition.css?ver=1">
   <script src="./js/vue2.js"></script>
   <script type="module" src="./js/chat.js"></script>
 
