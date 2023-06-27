@@ -135,9 +135,11 @@ body {
      object-fit: cover;
 }
 .chat .contact-title {
+  color: rgba(0, 0, 0, 0.4);
+  font-size: 14px;
+  font-weight: 400;
+  font-weight: 700;
   color: #000;
-  font-size: 16px;
-  font-weight: 600;
   -webkit-transition: 0.15s;
   transition: 0.15s;
 }
@@ -221,13 +223,43 @@ body {
 .chat-dialog-header {
   height: 40px;
   background-color: #fff;
-  padding: 5px;
   position: absolute;
   width: 100%;
   top: 0;
   overflow: hidden;
   z-index: 5;
   border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+.chat-dialog-header-wrap {
+  position: relative;
+  height: 100%;
+}
+.chat-dialog-header-info {
+  height: 100%;
+  padding: 5px;
+}
+.chat-dialog-header-info .title {
+  height: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.chat-dialog-header-panel {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+  padding: 5px;
+  height: 100%;
+  width: 100%;
+}
+.chat-dialog-header-panel .chat-btn {
+  margin-right: 5px;
 }
 .chat-dialog-content {
   -webkit-box-flex: 1;
@@ -278,6 +310,7 @@ body {
   margin-right: 40px;
 }
 .chat-dialog-content-box .message-row {
+  position: relative;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -293,6 +326,19 @@ body {
   -webkit-box-direction: normal;
       -ms-flex-direction: column;
           flex-direction: column;
+}
+.chat-dialog-content-box .message-row:after {
+  left: 0;
+  top: 0;
+  position: absolute;
+  display: block;
+  content: "";
+  height: 100%;
+  width: 100%;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  border-radius: 12px;
+  background-color: rgba(29, 133, 213, 0);
 }
 .chat-dialog-content-box .message-panel {
   display: -webkit-box;
@@ -334,6 +380,9 @@ body {
 .chat-dialog-content-box .message-panel__state svg {
   width: 10px;
   height: 10px;
+}
+.chat-dialog-content-box .message.choosed .message-row:after {
+  background-color: rgba(29, 133, 213, 0.4);
 }
 .chat-dialog-content-date {
   text-align: center;
@@ -425,6 +474,20 @@ body {
   border: 0;
   outline: none;
 }
+.chat-btn {
+  padding: 5px 10px;
+  border: 0;
+  background-color: rgba(0, 47, 85, 0.9);
+  color: #fff;
+  border-radius: 5px;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  font-weight: 500;
+}
+.chat-btn:hover {
+  background-color: #002f55;
+}
 .chat::-webkit-scrollbar {
   width: 10px;
 }
@@ -502,8 +565,8 @@ body {
   }
 }
 .testanim-leave-active {
-  -webkit-transition: all 0.1s ease;
-  transition: all 0.1s ease;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 
 .testanim-leave-from {
@@ -515,8 +578,8 @@ body {
 }
 
 .testanim-enter-active {
-  -webkit-transition: all 0.1s ease;
-  transition: all 0.1s ease;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 
 .testanim-enter.yourself, .testanim-leave-to.yourself {
@@ -536,8 +599,8 @@ body {
 }
 
 .testanim-move {
-  -webkit-transition: all 0.1s ease;
-  transition: all 0.1s ease;
+  -webkit-transition: all 0.25s ease;
+  transition: all 0.25s ease;
 }
 
 .slide-fade-enter-active {
@@ -559,5 +622,61 @@ body {
 .slide-fade-leave-to {
   -webkit-transform: translateY(100%);
           transform: translateY(100%);
+  opacity: 0;
+}
+
+.chat-fade-enter-active {
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  position: absolute;
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+  opacity: 0;
+}
+
+.chat-fade-leave-active {
+  position: absolute;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+}
+
+.chat-fade-enter-to {
+  -webkit-transform: translateY(0);
+          transform: translateY(0);
+  opacity: 1;
+}
+
+.chat-fade-leave-to {
+  -webkit-transform: translateY(100%);
+          transform: translateY(100%);
+  opacity: 0;
+}
+
+.chat-fade-out-enter-active {
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  position: absolute;
+  opacity: 0;
+  -webkit-transform: translateY(100%);
+          transform: translateY(100%);
+}
+
+.chat-fade-out-leave-active {
+  position: absolute;
+  -webkit-transition: all 0.2s ease;
+  transition: all 0.2s ease;
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
+}
+
+.chat-fade-out-enter-to {
+  -webkit-transform: translateY(0%);
+          transform: translateY(0%);
+  opacity: 1;
+}
+
+.chat-fade-out-leave-to {
+  -webkit-transform: translateY(-100%);
+          transform: translateY(-100%);
   opacity: 0;
 }

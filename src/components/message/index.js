@@ -3,6 +3,14 @@ const message = {
     message: {
       type: Object,
       default: () => {}
+    },
+    isyourselfmessage: {
+      type: Boolean,
+      default: false
+    },
+    choosedstate: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -10,14 +18,24 @@ const message = {
       count: 0
     }
   },
+  methods: {
+    dblclick() {
+      if (!this.choosedstate)  this.$emit('dblclick', this.message)
+
+    },
+    click() {
+      if (this.choosedstate) this.$emit('click', this.message)
+
+    }
+  },
   template: `
-  <div>
+  <div @click="click" @dblclick="dblclick">
     <div class="message-row">
       <p>{{ message.text }} </p>
       <div class="message-panel">
         <!-- <component is="button-counter"></component> -->
         <p class="message-panel__time">{{ message.time }}</p>
-        <div :class="message.checked ? 'checked' : ''" class="message-panel__state">
+        <div v-if="isyourselfmessage" :class="message.checked ? 'checked' : ''" class="message-panel__state">
           <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
             <defs>
             </defs>

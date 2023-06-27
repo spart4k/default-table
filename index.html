@@ -1,14 +1,12 @@
-
-
 <html>
  <head>
   <meta charset="utf-8">
   <title>Chat CRM</title>
  </head>
  <body>
-  <div class="body">
+  <div class="body">s
     <div class="leftbar">
-    
+
     </div>
     <div class="chat" id="chat">
       <div class="wrap">
@@ -19,7 +17,7 @@
               <div v-if="chat.searchField" @click="clearSearch" class="search-close">
                 <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                   <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="black"/>
-                </svg>                  
+                </svg>
               </div>
             </div>
           </div>
@@ -38,11 +36,15 @@
                   </div>
                   <div class="contact-message clip" :class="item.active ? 'active' : ''">
                     <!-- {{ item.messages[item.messages.length - 1].text }} -->
-                    <div class="contact-message__text clip" :class="item.active ? 'active' : ''">
-                      <!-- {{ item.messages[item.messages.length - 1].text }} -->
+                    <transition name="slide-fade" mode="out-in">
+                      <div :key="getLastMessage(item).id" class="contact-message__text clip" :class="item.active ? 'active' : ''">
+                        {{ getLastMessage(item).text }}
+                      </div>
+                    </transition>
+                    <!--<div class="contact-message__text clip" :class="item.active ? 'active' : ''">
                       {{ getLastMessage(item).text }}
-                    </div>
-                      <div :class="getLastMessage(item).checked ? 'checked' : ''" class="contact-message__state">
+                    </div>-->
+                      <div v-if="isYourselfMessage(getLastMessage(item))" :class="getLastMessage(item).checked ? 'checked' : ''" class="contact-message__state">
                         <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
                           <defs>
                           </defs>
@@ -66,19 +68,32 @@
               Ничего не найдено
             </div>
           </div>
-          
+
         </div>
         <div class="chat-dialog">
           <div v-if="activeDialog" class="chat-dialog-wrap">
             <div class="chat-dialog-header">
-              <div class="chat-dialog-header-info">
-                <transition name="slide-fade" mode="out-in">
-                  <div v-if="activeDialog" :key="activeDialog.title" class="title">
-                    {{ activeDialog.title }}
+              <div class="chat-dialog-header-wrap">
+                <transition tag="div" :name="transitionDialogHeader">
+                  <div key='1' v-if="!selectedMessages.length" class="chat-dialog-header-info">
+                    <div v-if="activeDialog" :key="activeDialog.title" class="title">
+                      {{ activeDialog.title }}
+                    </div>
+                    <div class="online">
+                    </div>
+                  </div>
+                  <div key='2' v-else class="chat-dialog-header-panel">
+                    <button class="chat-btn">
+                      Переслать
+                    </button>
+                    <button class="chat-btn">
+                      Ответить
+                    </button>
+                    <button @click="removeMessage" class="chat-btn">
+                      Удалить
+                    </button>
                   </div>
                 </transition>
-                <div class="online">
-                </div>
               </div>
             </div>
             <div class="chat-dialog-content">
@@ -114,16 +129,16 @@
                         </div>
                       </div>
                     </div> -->
-                    <message @dblclick="chooseMessage(message)" :key="message.id" class="message" :data-message="message.id" :class="isYourselfMessage(message) ? 'yourself' : 'companion'" v-for="(message, index) in item.messages" :message="message"/>
-                  </transition-group>              
+                    <message @click="chooseMessageOther(message)" @dblclick="chooseMessage(message)" :choosedState="!!selectedMessages.length" :key="message.id" class="message" :data-message="message.id" :isYourselfMessage="isYourselfMessage(message)" :class="[isYourselfMessage(message) ? 'yourself' : 'companion', message.choosed ? 'choosed' : '']" v-for="(message, index) in item.messages" :message="message"/>
+                  </transition-group>
                 </div>
               </div>
-              
+
             </div>
             <div class="chat-dialog-field">
               <div class="chat-dialog-field-wrap">
                 <div class="chat-dialog-field__attach">
-                  <svg fill="currentColor" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" 
+                  <svg fill="currentColor" height="800px" width="800px" version="1.1" id="Layer_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                       viewBox="0 0 511.988 511.988" xml:space="preserve">
                     <g>
                       <g>
@@ -177,9 +192,9 @@
     </div>
   </div>
   <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/chat.css?ver=1">
-  <script src="https://cdn.jsdelivr.net/npm/vue@2.7.8/dist/vue.js"></script>
+  <script src="./js/vue2.js"></script>
   <script type="module" src="./js/chat.js"></script>
-  
+
  </body>
 </html>
 

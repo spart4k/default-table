@@ -17,6 +17,7 @@ $dialogMenu: 200px;
       @include flex-column;
       &__dialog {
         width: $dialogMenu;
+
       }
     }
   }

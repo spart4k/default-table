@@ -16,6 +16,7 @@ body {
 
 $dialogMenu: 240px;
 $mainColor: #002F55;
+$mainColorOpacity: rgba(0, 47, 85, .4);
 $subColor: rgba(0,0,0,.4);
 $textSize: 14px;
 $titleSize: 16px;
@@ -74,7 +75,7 @@ $panelHeight: 40px;
   &-contacts {
     position: relative;
     @include flex-column;
-    
+
     height: 100%;
     border-right: 1px solid rgba(0,0,0, .05);
     width: $dialogMenu;
@@ -111,7 +112,7 @@ $panelHeight: 40px;
       text-align: center;
       padding: 5px;
     }
-    
+
   }
   .contact {
     display: flex;
@@ -136,7 +137,9 @@ $panelHeight: 40px;
       }
     }
     &-title {
-      @include title;
+      @include text;
+      font-weight: 700;
+      color: #000;
       transition: $transitionContant;
       &.active {
         color: #fff
@@ -149,7 +152,7 @@ $panelHeight: 40px;
       display: flex;
       justify-content: space-between;
       &-message {
-        
+
       }
       &__state {
         // width: 1;
@@ -161,11 +164,11 @@ $panelHeight: 40px;
           &:last-child {
             transform: translateX(-100%);
           }
-          
+
         }
-        
+
         &.checked {
-          
+
           svg {
             color: rgb(6,188,66);
             &:last-child {
@@ -182,7 +185,7 @@ $panelHeight: 40px;
         color: #fff
       }
     }
-    
+
     &:hover {
       background-color: rgba(0,0,0,0.2);
     }
@@ -204,7 +207,6 @@ $panelHeight: 40px;
     &-header {
       height: $panelHeight;
       background-color: #fff;
-      padding: 5px;
       position: absolute;
       width: 100%;
       top: 0;
@@ -212,6 +214,29 @@ $panelHeight: 40px;
       z-index: 5;
       // box-shadow: 0px 0px 6px 1px rgba(34, 60, 80, 0.2);
       border-bottom: 1px solid rgba(0,0,0, .05);
+      &-wrap {
+        position: relative;
+        height: 100%;
+      }
+      &-info {
+        height: 100%;
+        padding: 5px;
+        .title {
+          height: 100%;
+          display: flex;
+          align-items: center;
+        }
+      }
+      &-panel {
+        display: flex;
+        justify-content: flex-end;
+        padding: 5px;
+        height: 100%;
+        width: 100%;
+        .chat-btn {
+          margin-right: 5px;
+        }
+      }
     }
     &-content {
       flex: 1;
@@ -249,6 +274,7 @@ $panelHeight: 40px;
         }
         .message {
           &-row {
+            position: relative;
             display: flex;
             // border: 1px solid #000;
             border-radius: 12px;
@@ -257,6 +283,19 @@ $panelHeight: 40px;
             @include text;
             color: #000;
             @include flex-column;
+            &:after {
+              //opacity: 0;
+              left: 0;
+              top: 0;
+              position: absolute;
+              display: block;
+              content: '';
+              height: 100%;
+              width: 100%;
+              transition: .2s;
+              border-radius: 12px;
+              background-color: rgba(29, 133, 213, 0)
+            }
           }
           &-panel {
             display: flex;
@@ -269,18 +308,18 @@ $panelHeight: 40px;
               display: flex;
               align-items: center;
               color: rgba(0,0,0, .2);
-              
+
               // transform: translateX(0);
               svg {
                 transition: .2s;
                 &:last-child {
                   transform: translateX(-100%);
                 }
-                
+
               }
-              
+
               &.checked {
-                
+
                 svg {
                   color: rgb(6,188,66);
                   &:last-child {
@@ -293,6 +332,17 @@ $panelHeight: 40px;
                 height: 10px;
               }
             }
+          }
+          &.choosed {
+
+            .message {
+              &-row {
+                &:after {
+                  background-color: rgba(29, 133, 213, 0.4)
+                }
+              }
+            }
+
           }
         }
       }
@@ -395,6 +445,19 @@ $panelHeight: 40px;
     outline: none;
 
   }
+  &-btn {
+    padding: 5px 10px;
+    border: 0;
+    background-color: rgba(0, 47, 85, 0.9);
+    color: #fff;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: .2s;
+    font-weight: 500;
+    &:hover {
+      background-color: #002f55;
+    }
+  }
   &::-webkit-scrollbar {
     width: 10px;
   }
@@ -461,7 +524,7 @@ $panelHeight: 40px;
 }
 
 .testanim-leave-active {
-  transition: all .1s ease;
+  transition: all .25s ease;
 }
 
 .testanim-leave-from {
@@ -473,7 +536,7 @@ $panelHeight: 40px;
 }
 
 .testanim-enter-active {
-  transition: all .1s ease;
+  transition: all .25s ease;
 }
 
 // .testanim-enter,
@@ -497,7 +560,7 @@ $panelHeight: 40px;
 }
 
 .testanim-move {
-  transition: all .1s ease;
+  transition: all .25s ease;
 }
 
 .slide-fade-enter-active {
@@ -517,3 +580,47 @@ $panelHeight: 40px;
   opacity: 0;
 }
 
+
+.chat-fade-enter-active {
+  transition: all .2s ease;
+  position: absolute;
+  transform: translateY(-100%);
+  opacity: 0;
+}
+
+.chat-fade-leave-active {
+  position: absolute;
+  transition: all .2s ease;
+}
+
+.chat-fade-enter-to {
+  transform: translateY(0);
+  opacity: 1;
+}
+.chat-fade-leave-to {
+  transform: translateY(100%);
+  opacity: 0;
+}
+
+.chat-fade-out-enter-active {
+  transition: all .2s ease;
+  position: absolute;
+  opacity: 0;
+  transform: translateY(100%);
+}
+
+.chat-fade-out-leave-active {
+  position: absolute;
+  transition: all .2s ease;
+  transform: translateY(-100%);
+}
+
+.chat-fade-out-enter-to {
+  transform: translateY(0%);
+
+  opacity: 1;
+}
+.chat-fade-out-leave-to {
+  transform: translateY(-100%);
+  opacity: 0;
+}
