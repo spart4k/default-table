@@ -313,6 +313,30 @@ body {
           justify-content: flex-start;
   margin-right: 40px;
 }
+.chat-dialog-content-box .message-attachment-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
+  width: 310px;
+}
+.chat-dialog-content-box .message-attachment__element {
+  width: 150px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  border-radius: 5px;
+  overflow: hidden;
+  z-index: 4;
+}
+.chat-dialog-content-box .message-attachment__element img, .chat-dialog-content-box .message-attachment__element video {
+  max-width: 100%;
+  max-height: 100%;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
+}
 .chat-dialog-content-box .message-row {
   position: relative;
   display: -webkit-box;
@@ -334,6 +358,7 @@ body {
 .chat-dialog-content-box .message-row:after {
   left: 0;
   top: 0;
+  z-index: 4;
   position: absolute;
   display: block;
   content: "";
@@ -343,6 +368,7 @@ body {
   transition: 0.2s;
   border-radius: 12px;
   background-color: rgba(29, 133, 213, 0);
+  pointer-events: none;
 }
 .chat-dialog-content-box .message-panel {
   display: -webkit-box;
@@ -387,6 +413,7 @@ body {
 }
 .chat-dialog-content-box .message.choosed .message-row:after {
   background-color: rgba(29, 133, 213, 0.4);
+  pointer-events: none;
 }
 .chat-dialog-content-date {
   text-align: center;
@@ -410,6 +437,9 @@ body {
 }
 .chat-dialog-content.paddingAnswering {
   padding-bottom: 40px;
+}
+.chat-dialog-content.paddingFiles {
+  padding-bottom: 90px;
 }
 .chat-dialog-attachment {
   position: absolute;
@@ -437,12 +467,13 @@ body {
 }
 .chat-dialog-attachment-list__file {
   width: 80px;
+  height: 80px;
   border-radius: 5px;
   overflow: hidden;
+  position: relative;
 }
 .chat-dialog-attachment-list__file .fileWrap {
   width: 100%;
-  position: relative;
 }
 .chat-dialog-attachment-list__file .fileWrap__close {
   position: absolute;
@@ -458,8 +489,8 @@ body {
   width: 100%;
   height: 100%;
 }
-.chat-dialog-attachment-list__file .fileWrap img {
-  max-width: 100%;
+.chat-dialog-attachment-list__file .fileWrap img, .chat-dialog-attachment-list__file .fileWrap video {
+  width: 100%;
   height: 100%;
   -o-object-fit: cover;
      object-fit: cover;
@@ -703,6 +734,30 @@ body {
   white-space: nowrap;
   overflow: hidden;
   max-width: 160px;
+}
+
+.popup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 100%;
+  z-index: 15;
+  background-color: rgba(0, 0, 0, 0.8);
+}
+.popup-wrap {
+  position: relative;
+  height: 100%;
+}
+.popup-body {
+  padding-top: 20px;
+}
+.popup-close {
+  position: absolute;
+  right: 10px;
+  top: 10px;
+  color: #fff;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {

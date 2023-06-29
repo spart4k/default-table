@@ -6,7 +6,9 @@ new Vue({
 		el: '#chat',
 		components: {
 			message,
-			modal
+			modal,
+      VueSlickCarousel: window['vue-slick-carousel'],
+      VueMasonryPlugin: window["vue-masonry-plugin"].VueMasonryPlugin
 		},
 		data: {
 			chat: {
@@ -157,7 +159,22 @@ new Vue({
 			],
 			emptyMessage: {
 				text: ''
-			}
+			},
+      slickOptions: {
+        "centerMode": true,
+        "infinite": true,
+        "focusOnSelect": true,
+        "centerPadding": "20px",
+        "slidesToShow": 1,
+        "variableWidth": true
+      },
+      galleryPopup: {
+        isShow: false
+      },
+      galleryPopupMessage: {
+        isShow: false,
+        images: []
+      }
 		},
 
 		methods: {
@@ -196,7 +213,10 @@ new Vue({
 								time: '20:13',
                 choosed: false,
 								checked: (indexBox === 0 || indexBox === 1 || indexBox === 2) ? false : true,
-                type: 'default'
+                type: 'default',
+                attachment: {
+                  files: []
+                }
 							})
 							box.messages = messages
 						})
@@ -278,13 +298,14 @@ new Vue({
 				this.chat.searchField = ''
 			},
 			sendMessage() {
-				if (!this.activeDialog.newMessage.text) return
+				if (!this.activeDialog.newMessage.text && !this.activeDialog.newMessage.attachment.files) return
 				const lastDateBlock = this.activeDialog.messages.at()
 				// Для теста
 				const newId = this.getRandomInt(10000)
 				lastDateBlock.messages.push({
 					id: newId,
 					text: this.activeDialog.newMessage.text,
+          attachment: this.activeDialog.newMessage.attachment,
 					// author: this.chat.user,
 					author: this.even_or_odd(lastDateBlock.messages.length) ? this.chat.user : this.persons[3],
 					time: '20:13',
@@ -460,15 +481,29 @@ new Vue({
         Array.from(files).forEach(file => {
           console.log(file)
           let src = ''
+          let type = ''
           const reader = new FileReader();
           reader.onload = function(event) {
+            let objectFile = {}
+            if (vm.isFileImage(file)) {
+              src = event.target.result;
+              type = 'image'
+            } else if (vm.isFileVideo(file)) {
+              src = event.target.result;
+              type = 'video'
+            } else {
+              src = '/src/assets/images/coverDocument.png'
+              type = 'other'
+            }
 
-            src = event.target.result;
             console.log(src)
-            vm.activeDialog.newMessage.attachment.files.push({
-              file: file,
+            //if (!vm.isFileImage(file))
+            objectFile = {
+              file,
+              type,
               src
-            })
+            }
+            vm.activeDialog.newMessage.attachment.files.push(objectFile)
           };
           reader.readAsDataURL(file);
 
@@ -480,6 +515,9 @@ new Vue({
       },
       isFileImage(file) {
         return file && file['type'].split('/')[0] === 'image';
+      },
+      isFileVideo(file) {
+        return file && file['type'].split('/')[0] === 'video';
       },
       //async uploadDocuments (event) {
 
@@ -518,6 +556,30 @@ new Vue({
       //  console.log(fileInfos)
       //  return fileInfos;
       //}
+      removeAttachment(file) {
+        //this.activeDialog.newMessage.attachment.files
+        this.activeDialog.newMessage.attachment.files.splice(file.index, 1)
+      },
+      openGalleryPopup() {
+        this.galleryPopup.isShow = true
+      },
+      hideGalleryPopup() {
+        this.galleryPopup.isShow = false
+      },
+      loadImageMessage(message, index) {
+
+        console.log(message, index)
+        this.galleryPopupMessage.images = message.attachment.files
+        this.galleryPopupMessage.isShow = true
+        setTimeout(() => {
+          console.log(this.$refs.messageGallerySlick)
+          this.$refs.messageGallerySlick.goTo(index)
+        }, 100)
+
+      },
+      hideImageGalleryMessage() {
+        this.galleryPopupMessage.isShow = false
+      }
 		},
 		computed: {
 			activeDialog() {
@@ -545,6 +607,11 @@ new Vue({
           return 'chat-fade-out'
 
         }
+      },
+      imagesInNewMessage() {
+        const vm = this
+        const isImages = this.activeDialog.newMessage.attachment.files.filter((el) => vm.isFileImage(el.file) || vm.isFileVideo(el.file))
+        return isImages
       }
 		},
 		watch: {

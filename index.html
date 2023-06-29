@@ -4,7 +4,7 @@
   <title>Chat CRM</title>
  </head>
  <body>
-  <div class="body">s
+  <div class="body">
     <div class="leftbar">
 
     </div>
@@ -38,7 +38,7 @@
                     <!-- {{ item.messages[item.messages.length - 1].text }} -->
                     <transition name="slide-fade" mode="out-in">
                       <div :key="getLastMessage(item).id" class="contact-message__text clip" :class="item.active ? 'active' : ''">
-                        {{ getLastMessage(item).text }}
+                        {{ getLastMessage(item).text ? getLastMessage(item).text : `Вложения: ${getLastMessage(item).attachment.files.length} ` }}
                       </div>
                     </transition>
                     <!--<div class="contact-message__text clip" :class="item.active ? 'active' : ''">
@@ -96,7 +96,7 @@
                 </transition>
               </div>
             </div>
-            <div :class="chat.answering ? 'paddingAnswering' : ''" class="chat-dialog-content">
+            <div :class="[chat.answering ? 'paddingAnswering' : '', activeDialog.newMessage.attachment.files.length ? 'paddingFiles' : '']" class="chat-dialog-content">
               <!-- v-if="activeDialog && activeDialog.messages.length" -->
               <div v-if="activeDialog && activeDialog.messages.length" class="chat-dialog-content-wrap">
                 <div v-for="(item) in activeDialog.messages" class="chat-dialog-content-box">
@@ -104,7 +104,7 @@
                     <div class="chat-dialog-content-date">{{ item.date }}</div>
                   </div>
                   <transition-group name="testanim" tag="div">
-                    <message @click="chooseMessageOther(message)" @dblclick="chooseMessage(message)" :choosedState="!!selectedMessages.length" :key="message.id" class="message" :data-message="message.id" :isYourselfMessage="isYourselfMessage(message)" :class="[isYourselfMessage(message) ? 'yourself' : 'companion', message.choosed ? 'choosed' : '']" v-for="(message, index) in item.messages" :message="message"/>
+                    <message @click="chooseMessageOther(message)" @click-image="loadImageMessage" @dblclick="chooseMessage(message)" :choosedState="!!selectedMessages.length" :key="message.id" class="message" :data-message="message.id" :isYourselfMessage="isYourselfMessage(message)" :class="[isYourselfMessage(message) ? 'yourself' : 'companion', message.choosed ? 'choosed' : '']" v-for="(message, index) in item.messages" :message="message"/>
                   </transition-group>
                 </div>
               </div>
@@ -144,11 +144,12 @@
                     <div class="chat-dialog-attachment-list">
                       <div v-for="(file, index) in activeDialog.newMessage.attachment.files" :key="index" class="chat-dialog-attachment-list__file">
                         <div class="fileWrap">
-                          <img :src="file.src" alt="">
-                          <svg class="fileWrap__close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                            <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
-                          </svg>
+                          <img v-if="file.type === 'image'" @click="openGalleryPopup" :src="file.src" alt="">
+                          <video v-if="file.type === 'video'" @click="openGalleryPopup" :src="file.src" alt="">
                         </div>
+                        <svg v-if="true" @click="removeAttachment({ file, index })" class="fileWrap__close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
+                        </svg>
                       </div>
                     </div>
                   </div>
@@ -180,7 +181,7 @@
                         </g>
                       </g>
                     </svg>
-                    <input multiple @change="loadAttachment" type="file" accept="image/png, image/jpeg">
+                    <input multiple @change="loadAttachment" type="file" accept=".pdf, image/png, image/jpeg, video/*">
                   </label>
 
                   <!--// -<transition name="modal-open">
@@ -222,11 +223,48 @@
           </div>
         </div>
       </div>
+      <div class="portal">
+        <div v-if="galleryPopup.isShow" class="popup">
+          <div class="popup-wrap">
+            <div class="popup-body">
+              <vue-slick-carousel :class="imagesInNewMessage.length === 1 ? 'single-slide' : ''" v-bind="slickOptions" :arrows="true" :dots="true">
+                <div v-for="(file, imageIndex) in imagesInNewMessage" :key="'c1_image_' + imageIndex">
+                  <img v-if="file.type === 'image'" :src="file.src">
+                  <video controls v-if="file.type === 'video'" :src="file.src" alt=""></video>
+                </div>
+              </vue-slick-carousel>
+              <svg @click="hideGalleryPopup" class="popup-close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+        <div v-if="galleryPopupMessage.isShow" class="popup">
+          <div class="popup-wrap">
+            <div class="popup-body">
+              <vue-slick-carousel ref="messageGallerySlick" :class="galleryPopupMessage.images === 1 ? 'single-slide' : ''" v-bind="slickOptions" :arrows="true" :dots="true">
+                <div v-for="(image, imageIndex) in galleryPopupMessage.images" :key="'c1_image_' + imageIndex" class="slide-wrap">
+                  <img v-if="image.type === 'image'" :src="image.src">
+                  <video controls v-if="image.type === 'video'" :src="image.src" alt=""></video>
+                </div>
+              </vue-slick-carousel>
+              <svg @click="hideImageGalleryMessage" class="popup-close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
+  <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
   <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/chat.css?ver=1">
   <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/transition.css?ver=1">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-slick-carousel@1.0.6/dist/vue-slick-carousel-theme.min.css">
+  <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/slick.css?ver=1">
   <script src="./js/vue2.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/vue-slick-carousel@1.0.6/dist/vue-slick-carousel.umd.min.js"></script>
+  <script src="https://unpkg.com/vue-masonry@0.11.3/dist/vue-masonry-plugin-window.js"></script>
   <script type="module" src="./js/chat.js"></script>
 
  </body>

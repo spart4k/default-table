@@ -25,12 +25,68 @@ const message = {
     },
     click() {
       if (this.choosedstate) this.$emit('click', this.message)
+    },
+    clickImage(index) {
+      this.$emit('click-image', this.message, index)
+    }
+  },
+  computed: {
+    itemId() {
+      return 'masId_' + this.message.id
+    }
+  },
+  mounted() {
+    function waitForvidLoad(vids, callback) {
+        /* if no videos i.e. mobile mode only gifs and jpgs then call callback else masonry breaks.*/
+        if(vids.length === 0){
+            callback();
+        }
+      var vidsLoaded = 0;
+      console.log(vids)
+      vids.forEach(element => {
+        element.addEventListener('loadeddata', function() {
+          vidsLoaded++;
+          if (vids.length === vidsLoaded) {
+            callback();
+          }
+        });
+      });
 
     }
+    if (this.message.attachment.files.length) {
+      const grid = document.getElementById(this.itemId);
+      const videos = grid.querySelectorAll('video')
+      console.log(videos)
+      console.log(grid)
+      console.log(this.itemId)
+      waitForvidLoad(videos, () => {
+        console.log('video LAODED')
+        const msnry = new Masonry( grid, {
+          itemSelector: '.message-attachment__element',
+          columnWidth: 155
+        });
+      })
+
+    }
+
   },
   template: `
   <div @click="click" @dblclick="dblclick">
     <div class="message-row">
+      <div v-if="message.attachment.files.length" class="message-attachment">
+        <div :id='itemId' class="message-attachment-list">
+          <div v-for="(attachment, index) in message.attachment.files" class="message-attachment__element">
+            <img v-if="attachment.type === 'image'" @click="clickImage(index)" :src="attachment.src" alt="">
+            <video v-if="attachment.type === 'video'" @click="clickImage(index)" :src="attachment.src"></video>
+          </div>
+          <!--<div :v-masonry="message.id" transition-duration="0.3s" item-selector=".itemAttachment">
+            <div v-masonry-tile class="itemAttachment" v-for="(attachment, index) in message.attachment.files">
+
+              <img :src="attachment.src" alt="">
+            </div>
+          </div>-->
+        </div>
+      </div>
       <p>{{ message.text }} </p>
       <div class="message-panel">
         <!-- <component is="button-counter"></component> -->
