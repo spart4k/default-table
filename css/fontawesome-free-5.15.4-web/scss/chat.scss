@@ -300,16 +300,39 @@ $panelPhotoSize: 80px;
               }
             }
           }
+          &-forwards {
+            &-list {
+              &__message {
+                margin-bottom: 5px;
+                .author {
+                  span {
+                    color: $mainColor;
+                    font-weight: 700;
+                  }
+                }
+                .time {
+                  text-align: right;
+                  @include smallText;
+                }
+              }
+            }
+          }
           &-row {
             position: relative;
             display: flex;
             // border: 1px solid #000;
             border-radius: 12px;
             padding: 5px 10px;
-            background-color: #fff;
+            //background-color: #fff;
+            background-color: rgba(0, 47, 85, .1);
             @include text;
             color: #000;
             @include flex-column;
+            .author {
+              color: $mainColor;
+              font-weight: 700;
+              margin-bottom: 3px;
+            }
             &:after {
               //opacity: 0;
               left: 0;

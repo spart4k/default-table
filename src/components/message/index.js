@@ -1,4 +1,5 @@
 const message = {
+  name: 'message',
   props: {
     message: {
       type: Object,
@@ -26,8 +27,12 @@ const message = {
     click() {
       if (this.choosedstate) this.$emit('click', this.message)
     },
-    clickImage(index) {
-      this.$emit('click-image', this.message, index)
+    clickImage(propMessage, index) {
+      console.log(propMessage, index)
+      this.$emit('click-image', propMessage, index)
+    },
+    goToDialog(message) {
+      this.$emit()
     }
   },
   computed: {
@@ -73,11 +78,12 @@ const message = {
   template: `
   <div @click="click" @dblclick="dblclick">
     <div class="message-row">
+      <p @click="goToDialog(message)" class="author">{{ message.author.title }}</p>
       <div v-if="message.attachment.files.length" class="message-attachment">
         <div :id='itemId' class="message-attachment-list">
           <div v-for="(attachment, index) in message.attachment.files" class="message-attachment__element">
-            <img v-if="attachment.type === 'image'" @click="clickImage(index)" :src="attachment.src" alt="">
-            <video v-if="attachment.type === 'video'" @click="clickImage(index)" :src="attachment.src"></video>
+            <img v-if="attachment.type === 'image'" @click="clickImage(message, index)" :src="attachment.src" alt="">
+            <video v-if="attachment.type === 'video'" @click="clickImage(message, index)" :src="attachment.src"></video>
           </div>
           <!--<div :v-masonry="message.id" transition-duration="0.3s" item-selector=".itemAttachment">
             <div v-masonry-tile class="itemAttachment" v-for="(attachment, index) in message.attachment.files">
@@ -85,6 +91,16 @@ const message = {
               <img :src="attachment.src" alt="">
             </div>
           </div>-->
+        </div>
+      </div>
+      <div v-if="message.forwards.messages.length" class="message-forwards">
+        <div class="message-forwards-list">
+          <!--<div v-for="(forMessage, index) in message.forwards.messages" class="message-forwards-list__message">
+            <p class="author">Переслано от <span>{{ forMessage.author.title }}</span></p>
+            <p>{{ forMessage.text }}</p>
+            <p class="time">{{ forMessage.time }}</p>
+          </div>-->
+          <message @click="click(forMessage)" @click-image="clickImage" @dblclick="dblclick(forMessage)" :choosedState="choosedstate" v-for="(forMessage, forIndex) in message.forwards.messages" class="message-forwards-list__message" :message="forMessage"></message>
         </div>
       </div>
       <p>{{ message.text }} </p>

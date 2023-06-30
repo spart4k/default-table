@@ -92,6 +92,9 @@
                     <button @click="removeMessage" class="chat-btn">
                       Удалить
                     </button>
+                    <button @click="rejectSelecting" class="chat-btn">
+                      Отменить
+                    </button>
                   </div>
                 </transition>
               </div>
@@ -227,7 +230,7 @@
         <div v-if="galleryPopup.isShow" class="popup">
           <div class="popup-wrap">
             <div class="popup-body">
-              <vue-slick-carousel :class="imagesInNewMessage.length === 1 ? 'single-slide' : ''" v-bind="slickOptions" :arrows="true" :dots="true">
+              <vue-slick-carousel @swipe="afterChange()" ref="GallerySlick" :class="imagesInNewMessage.length === 1 ? 'single-slide' : ''" v-bind="slickOptions" :arrows="true" :dots="true">
                 <div v-for="(file, imageIndex) in imagesInNewMessage" :key="'c1_image_' + imageIndex">
                   <img v-if="file.type === 'image'" :src="file.src">
                   <video controls v-if="file.type === 'video'" :src="file.src" alt=""></video>
@@ -242,7 +245,7 @@
         <div v-if="galleryPopupMessage.isShow" class="popup">
           <div class="popup-wrap">
             <div class="popup-body">
-              <vue-slick-carousel ref="messageGallerySlick" :class="galleryPopupMessage.images === 1 ? 'single-slide' : ''" v-bind="slickOptions" :arrows="true" :dots="true">
+              <vue-slick-carousel @beforeChange="afterChange" ref="messageGallerySlick" :class="galleryPopupMessage.images === 1 ? 'single-slide' : ''" v-bind="slickOptions" :arrows="true" :dots="true">
                 <div v-for="(image, imageIndex) in galleryPopupMessage.images" :key="'c1_image_' + imageIndex" class="slide-wrap">
                   <img v-if="image.type === 'image'" :src="image.src">
                   <video controls v-if="image.type === 'video'" :src="image.src" alt=""></video>

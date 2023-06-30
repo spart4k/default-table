@@ -166,7 +166,8 @@ new Vue({
         "focusOnSelect": true,
         "centerPadding": "20px",
         "slidesToShow": 1,
-        "variableWidth": true
+        "variableWidth": true,
+        "lazyLoad": "ondemand",
       },
       galleryPopup: {
         isShow: false
@@ -216,6 +217,9 @@ new Vue({
                 type: 'default',
                 attachment: {
                   files: []
+                },
+                forwards: {
+                  messages: []
                 }
 							})
 							box.messages = messages
@@ -236,6 +240,9 @@ new Vue({
 						newMessage: {
 							text: '',
               type: 'default',
+              forwards: {
+                messages: []
+              },
               attachment: {
                 files: []
               }
@@ -255,18 +262,6 @@ new Vue({
 				}
 			},
 			openDialog(item) {
-        //const vm = this
-        //this.chat.selectedMessages = []
-        //vm.chat.selectedMessages.forEach((choosedMessage) => {
-        //  vm.activeDialog.messages.forEach((box) => {
-        //    const findMessage = box.messages.find((el) => el.id === choosedMessage.id)
-        //    if (findMessage) {
-        //      console.log(findMessage)
-        //      findMessage.choosed = false
-        //    }
-        //  })
-        //})
-        //this.chat.selectedMessages = []
 				this.chat.dialogs.forEach(element => {
 					// ОСТАВИТЬ И ВЕРНУТЬ КОГДА БУДЕТ ПОДКЛЮЧЕН БЕК
 					// if (item.id !== element.id) element.active = false
@@ -311,8 +306,12 @@ new Vue({
 					time: '20:13',
 					checked: false,
           choosed: false,
-          type: 'default'
+          type: 'default',
+          forwards: {
+            messages: this.selectedMessages
+          },
 				})
+        console.log(this.chat.selectedMessages)
 				let htmlMessageFounded = undefined
 				//const htmlNewMessage = document.querySelectorAll(`[data-message]`)
 				//console.log(htmlNewMessage)
@@ -324,6 +323,7 @@ new Vue({
 				//	]
 				//})
 				//this.checkMessageObserver.observe(htmlNewMessage)
+        this.rejectSelecting()
 				this.activeDialog.newMessage = {
           text: '',
           type: 'default',
@@ -460,6 +460,11 @@ new Vue({
       closeAnswering() {
         this.chat.answering = false
       },
+      rejectSelecting() {
+        this.activeDialog.allMessages.forEach((message) => {
+          message.choosed = false
+        })
+      },
       openAttachment() {
         //this.chat.attachment.isShow = true
 
@@ -562,6 +567,9 @@ new Vue({
       },
       openGalleryPopup() {
         this.galleryPopup.isShow = true
+        setTimeout(() => {
+          console.log(this.$refs.GallerySlick)
+        }, 500)
       },
       hideGalleryPopup() {
         this.galleryPopup.isShow = false
@@ -612,6 +620,9 @@ new Vue({
         const vm = this
         const isImages = this.activeDialog.newMessage.attachment.files.filter((el) => vm.isFileImage(el.file) || vm.isFileVideo(el.file))
         return isImages
+      },
+      afterChange(event) {
+        console.log(event)
       }
 		},
 		watch: {
