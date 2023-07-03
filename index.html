@@ -2,6 +2,8 @@
  <head>
   <meta charset="utf-8">
   <title>Chat CRM</title>
+  <!--<meta content="width=device-width, initial-scale=1" name="viewport" />-->
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
  </head>
  <body>
   <div class="body">
@@ -10,7 +12,7 @@
     </div>
     <div class="chat" id="chat">
       <div class="wrap">
-        <div class="chat-contacts">
+        <div class="chat-contacts" :class="[chat.settings.fullScreen ? 'fullScreen' : 'defaultScreen', isMobile ? 'isMobile' : '']">
           <div class="chat-contacts__search">
             <div class="search">
               <input v-model="chat.searchField" placeholder="Поиск" type="text">
@@ -68,16 +70,6 @@
               Ничего не найдено
             </div>
           </div>
-          <div class="chat-contacts-toggle">
-            <svg width="800px" height="800px" viewBox="0 0 512 512" version="1.1" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-              <g id="_x37_17-_next__x2C__arrow__x2C__right_arrow__x2C__direction__x2C_">
-              <g>
-              <path d="    M146.662,26.814L358.221,238.27c10.755,10.222,10.755,26.193,0,36.414L146.662,486.139" style="fill:none;stroke:#000000;stroke-width:13.4167;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:2.6131;"/>
-              </g>
-              </g>
-              <g id="Layer_1"/>
-            </svg>
-          </div>
         </div>
         <div class="chat-dialog">
           <div v-if="activeDialog" class="chat-dialog-wrap">
@@ -109,6 +101,14 @@
                     </button>
                   </div>
                 </transition>
+                <div @click="setFullScreen" class="chat-dialog-header-fullscreen">
+                  <div class="chat-dialog-header-fullscreen-wrap">
+                    <transition :name="transitionFullScreen">
+                      <svg key="2" v-if="chat.settings.fullScreen"  fill="none" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M10.4981 12.5042C11.0109 12.5042 11.4336 12.8903 11.4914 13.3876L11.4981 13.5042V21.0081C11.4981 21.5604 11.0504 22.0081 10.4981 22.0081C9.98527 22.0081 9.5626 21.6221 9.50484 21.1247L9.49811 21.0081L9.49758 15.915L3.70711 21.7067C3.34663 22.0672 2.7794 22.0949 2.38711 21.7899L2.2929 21.7067C1.93242 21.3462 1.90469 20.779 2.20971 20.3867L2.2929 20.2925L8.08058 14.504L2.99658 14.5042C2.4443 14.5042 1.99658 14.0565 1.99658 13.5042C1.99658 12.9914 2.38262 12.5687 2.87996 12.511L2.99658 12.5042H10.4981ZM13.4991 1.99902C14.0119 1.99902 14.4346 2.38506 14.4924 2.8824L14.4991 2.99902L14.4986 8.08602L20.2929 2.2925C20.6534 1.93202 21.2206 1.90429 21.6129 2.20931L21.7071 2.2925C22.0676 2.65299 22.0953 3.22022 21.7903 3.61251L21.7071 3.70672L15.9106 9.50202L21.0006 9.50291C21.5529 9.50291 22.0006 9.95063 22.0006 10.5029C22.0006 11.0157 21.6146 11.4384 21.1173 11.4962L21.0006 11.5029H13.4991C12.9863 11.5029 12.5636 11.1169 12.5058 10.6195L12.4991 10.5029V2.99902C12.4991 2.44674 12.9468 1.99902 13.4991 1.99902Z" fill="#212121"/></svg>
+                      <svg key="1" v-else fill="none" height="15" viewBox="0 0 15 15" width="15" xmlns="http://www.w3.org/2000/svg"><path clip-rule="evenodd" d="M1 1H5V2H2.70711L5.85355 5.14645L5.14645 5.85355L2 2.70711V5H1V1ZM12.2929 2H10V1H14V5H13V2.70711L9.85355 5.85355L9.14645 5.14645L12.2929 2ZM5.85355 9.85355L2.70711 13H5V14H1V10H2V12.2929L5.14645 9.14645L5.85355 9.85355ZM9.85355 9.14645L13 12.2929L13 10L14 10L14 14H10V13H12.2929L9.14645 9.85355L9.85355 9.14645Z" fill="black" fill-rule="evenodd"/></svg>
+                    </transition>
+                  </div>
+                </div>
               </div>
             </div>
             <div :class="[chat.answering || chat.messagesForForward.length ? 'paddingAnswering' : '', activeDialog.newMessage.attachment.files.length ? 'paddingFiles' : '']" class="chat-dialog-content">
@@ -119,11 +119,10 @@
                     <div class="chat-dialog-content-date">{{ item.date }}</div>
                   </div>
                   <transition-group name="testanim" tag="div">
-                    <message @click="chooseMessageOther(message)" @go-to-dialog="goToDialog" @click-image="loadImageMessage" @dblclick="chooseMessage(message)" :choosedState="!!selectedMessages.length" :key="message.id" class="message" :data-message="message.id" :isYourselfMessage="isYourselfMessage(message)" :class="[isYourselfMessage(message) ? 'yourself' : 'companion', message.choosed ? 'choosed' : '']" v-for="(message, index) in item.messages" :message="message"/>
+                    <message :windowWidth="chat.settings.width" @click="chooseMessageOther(message)" @go-to-dialog="goToDialog" @click-image="loadImageMessage" @dblclick="chooseMessage(message)" :choosedState="!!selectedMessages.length" :key="message.id" class="message" :data-message="message.id" :isYourselfMessage="isYourselfMessage(message)" :class="[isYourselfMessage(message) ? 'yourself' : 'companion', message.choosed ? 'choosed' : '']" v-for="(message, index) in item.messages" :message="message"/>
                   </transition-group>
                 </div>
               </div>
-
             </div>
             <transition name="answer-field">
               <div v-if="chat.answering" class="chat-dialog-answer">

@@ -12,6 +12,10 @@ const message = {
     choosedstate: {
       type: Boolean,
       default: false
+    },
+    windowwidth: {
+      type: Number,
+      default: null
     }
   },
   data: function () {
@@ -65,11 +69,17 @@ const message = {
       console.log(videos)
       console.log(grid)
       console.log(this.itemId)
+      let columnWidth = null
+      if (this.windowwidth <= 768) {
+        columnWidth = 120
+      } else {
+        columnWidth = 155
+      }
       waitForvidLoad(videos, () => {
         console.log('video LAODED')
         const msnry = new Masonry( grid, {
           itemSelector: '.message-attachment__element',
-          columnWidth: 155
+          columnWidth
         });
       })
 

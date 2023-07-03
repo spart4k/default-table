@@ -33,7 +33,11 @@ new Vue({
             }
           ]
         },
-        messagesForForward: []
+        messagesForForward: [],
+        settings: {
+          fullScreen: false,
+          width: null,
+        }
 			},
 			templateMessages: [
 				"Не забудьте закрыть окно перед уходом.",
@@ -275,7 +279,9 @@ new Vue({
 						this.checkMessageObserver.unobserve(el)
 					})
 					element.active = false
-
+          if (this.isMobile && !this.chat.settings.fullScreen) {
+            this.chat.settings.fullScreen = true
+          }
           setTimeout(() => {
 						item.active = true
 					}, 200)
@@ -295,7 +301,7 @@ new Vue({
 				this.chat.searchField = ''
 			},
 			sendMessage() {
-				if (!this.activeDialog.newMessage.text && !this.activeDialog.newMessage.attachment.files) return
+				if (!this.activeDialog.newMessage.text && !this.activeDialog.newMessage.attachment.files.length) return
 				const lastDateBlock = this.activeDialog.messages.at()
 				// Для теста
 				const newId = this.getRandomInt(10000)
@@ -621,6 +627,19 @@ new Vue({
         const dialog = this.chat.dialogs.find((dialog) => dialog.id === message.author.id)
         if (dialog.id === this.activeDialog.id || dialog.id === this.chat.user.id) return
         this.openDialog(dialog)
+      },
+      setFullScreen() {
+        this.chat.settings.fullScreen = !this.chat.settings.fullScreen
+      },
+      startResizeListener() {
+        console.log(window.innerWidth)
+        this.chat.settings.width = window.innerWidth
+        if (!this.chat.settings.fullScreen && window.innerWidth <= 768) {
+          this.chat.settings.fullScreen = true
+        }
+      },
+      removeResizeListener() {
+        window.removeEventListener('resize', this.startResizeListener)
       }
 		},
 		computed: {
@@ -658,6 +677,16 @@ new Vue({
       afterChange(event) {
         console.log(event)
       },
+      isMobile() {
+        return this.chat.settings.width <= 768
+      },
+      transitionFullScreen() {
+        if (this.chat.settings.fullScreen) {
+          return 'fullscreen-fade-out'
+        } else {
+          return 'fullscreen-fade'
+        }
+      }
 		},
 		watch: {
 			'chat.searchField': function(newVal, oldVal) {
@@ -673,5 +702,10 @@ new Vue({
 			setTimeout(() => {
 				this.startObservMessage('start')
 			}, 500)
-		}
+      this.startResizeListener()
+      window.addEventListener('resize', this.startResizeListener)
+		},
+    beforeDestroy() {
+      this.removeResizeListener()
+    }
 })
