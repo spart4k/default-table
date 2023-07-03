@@ -31,8 +31,9 @@ const message = {
       console.log(propMessage, index)
       this.$emit('click-image', propMessage, index)
     },
-    goToDialog(message) {
-      this.$emit()
+    goToDialog(propMessage) {
+      console.log(propMessage)
+      this.$emit('go-to-dialog', propMessage)
     }
   },
   computed: {
@@ -100,7 +101,7 @@ const message = {
             <p>{{ forMessage.text }}</p>
             <p class="time">{{ forMessage.time }}</p>
           </div>-->
-          <message @click="click(forMessage)" @click-image="clickImage" @dblclick="dblclick(forMessage)" :choosedState="choosedstate" v-for="(forMessage, forIndex) in message.forwards.messages" class="message-forwards-list__message" :message="forMessage"></message>
+          <message @click="click(forMessage)" @go-to-dialog="goToDialog" @click-image="clickImage" @dblclick="dblclick(forMessage)" :choosedState="choosedstate" v-for="(forMessage, forIndex) in message.forwards.messages" class="message-forwards-list__message" :message="forMessage"></message>
         </div>
       </div>
       <p>{{ message.text }} </p>

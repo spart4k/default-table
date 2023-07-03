@@ -67,6 +67,7 @@ $panelPhotoSize: 80px;
   // background-color: $mainColor;
   height: 100%;
   z-index: 10;
+  background-color: #fff;
   .wrap {
     display: flex;
     height: 100%;
@@ -103,6 +104,7 @@ $panelPhotoSize: 80px;
       width: 100%;
       height: $panelHeight;
       padding: 5px;
+      z-index: 5;
     }
     &-list {
       @include flex-column;
@@ -114,6 +116,18 @@ $panelPhotoSize: 80px;
     &__notfound {
       text-align: center;
       padding: 5px;
+    }
+    &-toggle {
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      right: -10px;
+      top: 50%;
+      transform: translate3d(-50%, -50%, 0);
+      svg {
+        width: 100%;
+        height: 100%;
+      }
     }
 
   }
@@ -308,6 +322,7 @@ $panelPhotoSize: 80px;
                   span {
                     color: $mainColor;
                     font-weight: 700;
+                    cursor: pointer;
                   }
                 }
                 .time {
@@ -332,6 +347,7 @@ $panelPhotoSize: 80px;
               color: $mainColor;
               font-weight: 700;
               margin-bottom: 3px;
+              cursor: pointer;
             }
             &:after {
               //opacity: 0;
@@ -708,13 +724,53 @@ $panelPhotoSize: 80px;
   width: 100%;
   z-index: 15;
   background-color: rgba(0, 0, 0, 0.8);
+  &.modal {
+    background-color: rgba(0, 0, 0, 0.3);
+    .popup-close {
+      //color: #000;
+      right: -20px;
+      top: -20px;
+    }
+  }
   &-wrap {
     position: relative;
     height: 100%;
+    &--modal {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
   }
   &-body {
     //display: flex;
     padding-top: 20px;
+    &--modal {
+      height: 100%;
+      margin: auto 0;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      .chat-contacts__search {
+        border-radius: 10px;
+      }
+      .chat-contacts {
+        border-radius: 10px;
+      }
+    }
+    .modal {
+      &-contacts {
+        position: relative;
+        height: 60%;
+        display: flex;
+        justify-content: center;
+        .chat {
+          &-contacts {
+            position: relative;
+            background-color: #fff;
+          }
+        }
+      }
+    }
   }
   &-close {
     position: absolute;

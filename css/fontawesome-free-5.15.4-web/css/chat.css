@@ -31,6 +31,7 @@ body {
   padding: 20px;
   height: 100%;
   z-index: 10;
+  background-color: #fff;
 }
 .chat .wrap {
   display: -webkit-box;
@@ -79,6 +80,7 @@ body {
   width: 100%;
   height: 40px;
   padding: 5px;
+  z-index: 5;
 }
 .chat-contacts-list {
   display: -webkit-box;
@@ -96,6 +98,19 @@ body {
 .chat-contacts__notfound {
   text-align: center;
   padding: 5px;
+}
+.chat-contacts-toggle {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  right: -10px;
+  top: 50%;
+  -webkit-transform: translate3d(-50%, -50%, 0);
+          transform: translate3d(-50%, -50%, 0);
+}
+.chat-contacts-toggle svg {
+  width: 100%;
+  height: 100%;
 }
 .chat .contact {
   display: -webkit-box;
@@ -343,6 +358,7 @@ body {
 .chat-dialog-content-box .message-forwards-list__message .author span {
   color: #002F55;
   font-weight: 700;
+  cursor: pointer;
 }
 .chat-dialog-content-box .message-forwards-list__message .time {
   text-align: right;
@@ -371,6 +387,7 @@ body {
   color: #002F55;
   font-weight: 700;
   margin-bottom: 3px;
+  cursor: pointer;
 }
 .chat-dialog-content-box .message-row:after {
   left: 0;
@@ -762,12 +779,65 @@ body {
   z-index: 15;
   background-color: rgba(0, 0, 0, 0.8);
 }
+.popup.modal {
+  background-color: rgba(0, 0, 0, 0.3);
+}
+.popup.modal .popup-close {
+  right: -20px;
+  top: -20px;
+}
 .popup-wrap {
   position: relative;
   height: 100%;
 }
+.popup-wrap--modal {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
 .popup-body {
   padding-top: 20px;
+}
+.popup-body--modal {
+  height: 100%;
+  margin: auto 0;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.popup-body--modal .chat-contacts__search {
+  border-radius: 10px;
+}
+.popup-body--modal .chat-contacts {
+  border-radius: 10px;
+}
+.popup-body .modal-contacts {
+  position: relative;
+  height: 60%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+.popup-body .modal-contacts .chat-contacts {
+  position: relative;
+  background-color: #fff;
 }
 .popup-close {
   position: absolute;

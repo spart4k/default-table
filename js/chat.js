@@ -21,6 +21,7 @@ new Vue({
 				searchField: '',
 				dialogs: [],
         answering: false,
+        forwarding: false,
         attachment: {
           isShow: false,
           list: [
@@ -31,7 +32,8 @@ new Vue({
               label: 'Документ'
             }
           ]
-        }
+        },
+        messagesForForward: []
 			},
 			templateMessages: [
 				"Не забудьте закрыть окно перед уходом.",
@@ -308,9 +310,13 @@ new Vue({
           choosed: false,
           type: 'default',
           forwards: {
-            messages: this.selectedMessages
+            messages: this.selectedMessages.length ? this.selectedMessages : this.chat.messagesForForward
           },
 				})
+        if (this.chat.messagesForForward.length) {
+          this.chat.messagesForForward = []
+        }
+        console.log(this.selectedMessages.length ? this.selectedMessages : this.chat.messagesForForward)
         console.log(this.chat.selectedMessages)
 				let htmlMessageFounded = undefined
 				//const htmlNewMessage = document.querySelectorAll(`[data-message]`)
@@ -460,9 +466,15 @@ new Vue({
       closeAnswering() {
         this.chat.answering = false
       },
+      closeForwarding() {
+        this.chat.messagesForForward = []
+      },
       rejectSelecting() {
-        this.activeDialog.allMessages.forEach((message) => {
-          message.choosed = false
+        this.activeDialog.messages.forEach((box) => {
+          console.log(box)
+          box.messages.forEach((message) => {
+            message.choosed = false
+          })
         })
       },
       openAttachment() {
@@ -587,6 +599,28 @@ new Vue({
       },
       hideImageGalleryMessage() {
         this.galleryPopupMessage.isShow = false
+      },
+      chooseDialog(dialog) {
+        console.log(dialog)
+        this.chat.forwarding = false
+        this.chat.messagesForForward = [
+          ...this.selectedMessages
+        ]
+        this.rejectSelecting()
+        this.openDialog(dialog)
+
+      },
+      forwardMessage() {
+        this.chat.forwarding = true
+      },
+      hideForwardMessage() {
+        this.chat.forwarding = false
+      },
+      goToDialog(message) {
+        console.log(message)
+        const dialog = this.chat.dialogs.find((dialog) => dialog.id === message.author.id)
+        if (dialog.id === this.activeDialog.id || dialog.id === this.chat.user.id) return
+        this.openDialog(dialog)
       }
 		},
 		computed: {
@@ -623,7 +657,7 @@ new Vue({
       },
       afterChange(event) {
         console.log(event)
-      }
+      },
 		},
 		watch: {
 			'chat.searchField': function(newVal, oldVal) {
