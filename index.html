@@ -25,54 +25,27 @@
           </div>
           <div class="chat-contacts-wrap">
             <div v-if="searchedContacts.length" class="chat-contacts-list">
-              <div v-for="(item) in searchedContacts" :class="item.active ? 'active' : ''" @click="openDialog(item)" class="chat-contacts-list__dialog contact">
-                <div class="contact-avatar">
-                  <img :src="item.avatar" alt="">
-                </div>
-                <div class="contact-info">
-                  <div class="contact-title" :class="item.active ? 'active' : ''">
-                    {{ item.title }}
-                  </div>
-                  <div class="">
-
-                  </div>
-                  <div class="contact-message clip" :class="item.active ? 'active' : ''">
-                    <!-- {{ item.messages[item.messages.length - 1].text }} -->
-                    <transition name="slide-fade" mode="out-in">
-                      <div :key="getLastMessage(item).id" class="contact-message__text clip" :class="item.active ? 'active' : ''">
-                        {{ getLastMessage(item).text ? getLastMessage(item).text : `Вложения: ${getLastMessage(item).attachment.files.length} ` }}
-                      </div>
-                    </transition>
-                    <!--<div class="contact-message__text clip" :class="item.active ? 'active' : ''">
-                      {{ getLastMessage(item).text }}
-                    </div>-->
-                      <div v-if="isYourselfMessage(getLastMessage(item))" :class="getLastMessage(item).checked ? 'checked' : ''" class="contact-message__state">
-                        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
-                          <defs>
-                          </defs>
-                          <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-                            <path d="M 89.122 3.486 L 89.122 3.486 c -2.222 -3.736 -7.485 -4.118 -10.224 -0.742 L 33.202 59.083 c -1.118 1.378 -3.245 1.303 -4.262 -0.151 L 17.987 43.291 c -3.726 -5.322 -11.485 -5.665 -15.666 -0.693 l 0 0 c -2.883 3.428 -3.102 8.366 -0.533 12.036 L 24.206 86.65 c 2.729 3.897 8.503 3.89 11.222 -0.014 l 6.435 -9.239 L 88.87 10.265 C 90.28 8.251 90.378 5.598 89.122 3.486 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: currentColor; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                          </g>
-                        </svg>
-                        <svg class="second" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
-                          <defs>
-                          </defs>
-                          <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-                            <path d="M 89.122 3.486 L 89.122 3.486 c -2.222 -3.736 -7.485 -4.118 -10.224 -0.742 L 33.202 59.083 c -1.118 1.378 -3.245 1.303 -4.262 -0.151 L 17.987 43.291 c -3.726 -5.322 -11.485 -5.665 -15.666 -0.693 l 0 0 c -2.883 3.428 -3.102 8.366 -0.533 12.036 L 24.206 86.65 c 2.729 3.897 8.503 3.89 11.222 -0.014 l 6.435 -9.239 L 88.87 10.265 C 90.28 8.251 90.378 5.598 89.122 3.486 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: currentColor; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                          </g>
-                        </svg>
-                    </div>
-                  </div>
-                </div>
-              </div>
+              <contact v-for="(item) in searchedContacts" :key="item.id" :active="item.active" :class="item.active ? 'active' : ''" @click="openDialog(item)" :contact="item" :chat="chat" class="chat-contacts-list__dialog contact" />
             </div>
             <div v-else class="chat-contacts__notfound">
               Ничего не найдено
             </div>
           </div>
+          <div class="chat-contacts__panel">
+            <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+            <!--<svg @click="openNewDialog" class="addDialog" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+              viewBox="0 0 50 50" xml:space="preserve">
+              <circle style="fill:#002F55;" cx="25" cy="25" r="25"/>
+              <line style="fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" x1="25" y1="13" x2="25" y2="38"/>
+              <line style="fill:none;stroke:#FFFFFF;stroke-width:2;stroke-linecap:round;stroke-linejoin:round;stroke-miterlimit:10;" x1="37.5" y1="25" x2="12.5" y2="25"/>
+            </svg>-->
+            <button @click="openNewDialog" class="chat-btn full-width">
+              Создать диалог
+            </button>
+          </div>
         </div>
         <div class="chat-dialog">
-          <div v-if="activeDialog" class="chat-dialog-wrap">
+          <div v-if="activeDialog" :class="[chat.answering || chat.forwarding.messagesForForward.length ? 'paddingAnswering' : '', activeDialog.newMessage.attachment.files.length ? 'paddingFiles' : '']" class="chat-dialog-wrap">
             <div class="chat-dialog-header">
               <div class="chat-dialog-header-wrap">
                 <transition tag="div" :name="transitionDialogHeader">
@@ -111,7 +84,7 @@
                 </div>
               </div>
             </div>
-            <div :class="[chat.answering || chat.messagesForForward.length ? 'paddingAnswering' : '', activeDialog.newMessage.attachment.files.length ? 'paddingFiles' : '']" class="chat-dialog-content">
+            <div class="chat-dialog-content">
               <!-- v-if="activeDialog && activeDialog.messages.length" -->
               <div v-if="activeDialog && activeDialog.messages.length" class="chat-dialog-content-wrap">
                 <div v-for="(item) in activeDialog.messages" class="chat-dialog-content-box">
@@ -119,7 +92,21 @@
                     <div class="chat-dialog-content-date">{{ item.date }}</div>
                   </div>
                   <transition-group name="testanim" tag="div">
-                    <message :windowWidth="chat.settings.width" @click="chooseMessageOther(message)" @go-to-dialog="goToDialog" @click-image="loadImageMessage" @dblclick="chooseMessage(message)" :choosedState="!!selectedMessages.length" :key="message.id" class="message" :data-message="message.id" :isYourselfMessage="isYourselfMessage(message)" :class="[isYourselfMessage(message) ? 'yourself' : 'companion', message.choosed ? 'choosed' : '']" v-for="(message, index) in item.messages" :message="message"/>
+                    <message
+                    :windowWidth="chat.settings.width"
+                    @click="chooseMessageOther(message)"
+                    @go-to-dialog="goToDialog"
+                    @click-image="loadImageMessage"
+                    @dblclick="chooseMessage(message)"
+                    :choosedState="!!selectedMessages.length"
+                    :key="message.id"
+                    class="message"
+                    :data-message="message.id"
+                    :isYourselfMessage="isYourselfMessage(message)"
+                    :class="[isYourselfMessage(message) ? 'yourself' : 'companion', message.choosed ? 'choosed' : '']"
+                    v-for="(message, index) in item.messages"
+                    :message="message"
+                    />
                   </transition-group>
                 </div>
               </div>
@@ -152,7 +139,7 @@
               </div>
             </transition>
             <transition name="answer-field">
-              <div v-if="chat.messagesForForward.length" class="chat-dialog-answer">
+              <div v-if="chat.forwarding.messagesForForward.length" class="chat-dialog-answer">
                 <div class="chat-dialog-answer__icon">
                   <svg height="512px" id="Layer_1" style="enable-background:new 0 0 512 512;" version="1.1" viewBox="0 0 512 512" width="512px" xml:space="preserve" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
                     <g><path fill="currentColor" d="M288,298.1v92.3L448,256L288,112v80C100.8,192,64,400,64,400C117,307,186.4,298.1,288,298.1z"/></g>
@@ -164,11 +151,10 @@
                       Cообщений:
                     </p>
                     <transition tag="div" class="emptyNumber" name="number-change">
-                      <span :key="chat.messagesForForward.length">
-                        {{ chat.messagesForForward.length }}
+                      <span :key="chat.forwarding.messagesForForward.length">
+                        {{ chat.forwarding.messagesForForward.length }}
                       </span>
                     </transition>
-
                   </div>
                 </div>
                 <div @click="closeForwarding" class="chat-dialog-answer__close">
@@ -295,15 +281,45 @@
             </div>
           </div>
         </div>
-        <div v-if="chat.forwarding" class="popup modal">
-          <div class="popup-wrap popup-wrap--modal">
-            <div class="popup-body popup-body--modal">
-              <div class="modal-contacts">
-                <div class="chat-contacts">
+        <modal v-if="chat.forwarding.isShow">
+          <div class="modal-contacts">
+            <div class="chat-contacts">
+              <div class="chat-contacts__search">
+                <div class="search">
+                  <input v-model="chat.forwarding.searchField" placeholder="Поиск" type="text">
+                  <div v-if="chat.forwarding.searchField" @click="clearSearchForward" class="search-close">
+                    <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                      <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="black"/>
+                    </svg>
+                  </div>
+                </div>
+              </div>
+              <div class="chat-contacts-wrap">
+                <div v-if="searchedContactsForward.length" class="chat-contacts-list">
+                  <contact :chat="chat" :contact="contact" v-for="(contact) in searchedContactsForward" :key="contact.id" @click="chooseDialog(item)"/>
+                </div>
+                <div v-else class="chat-contacts__notfound">
+                  Ничего не найдено
+                </div>
+              </div>
+              <svg @click="hideForwardMessage" class="popup-close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+        </modal>
+        <modal v-if="chat.newDialog.isShow">
+          <div class="modal-contacts">
+            <div class="chat-contacts">
+              <div class="modal-contacts-title">
+                Добавьте участников
+              </div>
+              <div class="new-dialog">
+                <div v-if="chat.newDialog.stage === 0" class="new-dialog-members">
                   <div class="chat-contacts__search">
                     <div class="search">
-                      <input v-model="chat.searchField" placeholder="Поиск" type="text">
-                      <div v-if="chat.searchField" @click="clearSearch" class="search-close">
+                      <input v-model="chat.newDialog.searchField" placeholder="Поиск" type="text">
+                      <div v-if="chat.newDialog.searchField" @click="clearSearch" class="search-close">
                         <svg width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                           <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="black"/>
                         </svg>
@@ -311,70 +327,44 @@
                     </div>
                   </div>
                   <div class="chat-contacts-wrap">
-                    <div v-if="searchedContacts.length" class="chat-contacts-list">
-                      <div v-for="(item) in searchedContacts" @click="chooseDialog(item)" class="chat-contacts-list__dialog contact">
-                        <div class="contact-avatar">
-                          <img :src="item.avatar" alt="">
-                        </div>
-                        <div class="contact-info">
-                          <div class="contact-title">
-                            {{ item.title }}
-                          </div>
-                          <div class="">
-
-                          </div>
-                          <div class="contact-message clip">
-                            <!-- {{ item.messages[item.messages.length - 1].text }} -->
-                            <transition name="slide-fade" mode="out-in">
-                              <div :key="getLastMessage(item).id" class="contact-message__text clip" :class="item.active ? 'active' : ''">
-                                {{ getLastMessage(item).text ? getLastMessage(item).text : `Вложения: ${getLastMessage(item).attachment.files.length} ` }}
-                              </div>
-                            </transition>
-                            <!--<div class="contact-message__text clip" :class="item.active ? 'active' : ''">
-                              {{ getLastMessage(item).text }}
-                            </div>-->
-                              <div v-if="isYourselfMessage(getLastMessage(item))" :class="getLastMessage(item).checked ? 'checked' : ''" class="contact-message__state">
-                                <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
-                                  <defs>
-                                  </defs>
-                                  <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-                                    <path d="M 89.122 3.486 L 89.122 3.486 c -2.222 -3.736 -7.485 -4.118 -10.224 -0.742 L 33.202 59.083 c -1.118 1.378 -3.245 1.303 -4.262 -0.151 L 17.987 43.291 c -3.726 -5.322 -11.485 -5.665 -15.666 -0.693 l 0 0 c -2.883 3.428 -3.102 8.366 -0.533 12.036 L 24.206 86.65 c 2.729 3.897 8.503 3.89 11.222 -0.014 l 6.435 -9.239 L 88.87 10.265 C 90.28 8.251 90.378 5.598 89.122 3.486 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: currentColor; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                                  </g>
-                                </svg>
-                                <svg class="second" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" width="256" height="256" viewBox="0 0 256 256" xml:space="preserve">
-                                  <defs>
-                                  </defs>
-                                  <g style="stroke: none; stroke-width: 0; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: none; fill-rule: nonzero; opacity: 1;" transform="translate(1.4065934065934016 1.4065934065934016) scale(2.81 2.81)" >
-                                    <path d="M 89.122 3.486 L 89.122 3.486 c -2.222 -3.736 -7.485 -4.118 -10.224 -0.742 L 33.202 59.083 c -1.118 1.378 -3.245 1.303 -4.262 -0.151 L 17.987 43.291 c -3.726 -5.322 -11.485 -5.665 -15.666 -0.693 l 0 0 c -2.883 3.428 -3.102 8.366 -0.533 12.036 L 24.206 86.65 c 2.729 3.897 8.503 3.89 11.222 -0.014 l 6.435 -9.239 L 88.87 10.265 C 90.28 8.251 90.378 5.598 89.122 3.486 z" style="stroke: none; stroke-width: 1; stroke-dasharray: none; stroke-linecap: butt; stroke-linejoin: miter; stroke-miterlimit: 10; fill: currentColor; fill-rule: nonzero; opacity: 1;" transform=" matrix(1 0 0 1 0 0) " stroke-linecap="round" />
-                                  </g>
-                                </svg>
-                            </div>
-                          </div>
-                        </div>
-                      </div>
+                    <div v-if="searchedContactsMembers.length" class="chat-contacts-list">
+                      <contact :showMessage="false" v-for="(contact) in searchedContactsMembers" :key="contact.id" :selected="chat.newDialog.members.includes(contact)" :class="chat.newDialog.members.includes(contact) ? 'selected' : ''" :chat="chat" :contact="contact"  @click="chooseInviteDialog(contact)"/>
                     </div>
                     <div v-else class="chat-contacts__notfound">
                       Ничего не найдено
                     </div>
                   </div>
-                  <svg @click="hideForwardMessage" class="popup-close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
-                  </svg>
                 </div>
-
+                <div v-else-if="chat.newDialog.stage === 1" class="">
+                  <div class="">
+                    <div class="chat-input chat-input--default full-width">
+                      <label>
+                        <p>Название группы</p>
+                        <input v-model="chat.newDialog.title" type="text" placeholder="">
+                      </label>
+                    </div>
+                  </div>
+                </div>
               </div>
-
+              <div class="chat-contacts__panel">
+                <button :class="!this.chat.newDialog.members.length ? 'disable' : ''" @click="newDialogStep" class="chat-btn full-width">
+                  Далее
+                </button>
+              </div>
+              <svg @click="hideNewDialog" class="popup-close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
+              </svg>
             </div>
           </div>
-        </div>
+        </modal>
       </div>
     </div>
   </div>
   <script src="https://unpkg.com/masonry-layout@4/dist/masonry.pkgd.min.js"></script>
-  <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/chat.css?ver=1">
-  <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/transition.css?ver=1">
+  <link rel="stylesheet" href="style/fontawesome-free-5.15.4-web/css/chat.css?ver=1">
+  <link rel="stylesheet" href="style/fontawesome-free-5.15.4-web/css/transition.css?ver=1">
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/vue-slick-carousel@1.0.6/dist/vue-slick-carousel-theme.min.css">
-  <link rel="stylesheet" href="css/fontawesome-free-5.15.4-web/css/slick.css?ver=1">
+  <link rel="stylesheet" href="style/fontawesome-free-5.15.4-web/css/slick.css?ver=1">
   <script src="./js/vue2.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/vue-slick-carousel@1.0.6/dist/vue-slick-carousel.umd.min.js"></script>
   <script src="https://unpkg.com/vue-masonry@0.11.3/dist/vue-masonry-plugin-window.js"></script>

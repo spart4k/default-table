@@ -22,6 +22,7 @@ body {
   display: -ms-flexbox;
   display: flex;
   height: 100%;
+  width: 100%;
 }
 
 .chat {
@@ -63,7 +64,6 @@ body {
   -webkit-box-flex: 1;
       -ms-flex: 1;
           flex: 1;
-  padding-top: 40px;
   overflow-y: auto;
 }
 .chat-contacts-wrap::-webkit-scrollbar {
@@ -76,7 +76,6 @@ body {
   display: none;
 }
 .chat-contacts__search {
-  position: absolute;
   top: 0;
   background-color: #fff;
   width: 100%;
@@ -122,6 +121,27 @@ body {
   -webkit-transform: rotate(180deg);
           transform: rotate(180deg);
 }
+.chat-contacts__panel {
+  height: 40px;
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.chat-contacts__panel .addDialog {
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  -webkit-transition: 0.25s;
+  transition: 0.25s;
+}
+.chat-contacts__panel .addDialog:hover {
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
+}
 .chat-contacts.fullScreen {
   width: 0;
 }
@@ -162,13 +182,17 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  position: relative;
 }
 .chat .contact-avatar img {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
   width: 100%;
   height: 100%;
   border-radius: 100px;
   -o-object-fit: cover;
      object-fit: cover;
+  border: 0px solid transparent;
 }
 .chat .contact-title {
   color: rgba(0, 0, 0, 0.4);
@@ -234,6 +258,22 @@ body {
 .chat .contact.active {
   background-color: rgb(19, 94, 129);
 }
+.chat .contact.active .contact-title {
+  color: #fff;
+}
+.chat .contact.active .contact-message {
+  color: rgba(255, 255, 255, 0.6);
+}
+.chat .contact.selected .contact-avatar img {
+  border: #7ac142 3px solid;
+}
+.chat .contact .checkmark {
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  right: 5px;
+  bottom: 5px;
+}
 .chat-dialog {
   -webkit-box-flex: 1;
       -ms-flex: 1;
@@ -255,6 +295,14 @@ body {
           justify-content: space-between;
   height: 100%;
   padding: 40px 0;
+  -webkit-transition: padding-bottom 0.2s;
+  transition: padding-bottom 0.2s;
+}
+.chat-dialog-wrap.paddingAnswering {
+  padding-bottom: 80px;
+}
+.chat-dialog-wrap.paddingFiles {
+  padding-bottom: 90px;
 }
 .chat-dialog-header {
   height: 40px;
@@ -534,9 +582,11 @@ body {
   -webkit-box-direction: reverse;
       -ms-flex-direction: column-reverse;
           flex-direction: column-reverse;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 .chat-dialog-content.paddingAnswering {
-  padding-bottom: 40px;
+  scroll-padding-bottom: 40px;
 }
 .chat-dialog-content.paddingFiles {
   padding-bottom: 90px;
@@ -699,9 +749,9 @@ body {
   transition: 0.2s;
   margin-right: 10px;
   position: relative;
-  cursor: pointer;
 }
 .chat-dialog-field-attach svg {
+  cursor: pointer;
   width: 100%;
   height: 100%;
 }
@@ -769,6 +819,27 @@ body {
 }
 .chat-btn:hover {
   background-color: #002f55;
+}
+.chat-btn.full-width {
+  width: 100%;
+}
+.chat-btn.disable {
+  pointer-events: none;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+.chat-input p {
+  font-size: 16px;
+  color: #002F55;
+  font-weight: 500;
+}
+.chat-input input {
+  border-bottom: 1px solid #002F55;
+  padding: 5px 0;
+  font-size: 16px;
+  width: 100%;
+}
+.chat-input.full-width {
+  width: 100%;
 }
 .chat::-webkit-scrollbar {
   width: 10px;
@@ -893,13 +964,44 @@ body {
 }
 .popup-body .modal-contacts {
   position: relative;
-  height: 60%;
+  max-height: 60%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+}
+.popup-body .modal-contacts-title {
+  padding: 5px 5px;
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+}
+.popup-body .modal-contacts .new-dialog {
+  -ms-flex-preferred-size: auto;
+      flex-basis: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+  overflow: auto;
+  padding: 5px;
+}
+.popup-body .modal-contacts .new-dialog-members {
+  -ms-flex-preferred-size: auto;
+      flex-basis: auto;
+  overflow: auto;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
 }
 .popup-body .modal-contacts .chat-contacts {
   position: relative;
@@ -926,5 +1028,96 @@ body {
 @media (max-width: 500px) {
   .leftbar {
     width: 0;
+  }
+}
+body {
+  width: 100vw;
+  height: 100vh;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+}
+
+.checkmark {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: block;
+  stroke-width: 2;
+  stroke: #fff;
+  stroke-miterlimit: 10;
+  -webkit-box-shadow: inset 0px 0px 0px #7ac142;
+          box-shadow: inset 0px 0px 0px #7ac142;
+  -webkit-animation: fill 0.15s ease-in-out 0.15s forwards, scale 0.1s ease-in-out 0.25s both;
+          animation: fill 0.15s ease-in-out 0.15s forwards, scale 0.1s ease-in-out 0.25s both;
+}
+
+.checkmark__circle {
+  stroke-dasharray: 166;
+  stroke-dashoffset: 166;
+  stroke-width: 2;
+  stroke-miterlimit: 10;
+  stroke: #7ac142;
+  fill: none;
+  -webkit-animation: stroke 0.17s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+          animation: stroke 0.17s cubic-bezier(0.65, 0, 0.45, 1) forwards;
+}
+
+.checkmark__check {
+  -webkit-transform-origin: 50% 50%;
+          transform-origin: 50% 50%;
+  stroke-dasharray: 48;
+  stroke-dashoffset: 48;
+  -webkit-animation: stroke 0.1s cubic-bezier(0.65, 0, 0.45, 1) 0.2s forwards;
+          animation: stroke 0.1s cubic-bezier(0.65, 0, 0.45, 1) 0.2s forwards;
+}
+
+@-webkit-keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes stroke {
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+@-webkit-keyframes scale {
+  0%, 100% {
+    -webkit-transform: none;
+            transform: none;
+  }
+  50% {
+    -webkit-transform: scale3d(1.1, 1.1, 1);
+            transform: scale3d(1.1, 1.1, 1);
+  }
+}
+@keyframes scale {
+  0%, 100% {
+    -webkit-transform: none;
+            transform: none;
+  }
+  50% {
+    -webkit-transform: scale3d(1.1, 1.1, 1);
+            transform: scale3d(1.1, 1.1, 1);
+  }
+}
+@-webkit-keyframes fill {
+  100% {
+    -webkit-box-shadow: inset 0px 0px 0px 30px #7ac142;
+            box-shadow: inset 0px 0px 0px 30px #7ac142;
+  }
+}
+@keyframes fill {
+  100% {
+    -webkit-box-shadow: inset 0px 0px 0px 30px #7ac142;
+            box-shadow: inset 0px 0px 0px 30px #7ac142;
   }
 }
