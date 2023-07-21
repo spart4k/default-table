@@ -321,6 +321,7 @@ $white: #fff;
           height: 100%;
           display: flex;
           align-items: center;
+          cursor: pointer;
         }
       }
       &-panel {
@@ -911,6 +912,7 @@ $white: #fff;
         max-height: 60%;
         display: flex;
         justify-content: center;
+        transition: .2s;
         &-title {
           padding: 5px 5px;
           @include title;

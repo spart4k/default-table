@@ -330,6 +330,7 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
+  cursor: pointer;
 }
 .chat-dialog-header-panel {
   display: -webkit-box;
@@ -971,6 +972,8 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
 }
 .popup-body .modal-contacts-title {
   padding: 5px 5px;

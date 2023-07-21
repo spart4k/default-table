@@ -43,6 +43,9 @@ new Vue({
           fullScreen: false,
           width: null,
         },
+        dialogSettings: {
+          isShow: false
+        },
         newDialog: {
           isShow: false,
           searchField: '',
@@ -227,7 +230,6 @@ new Vue({
             files: []
           }
         },
-
       }
 		},
 
@@ -364,6 +366,7 @@ new Vue({
         }
         lastDateBlock = this.activeDialog.messages.at()
 				// Для теста
+        console.log(lastDateBlock)
 				lastDateBlock.messages.push({
 					id: this.generateId(),
 					text: this.activeDialog.newMessage.text,
@@ -733,7 +736,7 @@ new Vue({
             title,
             members
           }
-          this.createDialog(title, members)
+          this.createDialog({id: this.generateId(), title, members, avatar: 'https://cdn-icons-png.flaticon.com/512/615/615075.png' })
           this.hideNewDialog()
         }
         else {
@@ -742,19 +745,53 @@ new Vue({
 
 
       },
-      createDialog(title, members) {
-        let dialog = {
-          ...this.emptyDialog,
-          id: this.generateId(),
-          title,
-          members,
-          avatar: 'https://cdn-icons-png.flaticon.com/512/615/615075.png'
+      createDialog(propsData) {
+        //let dialog = {
+        //  id: this.generateId(),
+        //  group: false,
+        //  cover: '',
+        //  // avatar: 'https://media.istockphoto.com/id/476085198/photo/businessman-silhouette-as-avatar-or-default-profile-picture.jpg?s=612x612&w=0&k=20&c=GVYAgYvyLb082gop8rg0XC_wNsu0qupfSLtO7q9wu38=',
+        //  avatar: 'https://cdn-icons-png.flaticon.com/512/615/615075.png',
+        //  members,
+        //  title,
+        //  open: true,
+        //  task: false,
+        //  active: false,
+        //  messages: [],
+        //  allMessages: [],
+        //  newMessage: {
+        //    text: '',
+        //    type: 'default',
+        //    forwards: {
+        //      messages: []
+        //    },
+        //    attachment: {
+        //      files: []
+        //    }
+        //  },
+        //}
+        const emptyObject = structuredClone(this.emptyDialog)
+        let newDialog = {
+          ...emptyObject,
+          ...propsData
         }
-        console.log(dialog)
+        //let dialog = {
+        //  ...this.emptyDialog,
+        //  id: this.generateId(),
+        //  title,
+        //  members,
+        //  avatar: 'https://cdn-icons-png.flaticon.com/512/615/615075.png'
+        //}
+        console.log(newDialog)
         //if (id === 21) return
-        this.chat.dialogs.push(dialog)
+        this.chat.dialogs.push(newDialog)
         console.log(this.chat.dialogs)
-        dialog = {}
+      },
+      openSettingsDialog() {
+        this.chat.dialogSettings.isShow = true
+      },
+      hideSettinsDialog() {
+        this.chat.dialogSettings.isShow = false
       }
 		},
 		computed: {

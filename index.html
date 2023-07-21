@@ -50,7 +50,7 @@
               <div class="chat-dialog-header-wrap">
                 <transition tag="div" :name="transitionDialogHeader">
                   <div key='1' v-if="!selectedMessages.length" class="chat-dialog-header-info">
-                    <div v-if="activeDialog" :key="activeDialog.title" class="title">
+                    <div v-if="activeDialog" @click="openSettingsDialog" :key="activeDialog.title" class="title">
                       {{ activeDialog.title }}
                     </div>
                     <div class="online">
@@ -296,7 +296,7 @@
               </div>
               <div class="chat-contacts-wrap">
                 <div v-if="searchedContactsForward.length" class="chat-contacts-list">
-                  <contact :chat="chat" :contact="contact" v-for="(contact) in searchedContactsForward" :key="contact.id" @click="chooseDialog(item)"/>
+                  <contact :chat="chat" :contact="contact" v-for="(contact) in searchedContactsForward" :key="contact.id" @click="chooseDialog(contact)"/>
                 </div>
                 <div v-else class="chat-contacts__notfound">
                   Ничего не найдено
@@ -352,6 +352,19 @@
                 </button>
               </div>
               <svg @click="hideNewDialog" class="popup-close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
+              </svg>
+            </div>
+          </div>
+        </modal>
+        <modal v-if="chat.dialogSettings.isShow">
+          <div class="modal-contacts">
+            <div class="chat-contacts">
+              <div class="modal-contacts-title">
+                Добавьте участников
+              </div>
+              TEST
+              <svg @click="hideSettinsDialog" class="popup-close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
               </svg>
             </div>
