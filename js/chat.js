@@ -230,6 +230,7 @@ new Vue({
             files: []
           }
         },
+        notification: null
       }
 		},
 
@@ -280,31 +281,45 @@ new Vue({
 							box.messages = messages
 						})
 					})
-					const dialog = {
-						id: this.generateId(),
-						group: false,
-						cover: '',
-						// avatar: 'https://media.istockphoto.com/id/476085198/photo/businessman-silhouette-as-avatar-or-default-profile-picture.jpg?s=612x612&w=0&k=20&c=GVYAgYvyLb082gop8rg0XC_wNsu0qupfSLtO7q9wu38=',
-						avatar: this.persons[i].avatar,
+          const emptyObject = structuredClone(this.emptyDialog)
+          const propsData = {
+            id: this.generateId(),
+            avatar: this.persons[i].avatar,
 						members: [this.persons[i], this.chat.user],
             title: this.persons[i].title,
-						open: true,
-						task: false,
-						active: i === 0 ? true : false,
-						messages: dateBoxes,
-						allMessages: [],
-						newMessage: {
-							text: '',
-              type: 'default',
-              forwards: {
-                messages: []
-              },
-              attachment: {
-                files: []
-              }
-						},
+            active: i === 0 ? true : false,
+            messages: dateBoxes,
+          }
+          let dialog = {
+            ...emptyObject,
+            ...propsData
+          }
+					//const dialog = {
+					//	id: this.generateId(),
+					//	group: false,
+					//	cover: '',
+					//	// avatar: 'https://media.istockphoto.com/id/476085198/photo/businessman-silhouette-as-avatar-or-default-profile-picture.jpg?s=612x612&w=0&k=20&c=GVYAgYvyLb082gop8rg0XC_wNsu0qupfSLtO7q9wu38=',
+					//	avatar: this.persons[i].avatar,
+					//	members: [this.persons[i], this.chat.user],
+          //  title: this.persons[i].title,
+					//	open: true,
+					//	task: false,
+					//	active: i === 0 ? true : false,
+					//	messages: dateBoxes,
+					//	allMessages: [],
+          //  notification: false,
+					//	newMessage: {
+					//		text: '',
+          //    type: 'default',
+          //    forwards: {
+          //      messages: []
+          //    },
+          //    attachment: {
+          //      files: []
+          //    }
+					//	},
 
-					}
+					//}
 					const initialValue = []
 					const allMessages = dialog.messages.reduce(
 						(accumulator, currentValue) => {
@@ -362,11 +377,9 @@ new Vue({
             messages: []
           }
           this.activeDialog.messages.push(emptyBox)
-          console.log(lastDateBlock)
         }
         lastDateBlock = this.activeDialog.messages.at()
 				// Для теста
-        console.log(lastDateBlock)
 				lastDateBlock.messages.push({
 					id: this.generateId(),
 					text: this.activeDialog.newMessage.text,
@@ -384,8 +397,6 @@ new Vue({
         if (this.chat.forwarding.messagesForForward.length) {
           this.chat.forwarding.messagesForForward = []
         }
-        console.log(this.selectedMessages.length ? this.selectedMessages : this.chat.forwarding.messagesForForward)
-        console.log(this.chat.selectedMessages)
 				let htmlMessageFounded = undefined
 				//const htmlNewMessage = document.querySelectorAll(`[data-message]`)
 				//console.log(htmlNewMessage)
@@ -454,13 +465,11 @@ new Vue({
           //scrolled = true
         }
 				let callback = function(entries, observer){
-          console.log(entries)
 					entries.forEach(message => {
 						// el
 
 						const id = message.target.dataset.message
 						// console.log(vm.activeDialog)
-            console.log(vm.activeDialog)
 						const findMessage = vm.activeDialog.allMessages?.find(el => el.id === id)
 						//notCheckedMessage = vm.activeDialog.allMessages.find(el => !el.checked)
 
@@ -541,7 +550,6 @@ new Vue({
       },
       rejectSelecting() {
         this.activeDialog.messages.forEach((box) => {
-          console.log(box)
           box.messages.forEach((message) => {
             message.choosed = false
           })
@@ -562,11 +570,9 @@ new Vue({
       },
       loadAttachment(newFiles) {
         const files = newFiles.target.files
-        console.log(files)
         const vm = this
 
         Array.from(files).forEach(file => {
-          console.log(file)
           let src = ''
           let type = ''
           const reader = new FileReader();
@@ -583,7 +589,6 @@ new Vue({
               type = 'other'
             }
 
-            console.log(src)
             //if (!vm.isFileImage(file))
             objectFile = {
               file,
@@ -650,19 +655,16 @@ new Vue({
       openGalleryPopup() {
         this.galleryPopup.isShow = true
         setTimeout(() => {
-          console.log(this.$refs.GallerySlick)
+
         }, 500)
       },
       hideGalleryPopup() {
         this.galleryPopup.isShow = false
       },
       loadImageMessage(message, index) {
-
-        console.log(message, index)
         this.galleryPopupMessage.images = message.attachment.files
         this.galleryPopupMessage.isShow = true
         setTimeout(() => {
-          console.log(this.$refs.messageGallerySlick)
           this.$refs.messageGallerySlick.goTo(index)
         }, 100)
 
@@ -671,7 +673,6 @@ new Vue({
         this.galleryPopupMessage.isShow = false
       },
       chooseDialog(dialog) {
-        console.log(dialog)
         this.chat.forwarding.isShow = false
         this.chat.forwarding.messagesForForward = [
           ...this.selectedMessages
@@ -687,7 +688,6 @@ new Vue({
         this.chat.forwarding.isShow = false
       },
       goToDialog(message) {
-        console.log(message)
         const dialog = this.chat.dialogs.find((dialog) => dialog.id === message.author.id)
         if (dialog.id === this.activeDialog.id || dialog.id === this.chat.user.id) return
         this.openDialog(dialog)
@@ -696,7 +696,6 @@ new Vue({
         this.chat.settings.fullScreen = !this.chat.settings.fullScreen
       },
       startResizeListener() {
-        console.log(window.innerWidth)
         this.chat.settings.width = window.innerWidth
         if (!this.chat.settings.fullScreen && window.innerWidth <= 768) {
           this.chat.settings.fullScreen = true
@@ -719,7 +718,6 @@ new Vue({
         return "id" + Math.random().toString(16).slice(2)
       },
       chooseInviteDialog(contact) {
-        console.log(contact)
         if (!this.chat.newDialog.members.includes(contact)) {
           this.chat.newDialog.members.push(contact)
         } else {
@@ -729,21 +727,24 @@ new Vue({
 
       },
       newDialogStep() {
-        console.log(this.chat.newDialog.stage)
         if (this.chat.newDialog.stage === 1) {
           const { title, members } = this.chat.newDialog
           const data = {
+            id: this.generateId(),
             title,
-            members
+            members,
+            avatar: 'https://cdn-icons-png.flaticon.com/512/615/615075.png',
+            group: true
           }
-          this.createDialog({id: this.generateId(), title, members, avatar: 'https://cdn-icons-png.flaticon.com/512/615/615075.png' })
+          this.createDialog(data)
           this.hideNewDialog()
         }
         else {
           this.chat.newDialog.stage++
         }
-
-
+      },
+      newDialogStepAway() {
+        this.chat.newDialog.stage--
       },
       createDialog(propsData) {
         //let dialog = {
@@ -782,16 +783,17 @@ new Vue({
         //  members,
         //  avatar: 'https://cdn-icons-png.flaticon.com/512/615/615075.png'
         //}
-        console.log(newDialog)
         //if (id === 21) return
         this.chat.dialogs.push(newDialog)
-        console.log(this.chat.dialogs)
       },
       openSettingsDialog() {
         this.chat.dialogSettings.isShow = true
       },
       hideSettinsDialog() {
         this.chat.dialogSettings.isShow = false
+      },
+      removeContact(contact, text) {
+        console.log(contact, text)
       }
 		},
 		computed: {
@@ -803,7 +805,6 @@ new Vue({
           const finded = el.members.some((member) => member.title.includes(this.chat.searchField))
           if (finded) return el
         })
-        console.log(result)
 				return result
 			},
       searchedContactsForward() {
@@ -811,7 +812,6 @@ new Vue({
           const finded = el.members.some((member) => member.title.includes(this.chat.forwarding.searchField))
           if (finded) return el
         })
-        console.log(result)
 				return result
 			},
       searchedContactsMembers() {
@@ -820,12 +820,10 @@ new Vue({
         //  if (finded) return el
         //})
         const result =  this.chat.dialogs.filter(el => !el.group && el.title.includes(this.chat.newDialog.searchField))
-        console.log(result)
 				return result
 			},
       selectedMessages() {
         const choosed = []
-        console.log(this.activeDialog.messages)
         this.activeDialog.messages?.forEach((box) => {
           box.messages?.forEach((message) => {
             if (message.choosed) choosed.push(message)
@@ -848,7 +846,6 @@ new Vue({
         return isImages
       },
       afterChange(event) {
-        console.log(event)
       },
       isMobile() {
         return this.chat.settings.width <= 768

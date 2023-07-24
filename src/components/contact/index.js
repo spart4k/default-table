@@ -20,6 +20,10 @@ const contact = {
     showmessage: {
       type: Boolean,
       default: true
+    },
+    removing: {
+      type: Boolean,
+      default: false
     }
   },
   data: function () {
@@ -29,7 +33,7 @@ const contact = {
   },
   methods: {
     click() {
-      this.$emit('click', this.contact)
+      this.$emit('click', this.contact, 'remove')
     },
     isYourselfMessage(message) {
       return message.author.id === this.chat.user.id
@@ -39,6 +43,9 @@ const contact = {
       return lastMessage
       // .text
     },
+    removeContact() {
+      this.$emit('removecontact', this.contact)
+    }
   },
   computed: {
   },
@@ -57,7 +64,7 @@ const contact = {
       <div class="">
 
       </div>
-      <div v-if="contact.messages.length && showmessage" class="contact-message clip">
+      <div v-if="showmessage && contact.messages.length" class="contact-message clip">
         <!-- {{ contact.messages[contact.messages.length - 1].text }} -->
         <transition name="slide-fade" mode="out-in">
           <div :key="getLastMessage(contact).id" class="contact-message__text clip" :class="contact.active ? 'active' : ''">
@@ -81,6 +88,11 @@ const contact = {
           </svg>
         </div>
       </div>
+    </div>
+    <div v-if="removing" class="contact-remove">
+      <svg @click.stop="removeContact" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
+      </svg>
     </div>
   </div>`
 }

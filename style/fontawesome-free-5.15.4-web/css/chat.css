@@ -95,6 +95,7 @@ body {
 .chat-contacts-list__dialog {
   width: 100%;
   color: #fff;
+  position: relative;
 }
 .chat-contacts__notfound {
   text-align: center;
@@ -122,11 +123,14 @@ body {
           transform: rotate(180deg);
 }
 .chat-contacts__panel {
-  height: 40px;
   padding: 5px;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
@@ -252,9 +256,6 @@ body {
 .chat .contact-message.active {
   color: #fff;
 }
-.chat .contact:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-}
 .chat .contact.active {
   background-color: rgb(19, 94, 129);
 }
@@ -273,6 +274,18 @@ body {
   height: 25px;
   right: 5px;
   bottom: 5px;
+}
+.chat .contact-remove {
+  display: none;
+  position: absolute;
+  right: 20px;
+  color: #000;
+}
+.chat .contact:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.chat .contact:hover .contact-remove {
+  display: block;
 }
 .chat-dialog {
   -webkit-box-flex: 1;
@@ -828,6 +841,66 @@ body {
   pointer-events: none;
   background-color: rgba(0, 0, 0, 0.5);
 }
+.chat-btn--red {
+  color: rgb(196, 1, 1);
+}
+.chat-btn--boundless {
+  border: transparent;
+  background-color: transparent;
+}
+.chat-btn--boundless:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+.chat-toggle {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+}
+.chat-toggle label {
+  width: 60px;
+  height: 10px;
+}
+.chat-toggle label input {
+  display: none;
+}
+.chat-toggle-wrap {
+  background-color: rgb(154, 154, 154);
+  width: 40px;
+  height: 20px;
+  position: relative;
+  border-radius: 20px;
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.chat-toggle-wrap.toggled {
+  background-color: #002F55;
+}
+.chat-toggle-wrap.toggled .chat-toggle-thumb {
+  border-color: #002F55;
+  -webkit-transform: translate(100%, -50%);
+          transform: translate(100%, -50%);
+}
+.chat-toggle-thumb {
+  position: absolute;
+  width: 20px;
+  height: 100%;
+  background-color: #fff;
+  border-radius: 20px;
+  border: 1px solid rgb(154, 154, 154);
+  -webkit-transform: translate(0%, -50%);
+          transform: translate(0%, -50%);
+  top: 50%;
+  left: 0;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
 .chat-input p {
   font-size: 16px;
   color: #002F55;
@@ -920,10 +993,6 @@ body {
 .popup.modal {
   background-color: rgba(0, 0, 0, 0.3);
 }
-.popup.modal .popup-close {
-  right: -20px;
-  top: -20px;
-}
 .popup-wrap {
   position: relative;
   height: 100%;
@@ -939,6 +1008,9 @@ body {
   -webkit-box-pack: center;
       -ms-flex-pack: center;
           justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
 }
 .popup-body {
   padding-top: 20px;
@@ -1010,11 +1082,86 @@ body {
   position: relative;
   background-color: #fff;
 }
+.popup-body .modal-contacts .chat-contacts-wrap .dialogInfo {
+  padding: 5px;
+}
+.popup-body .modal-contacts .chat-contacts__panel button:not(:last-child) {
+  margin-bottom: 5px;
+}
+.popup-body .modal-dialog {
+  width: 340px;
+  position: relative;
+  max-height: 60%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+  background-color: #fff;
+  border-radius: 10px;
+}
+.popup-body .modal-dialog .dialog-info {
+  padding: 5px;
+  padding-bottom: 20px;
+}
+.popup-body .modal-dialog .dialog-info-header {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  margin-bottom: 5px;
+}
+.popup-body .modal-dialog .dialog-info-header__avatar {
+  width: 75px;
+  height: 75px;
+  margin-right: 10px;
+}
+.popup-body .modal-dialog .dialog-info-header__avatar img {
+  width: 100%;
+  height: 100%;
+  border-radius: 100%;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+.popup-body .modal-dialog .dialog-info-header-info {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.popup-body .modal-dialog .dialog-info-header-info__title {
+  color: #000;
+  font-size: 16px;
+  font-weight: 600;
+}
+.popup-body .modal-dialog .dialog-info-members {
+  margin-top: 10px;
+}
+.popup-body .modal-dialog .dialog-info-attachments {
+  margin-bottom: 5px;
+}
+.popup-body .modal-panel {
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: end;
+      -ms-flex-pack: end;
+          justify-content: flex-end;
+}
 .popup-close {
   position: absolute;
   right: 10px;
   top: 10px;
-  color: #fff;
+  color: #000;
   cursor: pointer;
 }
 

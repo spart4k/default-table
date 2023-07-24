@@ -347,8 +347,11 @@
                 </div>
               </div>
               <div class="chat-contacts__panel">
-                <button :class="!this.chat.newDialog.members.length ? 'disable' : ''" @click="newDialogStep" class="chat-btn full-width">
+                <button :class="(chat.newDialog.stage === 0 && !this.chat.newDialog.members.length) || (chat.newDialog.stage === 1 && !chat.newDialog.title.length) ? 'disable' : ''" @click="newDialogStep" class="chat-btn full-width">
                   Далее
+                </button>
+                <button v-if="chat.newDialog.stage === 1" @click="newDialogStepAway" class="chat-btn full-width">
+                  Назад
                 </button>
               </div>
               <svg @click="hideNewDialog" class="popup-close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -358,12 +361,58 @@
           </div>
         </modal>
         <modal v-if="chat.dialogSettings.isShow">
-          <div class="modal-contacts">
-            <div class="chat-contacts">
+          <div class="modal-dialog">
+            <div class="chat-dialog dialog">
               <div class="modal-contacts-title">
-                Добавьте участников
+                Информация
               </div>
-              TEST
+              <div class="dialog-info">
+                <div class="dialog-info-header">
+                  <div class="dialog-info-header__avatar">
+                    <img :src="activeDialog.avatar" alt="">
+                  </div>
+                  <div class="dialog-info-header-info">
+                    <div class="dialog-info-header-info__title">
+                      {{ activeDialog.title }}
+                    </div>
+                    <div class="dialog-info-header-info__descr">
+                      Just seen
+                    </div>
+                  </div>
+                </div>
+                <div class="dialog-info-attachments">
+                  <div class="dialog-info-attachments-el">
+                    <p>Фотографии</p>
+                  </div>
+                  <div class="dialog-info-attachments-el">
+                    <p>Файлы</p>
+                  </div>
+                  <div class="dialog-info-attachments-el">
+                    <p>Видео</p>
+                  </div>
+                </div>
+                <div class="chat-toggle">
+                  <p class="chat-toggle-label">
+                    Уведомления
+                  </p>
+                  <div class="">
+                    <label>
+                      <div :class="activeDialog.notification ? 'toggled' : ''" class="chat-toggle-wrap">
+                        <div class="chat-toggle-thumb"></div>
+                      </div>
+                      <input v-model="activeDialog.notification" type="checkbox">
+                    </label>
+                  </div>
+                </div>
+                <div v-if="activeDialog.group" class="dialog-info-members">
+                  <contact :removing="true" :showMessage="false" v-for="(contact) in activeDialog.members" :key="contact.id" :chat="chat" :contact="contact" @removecontact="removeContact" />
+                </div>
+              </div>
+              <div v-if="activeDialog.group" class="modal-panel">
+                <button class="chat-btn chat-btn--red chat-btn--boundless">
+                  Покинуть
+                </button>
+              </div>
               <svg @click="hideSettinsDialog" class="popup-close" width="15" height="14" viewBox="0 0 15 14" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M14.1562 1.41L12.7463 0L7.15625 5.59L1.56625 0L0.15625 1.41L5.74625 7L0.15625 12.59L1.56625 14L7.15625 8.41L12.7463 14L14.1562 12.59L8.56625 7L14.1562 1.41Z" fill="currentColor"/>
               </svg>
