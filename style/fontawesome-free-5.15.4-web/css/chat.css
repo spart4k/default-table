@@ -256,6 +256,12 @@ body {
 .chat .contact-message.active {
   color: #fff;
 }
+.chat .contact:hover {
+  background-color: rgba(0, 0, 0, 0.2);
+}
+.chat .contact:hover .contact-remove {
+  display: block;
+}
 .chat .contact.active {
   background-color: rgb(19, 94, 129);
 }
@@ -280,12 +286,6 @@ body {
   position: absolute;
   right: 20px;
   color: #000;
-}
-.chat .contact:hover {
-  background-color: rgba(0, 0, 0, 0.2);
-}
-.chat .contact:hover .contact-remove {
-  display: block;
 }
 .chat-dialog {
   -webkit-box-flex: 1;
@@ -315,7 +315,7 @@ body {
   padding-bottom: 80px;
 }
 .chat-dialog-wrap.paddingFiles {
-  padding-bottom: 90px;
+  padding-bottom: 130px;
 }
 .chat-dialog-header {
   height: 40px;
@@ -851,7 +851,7 @@ body {
 .chat-btn--boundless:hover {
   background-color: rgba(0, 0, 0, 0.05);
 }
-.chat-toggle {
+.chat-toggle-info {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -861,15 +861,18 @@ body {
   -webkit-box-pack: justify;
       -ms-flex-pack: justify;
           justify-content: space-between;
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
 }
-.chat-toggle label {
+.chat-toggle-info label {
   width: 60px;
   height: 10px;
 }
-.chat-toggle label input {
+.chat-toggle-info label input {
   display: none;
 }
-.chat-toggle-wrap {
+.chat-toggle-info-wrap {
   background-color: rgb(154, 154, 154);
   width: 40px;
   height: 20px;
@@ -879,15 +882,15 @@ body {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-.chat-toggle-wrap.toggled {
+.chat-toggle-info-wrap.toggled {
   background-color: #002F55;
 }
-.chat-toggle-wrap.toggled .chat-toggle-thumb {
+.chat-toggle-info-wrap.toggled .chat-toggle-info-thumb {
   border-color: #002F55;
   -webkit-transform: translate(100%, -50%);
           transform: translate(100%, -50%);
 }
-.chat-toggle-thumb {
+.chat-toggle-info-thumb {
   position: absolute;
   width: 20px;
   height: 100%;
@@ -900,6 +903,29 @@ body {
   left: 0;
   -webkit-transition: 0.2s;
   transition: 0.2s;
+}
+.chat-pill {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px 15px 5px 0;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.chat-pill__count {
+  margin-right: 5px;
+}
+.chat-pill svg {
+  width: 20px;
+  height: 20px;
+  margin: 0 15px;
+}
+.chat-pill:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 .chat-input p {
   font-size: 16px;
@@ -1091,7 +1117,6 @@ body {
 .popup-body .modal-dialog {
   width: 340px;
   position: relative;
-  max-height: 60%;
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
@@ -1103,8 +1128,35 @@ body {
   background-color: #fff;
   border-radius: 10px;
 }
-.popup-body .modal-dialog .dialog-info {
+.popup-body .modal-dialog .dialog-images {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -ms-flex-wrap: wrap;
+      flex-wrap: wrap;
   padding: 5px;
+}
+.popup-body .modal-dialog .dialog-images img {
+  width: 106px;
+  height: 106px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-bottom: 5px;
+}
+.popup-body .modal-dialog .dialog-images img:not(:nth-child(3n)) {
+  margin-right: 5px;
+}
+.popup-body .modal-dialog .dialog-images video {
+  width: 212px;
+  height: 212px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  margin-bottom: 5px;
+}
+.popup-body .modal-dialog .dialog-images video:not(:nth-child(2n)) {
+  margin-right: 5px;
+}
+.popup-body .modal-dialog .dialog-info {
   padding-bottom: 20px;
 }
 .popup-body .modal-dialog .dialog-info-header {
@@ -1114,7 +1166,9 @@ body {
   -webkit-box-align: center;
       -ms-flex-align: center;
           align-items: center;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+  margin-top: 15px;
+  padding: 0 15px;
 }
 .popup-body .modal-dialog .dialog-info-header__avatar {
   width: 75px;
@@ -1146,7 +1200,30 @@ body {
   margin-top: 10px;
 }
 .popup-body .modal-dialog .dialog-info-attachments {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
+}
+.popup-body .modal-dialog .dialog-info-attachments-el {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  padding: 5px 0;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.popup-body .modal-dialog .dialog-info-attachments-el__count {
+  margin-right: 5px;
+}
+.popup-body .modal-dialog .dialog-info-attachments-el svg {
+  width: 20px;
+  height: 20px;
+  margin: 0 15px;
+}
+.popup-body .modal-dialog .dialog-info-attachments-el:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.05);
 }
 .popup-body .modal-panel {
   padding: 5px;
@@ -1163,6 +1240,9 @@ body {
   top: 10px;
   color: #000;
   cursor: pointer;
+}
+.popup--gallery {
+  z-index: 60;
 }
 
 @media (max-width: 768px) {

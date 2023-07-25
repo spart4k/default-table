@@ -23,6 +23,17 @@ new Vue({
 				searchField: '',
 				dialogs: [],
         answering: false,
+        dialogInfo: {
+          images: {
+            isShow: false
+          },
+          files: {
+            isShow: false
+          },
+          videos: {
+            isShow: false
+          },
+        },
         attachment: {
           isShow: false,
           list: [
@@ -199,7 +210,9 @@ new Vue({
         "slidesToShow": 1,
         "variableWidth": true,
         "lazyLoad": "ondemand",
+        initialSlide: 0,
       },
+      slickSlides: [],
       galleryPopup: {
         isShow: false
       },
@@ -652,7 +665,10 @@ new Vue({
         //this.activeDialog.newMessage.attachment.files
         this.activeDialog.newMessage.attachment.files.splice(file.index, 1)
       },
-      openGalleryPopup() {
+      openGalleryPopup(index, slides) {
+        console.log(index,slides)
+        this.slickSlides = slides
+        this.slickOptions.initialSlide = index
         this.galleryPopup.isShow = true
         setTimeout(() => {
 
@@ -790,19 +806,75 @@ new Vue({
         this.chat.dialogSettings.isShow = true
       },
       hideSettinsDialog() {
+        console.log('hide')
         this.chat.dialogSettings.isShow = false
+        this.chat.dialogInfo.files = []
+        this.chat.dialogInfo.videos = []
+        this.chat.dialogInfo.images = []
       },
       removeContact(contact, text) {
         console.log(contact, text)
+      },
+      getAllMesages(id) {
+        console.log(id)
+      },
+      openDialogImages(type) {
+        console.log(type)
+        this.chat.dialogInfo[type].isShow = true
       }
 		},
 		computed: {
 			activeDialog() {
-				return this.chat.dialogs.find(el => el.active)
+				const dialog = this.chat.dialogs.find(el => el.active)
+        console.log(dialog)
+        if (dialog) {
+          const initialValue = []
+          const allMessages = dialog.messages.reduce(
+            (accumulator, currentValue) => {
+              accumulator.push(currentValue.messages.reverse())
+              return accumulator
+            },
+            initialValue
+          );
+          dialog.allMessages = allMessages.flat()
+          //const initialValueImages = []
+          //const dialogImages = dialog.allMessages.reduce(
+          //  (accumulator, currentValue) => {
+          //    currentValue.attachment.files.forEach((attach) => {
+          //      if (attach.type === 'image') {
+          //        accumulator.push(attach)
+          //      }
+          //    })
+          //    return accumulator
+          //  },
+          //  initialValueImages
+          //);
+          const dialogImages = []
+          const dialogFiles = []
+          const dialogVideos = []
+          dialog.allMessages.forEach((message) => {
+            if (message.attachment.files) {
+              message.attachment.files.forEach((attach) => {
+                if (attach.type === 'image') {
+                  dialogImages.push(attach)
+                } else if (attach.type === 'other') {
+                  dialogFiles.push(attach)
+                } else if (attach.type === 'video') {
+                  dialogVideos.push(attach)
+                }
+              })
+            }
+          })
+          dialog.dialogImages = dialogImages
+          dialog.dialogFiles = dialogFiles
+          dialog.dialogVideos = dialogVideos
+        }
+
+        return dialog
 			},
 			searchedContacts() {
 				const result =  this.chat.dialogs.filter(el => {
-          const finded = el.members.some((member) => member.title.includes(this.chat.searchField))
+          const finded = el.members.some((member) => member.title.includes(this.chat.searchField) || el.title.includes(this.chat.searchField))
           if (finded) return el
         })
 				return result
