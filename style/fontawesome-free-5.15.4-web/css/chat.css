@@ -480,6 +480,34 @@ body {
       -ms-user-select: none;
           user-select: none;
 }
+.chat-dialog-content-box .message-file-list {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-orient: vertical;
+  -webkit-box-direction: normal;
+      -ms-flex-direction: column;
+          flex-direction: column;
+}
+.chat-dialog-content-box .message-file__element {
+  text-decoration: none;
+  color: #000;
+}
+.chat-dialog-content-box .message-file__element__wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.chat-dialog-content-box .message-file__element__wrap img {
+  width: 50px;
+  height: 50px;
+}
+.chat-dialog-content-box .message-file__element__name {
+  max-width: 200px;
+}
+.chat-dialog-content-box .message-file__element:not(:last-child) {
+  margin-bottom: 5px;
+}
 .chat-dialog-content-box .message-forwards-list__message {
   margin-bottom: 5px;
 }
@@ -841,15 +869,16 @@ body {
   pointer-events: none;
   background-color: rgba(0, 0, 0, 0.5);
 }
-.chat-btn--red {
-  color: rgb(196, 1, 1);
-}
 .chat-btn--boundless {
   border: transparent;
   background-color: transparent;
+  color: #002F55;
 }
 .chat-btn--boundless:hover {
   background-color: rgba(0, 0, 0, 0.05);
+}
+.chat-btn--red {
+  color: rgb(196, 1, 1);
 }
 .chat-toggle-info {
   display: -webkit-box;
@@ -940,6 +969,29 @@ body {
 }
 .chat-input.full-width {
   width: 100%;
+}
+.chat-document {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  text-decoration: none;
+  margin-bottom: 5px;
+}
+.chat-document__cover {
+  width: 50px;
+  height: 50px;
+  margin-right: 5px;
+}
+.chat-document-info {
+  -webkit-box-flex: 1;
+      -ms-flex: 1;
+          flex: 1;
+}
+.chat-document-info__title {
+  color: #000;
 }
 .chat::-webkit-scrollbar {
   width: 10px;
@@ -1136,19 +1188,19 @@ body {
       flex-wrap: wrap;
   padding: 5px;
 }
-.popup-body .modal-dialog .dialog-images img {
+.popup-body .modal-dialog .dialog-images__cover {
   width: 106px;
   height: 106px;
   -o-object-fit: cover;
      object-fit: cover;
   margin-bottom: 5px;
 }
-.popup-body .modal-dialog .dialog-images img:not(:nth-child(3n)) {
+.popup-body .modal-dialog .dialog-images__cover:not(:nth-child(3n)) {
   margin-right: 5px;
 }
 .popup-body .modal-dialog .dialog-images video {
-  width: 212px;
-  height: 212px;
+  width: 106px;
+  height: 106px;
   -o-object-fit: cover;
      object-fit: cover;
   margin-bottom: 5px;
