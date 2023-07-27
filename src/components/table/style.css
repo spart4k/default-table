@@ -1,6 +1,25 @@
 .v-table {
   margin: 10px;
 }
+.v-table-header-row {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+}
+.v-table-header-row-cell {
+  padding: 5px;
+}
+.v-table-body-row {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  cursor: pointer;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.v-table-body-row-cell {
+  padding: 5px;
+}
+.v-table-body-row:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
 .v-table-wrap {
-  border: 1px solid #000;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-collapse: collapse;
 }

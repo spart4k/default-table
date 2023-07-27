@@ -1,9 +1,12 @@
 const template = `
   <div class="v-table">
+    <div class="v-table-panel">
+
+    </div>
     <table class="v-table-wrap">
       <thead class="v-table-header">
-        <tr>
-          <th v-for="(head, index) in options.head">{{ head.title }}</th>
+        <tr class="v-table-header-row">
+          <th class="v-table-header-row-cell" v-for="(head, index) in options.head">{{ head.title }}</th>
         </tr>
       </thead>
       <tbody class="v-table-body">
@@ -14,6 +17,11 @@ const template = `
         </tr>
       </tbody>
     </table>
+    <div class="v-table-footer">
+      <div class="v-table-footer-pagination">
+
+      </div>
+    </div>
   </div>
 `
 

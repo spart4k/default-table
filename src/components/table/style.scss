@@ -1,14 +1,33 @@
+$paddingCell: 5px;
+$borderColor: rgba(0,0,0,.3);
+
 .v {
   &-table {
     margin: 10px;
     &-header {
-
+      &-row {
+        border: 1px solid $borderColor;
+        &-cell {
+          padding: $paddingCell;
+        }
+      }
     }
     &-body {
-
+      &-row {
+        border: 1px solid $borderColor;
+        cursor: pointer;
+        transition: .2s;
+        &-cell {
+          padding: $paddingCell;
+        }
+        &:hover {
+          background-color: rgba(0,0,0,.1);
+        }
+      }
     }
     &-wrap {
-      border: 1px solid #000;
+      border: 1px solid $borderColor;
+      border-collapse: collapse;
     }
 
   }
