@@ -17,11 +17,38 @@ $borderColor: rgba(0,0,0,.3);
         border: 1px solid $borderColor;
         cursor: pointer;
         transition: .2s;
+        p {
+          display: flex;
+        }
         &-cell {
           padding: $paddingCell;
         }
+        &-paragraph {
+          &:not(:last-child) {
+            padding-bottom: 5px;
+            border-bottom: 1px solid rgba(0,0,0,.1);
+            margin-bottom: 5px;
+            span {
+              &:first-child {
+                width: 150px;
+              }
+              &:last-child {
+                width: 150px;
+              }
+            }
+          }
+
+        }
         &:hover {
           background-color: rgba(0,0,0,.1);
+        }
+        &--child {
+          max-height: 300px;
+          ul {
+            display: flex;
+            display: inline-flex;
+            flex-direction: column;
+          }
         }
       }
     }
