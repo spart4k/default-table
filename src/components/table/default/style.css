@@ -21,6 +21,11 @@
 .v-table-body-row-cell {
   padding: 5px;
 }
+.v-table-body-row-paragraph {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
 .v-table-body-row-paragraph:not(:last-child) {
   padding-bottom: 5px;
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);

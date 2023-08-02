@@ -1,5 +1,5 @@
 //import Vue from 'https://cdn.jsdelivr.net/npm/vue@2.7.14/dist/vue.esm.browser.js'
-import tabledefault from './components/table/index.js'
+import tabledefault from './components/table/default/index.js'
 new Vue({
   el: '#root',
   components: {
@@ -100,57 +100,3 @@ new Vue({
   }
 })
 console.log(consoleText)
-Vue.component('table-button', {
-  render: function (createElement) {
-    return createElement(
-      'button', // имя тега
-      {
-        attrs: {
-        },
-        class: {
-          'v-table-button': true
-        },
-        style: {
-          //backgroundImage: this.option.urlIcon ? this.backgroundImage : '',
-          color: 'red'
-        },
-        domProps: {
-          innerHTML: this.backgroundImage ?
-          `
-            <img src="${this.backgroundImage}"></img>
-          ` : ''
-        },
-        on: {
-          click: this.buttonClick
-        },
-
-      },
-    )
-  },
-  props: {
-    option: {
-      type: Object,
-      default: () => {}
-    },
-    row: {
-      type: Object,
-      default: () => {}
-    }
-  },
-  computed: {
-    backgroundImage() {
-      if (this.option.urlIcon) {
-        return this.option.urlIcon
-      }
-
-    }
-  },
-  methods: {
-    buttonClick() {
-      this.option.event(this.row)
-    }
-  },
-  mounted() {
-
-  }
-})

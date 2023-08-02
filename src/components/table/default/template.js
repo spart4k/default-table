@@ -18,11 +18,7 @@ const template = `
                 {{ row.row[cell.value] }}
               </template>
               <template v-else-if="cell.type === 'actions'">
-                <template v-for="action in cell.actions">
-                  <!--<button :onclick="action.event" :click="action.event" v-if="action.type === 'button'">{{ action.event }}</button>-->
-                  <!--<div :onclick="action.function" :style="{ 'background-image': action.urlIcon }" v-else-if="action.type === 'icon'" class="">icon</div>-->
-                  <table-button :row="row.row" :option="action" />
-                </template>
+                <table-button :row="row.row" :option="action" v-for="action in cell.actions" />
               </template>
             </td>
           </tr>
@@ -30,9 +26,15 @@ const template = `
             <tr v-show="row.child.isShow && options.head.some(el => !el.isShow)" class="v-table-body-row v-table-body-row--child overflowHidden">
               <td :colspan="options.head.filter(el => el.isShow).length">
                 <transition-group  name="testanim" class="overflowHidden v-table-header-row-cell" tag="ul">
-                  <li class="v-table-body-row-paragraph" :key="cellIndex" v-show="!cell.isShow" v-for="cell, cellIndex in options.head">
-                    <span>{{ cell.title }}: </span> <span>{{ row.child.data[cell.value] }}</span>
-                  </li>
+                  <template v-show="!cell.isShow" v-for="cell, cellIndex in options.head">
+                    <li v-if="cell.type === 'default'" class="v-table-body-row-paragraph" :key="cellIndex">
+                      <span>{{ cell.title }}: </span> <span>{{ row.child.data[cell.value] }}</span>
+                    </li>
+                    <li v-else-if="cell.type === 'actions'" class="v-table-body-row-paragraph v-table-actions" :key="cellIndex">
+                      <table-button :row="row.row" :option="action" v-for="action in cell.actions" />
+                    </li>
+                  </template>
+
                 </transition-group>
               </td>
             </tr>

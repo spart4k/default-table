@@ -2,9 +2,13 @@
 //document.adoptedStyleSheets.push(style)
 
 import template from './template.js'
+import tableButton from '../button/index.js'
 
 const table = {
   name: 'Table',
+  components: {
+    tableButton
+  },
   props: {
     options: {
       type: Object,
@@ -67,5 +71,6 @@ const table = {
   },
   template
 }
+
 export default table
 // Vue.component('message', message)

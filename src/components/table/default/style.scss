@@ -24,6 +24,7 @@ $borderColor: rgba(0,0,0,.3);
           padding: $paddingCell;
         }
         &-paragraph {
+          display: flex;
           &:not(:last-child) {
             padding-bottom: 5px;
             border-bottom: 1px solid rgba(0,0,0,.1);
