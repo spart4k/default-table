@@ -13,8 +13,17 @@ const template = `
       <tbody class="v-table-body">
         <template v-for="row in options.data">
           <tr @click="openChildRow(row)" class="v-table-body-row">
-            <td class="v-table-header-row-cell" v-show="cell.isShow" v-for="cell in options.head">
-              {{ row.row[cell.value] }}
+            <td class="v-table-header-row-cell v-table-actions" v-show="cell.isShow" v-for="cell in options.head">
+              <template v-if="cell.type === 'default'">
+                {{ row.row[cell.value] }}
+              </template>
+              <template v-else-if="cell.type === 'actions'">
+                <template v-for="action in cell.actions">
+                  <!--<button :onclick="action.event" :click="action.event" v-if="action.type === 'button'">{{ action.event }}</button>-->
+                  <!--<div :onclick="action.function" :style="{ 'background-image': action.urlIcon }" v-else-if="action.type === 'icon'" class="">icon</div>-->
+                  <table-button :row="row.row" :option="action" />
+                </template>
+              </template>
             </td>
           </tr>
           <transition transition="10s" name="fadeHeight">

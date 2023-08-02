@@ -54,3 +54,18 @@
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-collapse: collapse;
 }
+.v-table-actions button:not(:last-child) {
+  margin-right: 5px;
+}
+.v-table-button {
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  width: 30px;
+  height: 30px;
+}
+.v-table-button img {
+  width: 100%;
+  padding: 5px;
+}
+.v-table-button:hover {
+  cursor: pointer;
+}

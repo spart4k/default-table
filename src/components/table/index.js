@@ -1,5 +1,5 @@
-import style from './style.css' assert { type: 'css' }
-document.adoptedStyleSheets.push(style)
+//import style from './style.css' assert { type: 'css' }
+//document.adoptedStyleSheets.push(style)
 
 import template from './template.js'
 
@@ -21,10 +21,7 @@ const table = {
   methods: {
     wrapingRow() {
       const table = document.querySelector(this.options.selector)
-      console.log('BOUNDING')
       this.tablePosition = table.getBoundingClientRect().x
-      console.log('wraping')
-      console.log(this.tablePosition)
       this.options.head.forEach((headerEl) => {
         const headId = headerEl.value
         const { width, x } = this.headerOptions.find((el) => el.id === headId)
@@ -56,6 +53,7 @@ const table = {
     headerCells.forEach((headerEl) => {
       const id = headerEl.id.split('-table-header')[0]
       const headCell = this.options.head.find((head) => head.value === id)
+      console.log(headCell)
       const { width, x } = headerEl.getBoundingClientRect()
       this.headerOptions.push({
         id,
