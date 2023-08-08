@@ -6,10 +6,21 @@ function consoleButton(row) {
   console.log(row, 1)
 }
 
+function consolePanel() {
+  console.log('panel,button')
+}
+
+function searchInputing(field) {
+  console.log(field)
+}
+
 const tableConfigData = {
   selector: '#mainTable',
   options: {
     selecting: true,
+    search: {
+      function: searchInputing
+    }
   },
   panel: {
     buttons: [
@@ -17,18 +28,21 @@ const tableConfigData = {
         label: 'Обновить',
         class: ['v-table-button--custom'],
         urlIcon: 'https://uxwing.com/wp-content/themes/uxwing/download/editing-user-action/modify-icon.png',
-        function: ''
+        function: consolePanel,
+        backgroundColor: '#ffffff'
       },
       {
         label: 'Добавить',
         class: ['v-table-button--custom'],
         urlIcon: 'https://uxwing.com/wp-content/themes/uxwing/download/editing-user-action/modify-icon.png',
-        function: ''
+        function: consolePanel,
+        backgroundColor: '#fff'
       },
       {
         label: 'Скачать',
         class: ['v-table-button--custom'],
-        function: ''
+        function: consolePanel,
+        backgroundColor: '#fff'
       }
     ]
   },
@@ -166,13 +180,13 @@ const tableConfigData = {
         {
           type: 'button',
           urlIcon: 'https://uxwing.com/wp-content/themes/uxwing/download/editing-user-action/modify-icon.png',
-          event: consoleText,
+          function: consoleText,
           label: 'Test funciton'
         },
         {
           type: 'button',
           urlIcon: 'https://icons.veryicon.com/png/o/miscellaneous/operation-scenarios-menu-overview/action-delete-2.png',
-          event: consoleButton,
+          function: consoleButton,
           label: 'Test funciton'
         }
       ]

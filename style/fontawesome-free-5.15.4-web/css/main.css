@@ -97,3 +97,9 @@ body {
   height: 20px;
   margin-right: 5px;
 }
+.v-button:hover {
+  cursor: pointer;
+}
+.v-input input {
+  padding: 5px;
+}

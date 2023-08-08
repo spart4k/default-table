@@ -83,11 +83,16 @@ $borderColor: rgba(0,0,0,.3);
     }
     &-panel {
       display: flex;
-      padding: 5px 0;
+      align-items: center;
+      justify-content: space-between;
+      padding: 5px;
       background-color: rgba(0,0,0,.1);
-      > button, div {
-        &:not(:last-child) {
-          margin-right: 5px;
+      &__actions {
+        display: flex;
+        > button, div {
+          &:not(:last-child) {
+            margin-right: 5px;
+          }
         }
       }
     }

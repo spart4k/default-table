@@ -4,20 +4,20 @@ const button = {
       'button', // имя тега
       {
         attrs: {
+          class: 'v-button'
         },
-        class: {
-          'v-button': true
-        },
+        class: ['v-button', ...this.option.class],
         style: {
           //backgroundImage: this.option.urlIcon ? this.backgroundImage : '',
-          color: ''
+          color: '',
+          backgroundColor: this.option.backgroundColor
         },
         domProps: {
           innerHTML: this.backgroundImage ?
           `
             <img src="${this.backgroundImage}"></img>
-            <p>test</p>
-          ` : '<p>test</p>'
+            <p>${this.option.label}</p>
+          ` : `<p>${this.option.label}</p>`
         },
         on: {
           click: this.buttonClick
@@ -28,10 +28,6 @@ const button = {
   },
   props: {
     option: {
-      type: Object,
-      default: () => {}
-    },
-    row: {
       type: Object,
       default: () => {}
     }
@@ -47,7 +43,7 @@ const button = {
   methods: {
     buttonClick($event) {
       event.stopPropagation()
-      this.option.event(this.row)
+      this.option.function()
     }
   },
   mounted() {

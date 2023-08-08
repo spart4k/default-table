@@ -82,5 +82,13 @@ $borderColor: rgba(0,0,0,.3);
       height: 20px;
       margin-right: 5px;
     }
+    &:hover {
+      cursor: pointer;
+    }
+  }
+  &-input {
+    input {
+      padding: 5px;
+    }
   }
 }

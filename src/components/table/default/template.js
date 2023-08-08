@@ -1,7 +1,13 @@
 const template = `
   <div class="v-table">
     <div class="v-table-panel">
-      <v-button :option="button" v-for="(button, indexButton) in options.panel.buttons"></v-button>
+      <div class="v-table-panel__actions">
+          <v-button :option="button" v-for="(button, indexButton) in options.panel.buttons" :key="indexButton"></v-button>
+          <!--<v-button :option="button" v-for="(button, indexButton) in options.panel.buttons" :key="indexButton"></v-button>-->
+      </div>
+      <div class="v-table-panel__search">
+        <v-input placeholder="Поиск" v-model="searchField"></v-input>
+      </div>
     </div>
     <table id="mainTable" ref="mainTable" class="v-table-wrap">
       <thead class="v-table-header">

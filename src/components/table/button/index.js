@@ -45,7 +45,7 @@ const tableButton = {
   methods: {
     buttonClick($event) {
       event.stopPropagation()
-      this.option.event(this.row)
+      this.option.function(this.row)
     }
   },
   mounted() {

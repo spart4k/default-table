@@ -4,12 +4,14 @@
 import template from './template.js'
 import vTableButton from '../button/index.js'
 import vButton from '../../button/index.js'
+import vInput from '../../input/default/index.js'
 
 const table = {
   name: 'Table',
   components: {
     vTableButton,
-    vButton
+    vButton,
+    vInput
   },
   props: {
     options: {
@@ -22,6 +24,7 @@ const table = {
       count: 0,
       headerOptions: [],
       tablePosition: null,
+      searchField: '',
       lastSelected: {
         indexRow: null,
         row: {}
@@ -105,6 +108,12 @@ const table = {
     },
     colspanLength() {
       return this.options.options.selecting ? this.options.head.filter(el => el.isShow).length + 1 : this.options.head.filter(el => el.isShow).length
+    }
+  },
+  watch: {
+    searchField(newVal, oldVal) {
+      console.log(newVal)
+      this.options.options.search.function(newVal)
     }
   },
   mounted() {
