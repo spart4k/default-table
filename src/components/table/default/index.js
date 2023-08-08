@@ -19,7 +19,11 @@ const table = {
     return {
       count: 0,
       headerOptions: [],
-      tablePosition: null
+      tablePosition: null,
+      lastSelected: {
+        indexRow: null,
+        row: {}
+      }
     }
   },
   methods: {
@@ -37,13 +41,36 @@ const table = {
         }
       })
     },
-    openChildRow(row) {
+    openChildRow($event, row) {
+      console.log($event)
+      $event.stopPropagation()
       if (row.child.isShow) {
         row.child.isShow = false
       } else {
         row.child.isShow = true
       }
       console.log(row.child.isShow != true)
+    },
+    checkboxInput(row, indexRow) {
+      console.log(row, indexRow)
+      console.log('checkbox')
+      let delta = null
+      if (indexRow > this.lastSelected.indexRow) {
+        delta = indexRow - this.lastSelected.indexRow
+        if (this.lastSelected.indexRow === null) this.lastSelected.indexRow = 0
+      }
+      console.log(delta)
+      console.log(this.lastSelected.indexRow)
+      for (let i = this.lastSelected.indexRow; i < (this.lastSelected.indexRow + delta); i++) {
+        console.log(i)
+        console.log(this.options.data[i].row)
+        this.options.data[i].row.selected = true
+      }
+    },
+    saveLastSelected(data) {
+      this.lastSelected = {
+        ...data
+      }
     }
   },
   computed: {

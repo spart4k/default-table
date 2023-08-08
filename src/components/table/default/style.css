@@ -21,6 +21,11 @@
 .v-table-body-row-cell {
   padding: 5px;
 }
+.v-table-body-row-cell__checkbox label {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
 .v-table-body-row-paragraph {
   display: -webkit-box;
   display: -ms-flexbox;
@@ -72,5 +77,38 @@
   padding: 5px;
 }
 .v-table-button:hover {
+  cursor: pointer;
+}
+.v-table-checkbox {
+  width: 30px;
+  height: 30px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.v-table-checkbox label {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.v-table-checkbox label input:hover {
+  cursor: pointer;
+}
+.v-table-checkbox label:hover {
+  cursor: pointer;
+}
+.v-table-checkbox:hover {
   cursor: pointer;
 }

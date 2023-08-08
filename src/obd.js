@@ -8,6 +8,9 @@ function consoleButton(row) {
 
 const tableConfigData = {
   selector: '#mainTable',
+  options: {
+    selecting: true
+  },
   head: [
     {
       title: 'Сотрудник',

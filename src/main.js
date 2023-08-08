@@ -49,6 +49,7 @@ new Vue({
       //this.tableConfig.data.map((el) => )
       const structuredArray = []
       this.tableConfig.data.forEach((row) => {
+        // if (this.tableConfig.options.selecting) row.selected = false
         structuredArray.push({
           row,
           child: {
@@ -83,6 +84,9 @@ new Vue({
       const { headerEl, value } = options
 
       headerEl.isShow = value
+    },
+    addChecboxData() {
+      
     }
   },
   computed: {
