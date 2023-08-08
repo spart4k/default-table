@@ -42,9 +42,6 @@
 .v-table-body-row-paragraph:not(:last-child) span:last-child {
   width: 150px;
 }
-.v-table-body-row:hover {
-  background-color: rgba(0, 0, 0, 0.1);
-}
 .v-table-body-row--child {
   max-height: 300px;
 }
@@ -60,6 +57,16 @@
       -ms-flex-direction: column;
           flex-direction: column;
 }
+.v-table-body-row:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.v-table-body-row--selected {
+  background-color: rgba(45, 65, 250, 0.752);
+  color: #fff;
+}
+.v-table-body-row--selected:hover {
+  background-color: rgba(45, 65, 250, 0.812);
+}
 .v-table-wrap {
   border: 1px solid rgba(0, 0, 0, 0.3);
   border-collapse: collapse;
@@ -67,48 +74,13 @@
 .v-table-actions button:not(:last-child) {
   margin-right: 5px;
 }
-.v-table-button {
-  border: 1px solid rgba(0, 0, 0, 0.3);
-  width: 30px;
-  height: 30px;
-}
-.v-table-button img {
-  width: 100%;
-  padding: 5px;
-}
-.v-table-button:hover {
-  cursor: pointer;
-}
-.v-table-checkbox {
-  width: 30px;
-  height: 30px;
+.v-table-panel {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
+  padding: 5px 0;
+  background-color: rgba(0, 0, 0, 0.1);
 }
-.v-table-checkbox label {
-  display: -webkit-box;
-  display: -ms-flexbox;
-  display: flex;
-  -webkit-box-pack: center;
-      -ms-flex-pack: center;
-          justify-content: center;
-  -webkit-box-align: center;
-      -ms-flex-align: center;
-          align-items: center;
-}
-.v-table-checkbox label input:hover {
-  cursor: pointer;
-}
-.v-table-checkbox label:hover {
-  cursor: pointer;
-}
-.v-table-checkbox:hover {
-  cursor: pointer;
+.v-table-panel > button:not(:last-child), .v-table-panel div:not(:last-child) {
+  margin-right: 5px;
 }

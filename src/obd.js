@@ -9,7 +9,28 @@ function consoleButton(row) {
 const tableConfigData = {
   selector: '#mainTable',
   options: {
-    selecting: true
+    selecting: true,
+  },
+  panel: {
+    buttons: [
+      {
+        label: 'Обновить',
+        class: ['v-table-button--custom'],
+        urlIcon: 'https://uxwing.com/wp-content/themes/uxwing/download/editing-user-action/modify-icon.png',
+        function: ''
+      },
+      {
+        label: 'Добавить',
+        class: ['v-table-button--custom'],
+        urlIcon: 'https://uxwing.com/wp-content/themes/uxwing/download/editing-user-action/modify-icon.png',
+        function: ''
+      },
+      {
+        label: 'Скачать',
+        class: ['v-table-button--custom'],
+        function: ''
+      }
+    ]
   },
   head: [
     {

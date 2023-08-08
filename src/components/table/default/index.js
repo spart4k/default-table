@@ -2,12 +2,14 @@
 //document.adoptedStyleSheets.push(style)
 
 import template from './template.js'
-import tableButton from '../button/index.js'
+import vTableButton from '../button/index.js'
+import vButton from '../../button/index.js'
 
 const table = {
   name: 'Table',
   components: {
-    tableButton
+    vTableButton,
+    vButton
   },
   props: {
     options: {
@@ -15,7 +17,7 @@ const table = {
       default: () => {}
     }
   },
-  data: function () {
+  data() {
     return {
       count: 0,
       headerOptions: [],
@@ -58,16 +60,40 @@ const table = {
       if (indexRow > this.lastSelected.indexRow) {
         delta = indexRow - this.lastSelected.indexRow
         if (this.lastSelected.indexRow === null) this.lastSelected.indexRow = 0
+        for (let i = this.lastSelected.indexRow; i < (this.lastSelected.indexRow + delta); i++) {
+          console.log(i)
+          console.log(this.options.data[i].row)
+          if (!this.options.data[i].row.selected) {
+            this.options.data[i].row.selected = true
+          } else {
+            //console.log(i, this.lastSelected.indexRow)
+            //this.options.data[i].row.selected = false
+            //if (i === this.lastSelected.indexRow) this.options.data[i].row.selected = true
+          }
+        }
+      } else {
+        console.log('down')
+        delta = this.lastSelected.indexRow - indexRow
+        for (let i = this.lastSelected.indexRow; i > (this.lastSelected.indexRow - delta); i--) {
+          console.log(i)
+          console.log(this.options.data[i].row)
+          if (!this.options.data[i].row.selected) {
+            this.options.data[i].row.selected = true
+          } else {
+            //console.log(i)
+
+            //this.options.data[i].row.selected = false
+            //if (i === this.lastSelected.indexRow) this.options.data[i].row.selected = true
+          }
+
+        }
       }
       console.log(delta)
       console.log(this.lastSelected.indexRow)
-      for (let i = this.lastSelected.indexRow; i < (this.lastSelected.indexRow + delta); i++) {
-        console.log(i)
-        console.log(this.options.data[i].row)
-        this.options.data[i].row.selected = true
-      }
+
     },
     saveLastSelected(data) {
+      console.log(data)
       this.lastSelected = {
         ...data
       }
@@ -76,6 +102,9 @@ const table = {
   computed: {
     width() {
       return window.innerWidth
+    },
+    colspanLength() {
+      return this.options.options.selecting ? this.options.head.filter(el => el.isShow).length + 1 : this.options.head.filter(el => el.isShow).length
     }
   },
   mounted() {

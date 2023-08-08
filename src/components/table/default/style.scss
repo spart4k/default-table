@@ -47,9 +47,6 @@ $borderColor: rgba(0,0,0,.3);
           }
 
         }
-        &:hover {
-          background-color: rgba(0,0,0,.1);
-        }
         &--child {
           max-height: 300px;
           ul {
@@ -58,6 +55,18 @@ $borderColor: rgba(0,0,0,.3);
             flex-direction: column;
           }
         }
+        &:hover {
+          background-color: rgba(0,0,0,.1);
+        }
+        &--selected {
+          background-color: rgba(45, 65, 250, 0.752);
+          color: #fff;
+          &:hover {
+            background-color: rgba(45, 65, 250, 0.812);
+            //color: rgb(256,256,256);
+          }
+        }
+
       }
     }
     &-wrap {
@@ -72,39 +81,14 @@ $borderColor: rgba(0,0,0,.3);
         }
       }
     }
-    &-button {
-      border: 1px solid $borderColor;
-      width: 30px;
-      height: 30px;
-      img {
-        width: 100%;
-        padding: 5px;
-      }
-      &:hover {
-        cursor: pointer;
-      }
-    }
-    &-checkbox {
-      width: 30px;
-      height: 30px;
+    &-panel {
       display: flex;
-      justify-content: center;
-      align-items: center;
-      label {
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        input {
-          &:hover {
-            cursor: pointer;
-          }
+      padding: 5px 0;
+      background-color: rgba(0,0,0,.1);
+      > button, div {
+        &:not(:last-child) {
+          margin-right: 5px;
         }
-        &:hover {
-          cursor: pointer;
-        }
-      }
-      &:hover {
-        cursor: pointer;
       }
     }
   }

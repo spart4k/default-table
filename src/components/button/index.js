@@ -1,4 +1,4 @@
-const tableButton = {
+const button = {
   render: function (createElement) {
     return createElement(
       'button', // имя тега
@@ -6,17 +6,18 @@ const tableButton = {
         attrs: {
         },
         class: {
-          'v-table-button': true
+          'v-button': true
         },
         style: {
           //backgroundImage: this.option.urlIcon ? this.backgroundImage : '',
-          color: 'red'
+          color: ''
         },
         domProps: {
           innerHTML: this.backgroundImage ?
           `
             <img src="${this.backgroundImage}"></img>
-          ` : ''
+            <p>test</p>
+          ` : '<p>test</p>'
         },
         on: {
           click: this.buttonClick
@@ -40,6 +41,7 @@ const tableButton = {
       if (this.option.urlIcon) {
         return this.option.urlIcon
       }
+
     }
   },
   methods: {
@@ -52,4 +54,4 @@ const tableButton = {
 
   }
 }
-export default tableButton
+export default button
