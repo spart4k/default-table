@@ -16,6 +16,14 @@ const inputDefault = {
     placeholder: {
       type: String,
       default: ''
+    },
+    type: {
+      type: String,
+      default: ''
+    },
+    clearing: {
+      type: Boolean,
+      default: false
     }
   },
   data() {
@@ -25,6 +33,9 @@ const inputDefault = {
   methods: {
     valuePass() {
       this.$emit('input', this.value)
+    },
+    clearField() {
+      this.$emit('clearfield')
     }
   },
   computed: {

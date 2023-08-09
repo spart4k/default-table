@@ -100,6 +100,37 @@ body {
 .v-button:hover {
   cursor: pointer;
 }
+.v-input {
+  position: relative;
+  overflow: hidden;
+}
 .v-input input {
   padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  border-radius: 3px;
+  outline: none;
+  max-width: 100%;
+  width: 100%;
+}
+.v-input svg {
+  position: absolute;
+  width: 20px;
+  height: 20px;
+  aspect-ratio: 1;
+  right: 5px;
+  top: 50%;
+  margin-top: -10px;
+}
+.v-icon {
+  cursor: pointer;
+}
+.v-icon-close {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.v-icon-close:hover {
+  -webkit-transform-origin: center center;
+          transform-origin: center center;
+  -webkit-transform: rotate(180deg);
+          transform: rotate(180deg);
 }

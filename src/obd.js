@@ -20,7 +20,8 @@ const tableConfigData = {
     selecting: true,
     search: {
       function: searchInputing
-    }
+    },
+    headerFixed: true
   },
   panel: {
     buttons: [
@@ -50,127 +51,174 @@ const tableConfigData = {
     {
       title: 'Сотрудник',
       type: 'default',
+      align: 'center',
       sorts: [
         {
-          type: '',
-          default: ''
+          type: 'string',
+          default: 'asc',
+          isShow: false,
         }
       ],
       isShow: true,
       width: '5%',
-      value: 'employee'
+      value: 'employee',
+      search: {
+        field: ''
+      }
     },
     {
       title: 'Отдел',
       type: 'default',
+      align: 'center',
       sorts: [
         {
-          type: '',
-          default: ''
+          type: 'string',
+          default: 'asc',
+          isShow: false,
         }
       ],
       isShow: true,
       width: '5%',
-      value: 'department'
+      value: 'department',
+      search: {
+        field: ''
+      }
     },
     {
       title: 'Ставка',
       type: 'default',
+      align: 'left',
       sorts: [
         {
-          type: '',
-          default: ''
+          type: 'number',
+          default: 'asc',
+          isShow: false,
         }
       ],
       isShow: true,
       width: '5%',
-      value: 'cost'
+      value: 'cost',
+      search: {
+        field: ''
+      }
     },
     {
       title: 'Дата принятие',
       type: 'default',
+      align: 'center',
       sorts: [
         {
-          type: '',
-          default: ''
+          type: 'date',
+          default: 'asc',
+          isShow: false,
         }
       ],
       isShow: true,
       width: '20%',
-      value: 'date'
+      value: 'date',
+      search: {
+        field: ''
+      }
     },
     {
       title: 'Образование',
       type: 'default',
+      align: 'center',
       sorts: [
         {
-          type: '',
-          default: ''
+          type: 'string',
+          default: 'asc',
+          isShow: false,
         }
       ],
       isShow: true,
       width: '10%',
-      value: 'universe'
+      value: 'universe',
+      search: {
+        field: ''
+      }
     },
     {
       title: 'Автомобиль',
       type: 'default',
+      align: 'center',
       sorts: [
         {
-          type: '',
-          default: ''
+          type: 'string',
+          default: 'asc',
+          isShow: false,
         }
       ],
       isShow: true,
       width: '10%',
-      value: 'car'
+      value: 'car',
+      search: {
+        field: ''
+      }
     },
     {
       title: 'universe1',
       type: 'default',
+      align: 'center',
       sorts: [
         {
-          type: '',
-          default: ''
+          type: 'string',
+          default: 'asc',
+          isShow: false,
         }
       ],
       isShow: true,
       width: '10%',
-      value: 'universe1'
+      value: 'universe1',
+      search: {
+        field: ''
+      }
     },
     {
       title: 'universe2',
       type: 'default',
+      align: 'center',
       sorts: [
         {
-          type: '',
-          default: ''
+          type: 'string',
+          default: 'asc',
+          isShow: false,
         }
       ],
       isShow: true,
       width: '10%',
-      value: 'universe2'
+      value: 'universe2',
+      search: {
+        field: ''
+      }
     },
     {
       title: 'universe3',
       type: 'default',
+      align: 'center',
       sorts: [
         {
-          type: '',
-          default: ''
+          type: 'string',
+          default: 'asc',
+          isShow: false,
         }
       ],
       isShow: true,
       width: '100px',
-      value: 'universe3'
+      value: 'universe3',
+      search: {
+        field: ''
+      }
     },
     {
       title: 'Действия',
       type: 'actions',
+      align: 'center',
       sorts: [
         {
           type: '',
-          default: ''
+          default: 'asc',
+          isShow: false,
         }
       ],
       isShow: true,

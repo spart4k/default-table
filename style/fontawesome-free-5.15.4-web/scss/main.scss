@@ -1,3 +1,6 @@
+$iconSize: 20px;
+$borderRadius: 3px;
+
 * {
   box-sizing: border-box;
   padding: 0;
@@ -76,7 +79,7 @@ $borderColor: rgba(0,0,0,.3);
     outline: none;
     background-color: transparent;
     border: 1px solid $borderColor;
-    border-radius: 3px;
+    border-radius: $borderRadius;
     img {
       width: 20px;
       height: 20px;
@@ -87,8 +90,34 @@ $borderColor: rgba(0,0,0,.3);
     }
   }
   &-input {
+    position: relative;
+    overflow: hidden;
     input {
       padding: 5px;
+      border: 1px solid $borderColor;
+      border-radius: $borderRadius;
+      outline: none;
+      max-width: 100%;
+      width: 100%;
+    }
+    svg {
+      position: absolute;
+      width: $iconSize;
+      height: $iconSize;
+      aspect-ratio: 1;
+      right: 5px;
+      top: 50%;
+      margin-top: calc($iconSize / -2);
+    }
+  }
+  &-icon {
+    cursor: pointer;
+    &-close {
+      transition: .2s;
+      &:hover {
+        transform-origin: center center;
+        transform: rotate(180deg);
+      }
     }
   }
 }

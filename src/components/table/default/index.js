@@ -100,6 +100,17 @@ const table = {
       this.lastSelected = {
         ...data
       }
+    },
+    // Костыль для чистки инпута
+    clearField(value) {
+      value = ''
+      Vue.set(this, 'searchField', '');
+    },
+    openSort(head) {
+      console.log(head)
+
+      head.sorts[0].isShow = !head.sorts[0].isShow
+
     }
   },
   computed: {

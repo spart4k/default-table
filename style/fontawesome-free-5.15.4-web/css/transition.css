@@ -49,3 +49,42 @@
   opacity: 0;
   max-height: 0px;
 }
+
+.faderight-leave-active {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.faderight-leave-from {
+  opacity: 1;
+}
+
+.faderight-leave-to {
+  opacity: 0;
+}
+
+.faderight-enter-active {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.faderight-enter, .faderight-leave-to {
+  -webkit-transform: translateX(-100%) !important;
+          transform: translateX(-100%) !important;
+  opacity: 0;
+}
+
+.faderight-enter, .faderight-leave-to {
+  -webkit-transform: translateX(100%) !important;
+          transform: translateX(100%) !important;
+  opacity: 0;
+}
+
+.faderight-leave-active {
+  /* position: absolute; */
+}
+
+.faderight-move {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
