@@ -134,3 +134,61 @@ body {
   -webkit-transform: rotate(180deg);
           transform: rotate(180deg);
 }
+.v-contextmenu {
+  position: fixed;
+  width: 0;
+  height: auto;
+  max-height: 10px;
+  background-color: #fff;
+  -webkit-transition-property: max-height, width;
+  transition-property: max-height, width;
+  -webkit-transition: width 0.2s, max-height 0.2s, border-color 0.2s;
+  transition: width 0.2s, max-height 0.2s, border-color 0.2s;
+  -webkit-transform-origin: right;
+          transform-origin: right;
+  -webkit-transition-delay: 0s, 0.3s, 0.3s, 0.5s;
+          transition-delay: 0s, 0.3s, 0.3s, 0.5s;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  border-bottom-left-radius: 10px;
+  overflow: hidden;
+  -webkit-box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+          box-shadow: 0px 0px 8px 0px rgba(34, 60, 80, 0.2);
+}
+.v-contextmenu-item {
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  font-size: 14px;
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.v-contextmenu-item img {
+  width: 20px;
+  height: 20px;
+  margin-right: 5px;
+}
+.v-contextmenu-item:hover {
+  cursor: pointer;
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.v-contextmenu-item:not(:last-child) {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.3);
+}
+.v-contextmenu--show {
+  width: 200px;
+  max-height: 500px;
+  border-color: rgba(0, 0, 0, 0.3);
+}
+.v-contextmenu--hide {
+  border-color: transparent;
+  padding: 0;
+  -webkit-transition: max-height 0.2s, width 0.2s, border-color 0.2s, padding 0.1s;
+  transition: max-height 0.2s, width 0.2s, border-color 0.2s, padding 0.1s;
+  -webkit-transition-delay: 0s, 0.3s, 0.3s, 0.5s;
+          transition-delay: 0s, 0.3s, 0.3s, 0.5s;
+}

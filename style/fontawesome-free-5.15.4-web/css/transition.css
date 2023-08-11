@@ -88,3 +88,64 @@
   -webkit-transition: all 0.15s ease;
   transition: all 0.15s ease;
 }
+
+.accordion-leave-active {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.accordion-leave-from {
+  opacity: 1;
+}
+
+.accordion-leave-to {
+  opacity: 0;
+}
+
+.accordion-enter-active {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.accordion-enter, .accordion-leave-to {
+  -webkit-transform: translateY(100%) !important;
+          transform: translateY(100%) !important;
+}
+
+.accordion-enter, .accordion-leave-to {
+  -webkit-transform: translateY(-100%) !important;
+          transform: translateY(-100%) !important;
+  opacity: 0;
+}
+
+.accordion-leave-active {
+  /* position: absolute; */
+}
+
+.accordion-move {
+  -webkit-transition: all 0.15s ease;
+  transition: all 0.15s ease;
+}
+
+.context-open-leave-active {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.context-open-leave-to {
+  opacity: 0;
+}
+
+.context-open-enter-active {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}
+
+.context-open-leave-active {
+  /* position: absolute; */
+}
+
+.context-open-move {
+  -webkit-transition: all 0.5s ease;
+  transition: all 0.5s ease;
+}

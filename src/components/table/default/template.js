@@ -18,44 +18,23 @@ const template = `
           <th :align="head.align" v-show="head.isShow" :id="head.value + '-table-header'" :width="head.width" class="v-table-header-row-cell" v-for="(head, index) in options.head">
             <div class="v-table-header-row-cell-wrap">
               <span @click="openSort(head)">{{ head.title }}</span>
-              <div v-if="head.sorts[0].isShow" class="v-table-header-row-cell-sort">
-                <div class="v-table-header-row-cell-sort__row" v-if="head.sorts[0].type === 'string'">
-                  <svg class="v-table-header-row-cell-sort__row__icon" fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                      viewBox="0 0 489.4 489.4" xml:space="preserve">
-                    <g>
-                      <g>
-                        <path fill="red" d="M370.2,468.9c0,6.8,5.5,12.3,12.3,12.3s12.3-5.5,12.3-12.3V50.1l73.6,73.6c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6
-                          c4.8-4.8,4.8-12.5,0-17.3l-94.5-94.5c-4.6-4.6-12.7-4.6-17.3,0l-94.5,94.5c-4.8,4.8-4.8,12.5,0,17.3c4.8,4.8,12.5,4.8,17.3,0
-                          l73.6-73.6v418.8H370.2z"/>
-                        <path d="M209.9,365.7c-4.8-4.8-12.5-4.8-17.3,0L119,439.3V20.5c0-6.8-5.5-12.3-12.3-12.3s-12.3,5.5-12.3,12.3v418.8l-73.5-73.6
-                          c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l94.5,94.5c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6L210,383
-                          C214.6,378.3,214.6,370.5,209.9,365.7z"/>
-                      </g>
-                    </g>
-                  </svg>
-                  <p v-if="true">Сортировка от А до Я</p>
+              <transition name="accordion">
+                <div v-if="head.sorts && head.sorts[0].isShow" class="v-table-header-row-cell-sort">
+                  <div @click="sortRow(head)" class="v-table-header-row-cell-sort__row" v-if="head.sorts[0].type === 'string'">
+                    <v-icon-sort :state="head.sorts[0].value"/>
+                    <p v-if="true">Сортировка от А до Я</p>
+                  </div>
+                  <div @click="sortRow(head)" class="v-table-header-row-cell-sort__row" v-if="head.sorts[0].type === 'number'">
+                    <v-icon-sort :state="head.sorts[0].value"/>
+                    <p v-if="true">Сортировка по убыванию</p>
+                  </div>
+                  <div @click="sortRow(head)" class="v-table-header-row-cell-sort__row" v-if="head.sorts[0].type === 'date'">
+                    <v-icon-sort :state="head.sorts[0].value"/>
+                    <p v-if="true">Сортировка по дате</p>
+                  </div>
+                  <v-input class="v-table-header-row-cell-sort__search" @clearfield="clearField('searchField')" clearing type="search" placeholder="Поиск" v-model="head.search.field"></v-input>
                 </div>
-                <div class="v-table-header-row-cell-sort__row" v-if="head.sorts[0].type === 'number'">
-                  <svg class="v-table-header-row-cell-sort__row__icon" fill="#000000" height="800px" width="800px" version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                      viewBox="0 0 489.4 489.4" xml:space="preserve">
-                    <g>
-                      <g>
-                        <path d="M370.2,468.9c0,6.8,5.5,12.3,12.3,12.3s12.3-5.5,12.3-12.3V50.1l73.6,73.6c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6
-                          c4.8-4.8,4.8-12.5,0-17.3l-94.5-94.5c-4.6-4.6-12.7-4.6-17.3,0l-94.5,94.5c-4.8,4.8-4.8,12.5,0,17.3c4.8,4.8,12.5,4.8,17.3,0
-                          l73.6-73.6v418.8H370.2z"/>
-                        <path d="M209.9,365.7c-4.8-4.8-12.5-4.8-17.3,0L119,439.3V20.5c0-6.8-5.5-12.3-12.3-12.3s-12.3,5.5-12.3,12.3v418.8l-73.5-73.6
-                          c-4.8-4.8-12.5-4.8-17.3,0s-4.8,12.5,0,17.3l94.5,94.5c2.4,2.4,5.5,3.6,8.7,3.6s6.3-1.2,8.7-3.6L210,383
-                          C214.6,378.3,214.6,370.5,209.9,365.7z"/>
-                      </g>
-                    </g>
-                  </svg>
-                  <p v-if="true">Сортировка по убыванию</p>
-                </div>
-                <div class="v-table-header-row-cell-sort__row" v-if="head.sorts[0].type === 'date'">
-                  <p v-if="true">Сортировка по дате</p>
-                </div>
-                <v-input class="v-table-header-row-cell-sort__search" @clearfield="clearField('searchField')" clearing type="search" placeholder="Поиск" v-model="head.search.field"></v-input>
-              </div>
+              </transition>
             </div>
           </th>
           <!--<th class="v-table-header-row-cell" v-for="(head, index) in options.head">{{ head.title }}</th>-->
@@ -63,7 +42,7 @@ const template = `
       </thead>
       <tbody class="v-table-body">
         <template v-for="(row, indexRow) in options.data" >
-          <tr :key="indexRow" :class="row.row.selected ? 'v-table-body-row--selected' : '' " @click="openChildRow($event, row)" class="v-table-body-row">
+          <tr :key="indexRow" :class="row.row.selected ? 'v-table-body-row--selected' : '' " @contextmenu.prevent="openContext($event, row)" @click="openChildRow($event, row)" class="v-table-body-row">
             <td class="v-table-body-row-cell__checkbox"  align="center" v-if="options.options.selecting" width="5%">
               <div @click.stop class="v-table-checkbox">
                 <label>
@@ -107,6 +86,7 @@ const template = `
 
       </div>
     </div>
+    <v-contextmenu :options="contextmenu"/>
   </div>
 
 `

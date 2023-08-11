@@ -29,17 +29,35 @@
           box-shadow: 0px 4px 10px -4px rgba(34, 60, 80, 0.1);
   font-weight: 400;
   border: 1px solid rgba(0, 0, 0, 0.3);
+  border-top: 0;
   z-index: 2;
+  -webkit-transform-origin: top;
+          transform-origin: top;
 }
 .v-table-header-row-cell-sort__row {
   display: -webkit-box;
   display: -ms-flexbox;
   display: flex;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+      -ms-user-select: none;
+          user-select: none;
 }
 .v-table-header-row-cell-sort__row__icon {
   width: 15px;
   height: 15px;
   margin-right: 5px;
+}
+.v-table-header-row-cell-sort__row__icon path {
+  fill: rgba(0, 0, 0, 0.5);
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.v-table-header-row-cell-sort__row__icon.asc path.asc {
+  fill: black;
+}
+.v-table-header-row-cell-sort__row__icon.desc path.desc {
+  fill: black;
 }
 .v-table-header-row-cell-sort__search {
   margin-top: 5px;

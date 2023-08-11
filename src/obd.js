@@ -56,6 +56,7 @@ const tableConfigData = {
         {
           type: 'string',
           default: 'asc',
+          value: undefined,
           isShow: false,
         }
       ],
@@ -74,6 +75,7 @@ const tableConfigData = {
         {
           type: 'string',
           default: 'asc',
+          value: undefined,
           isShow: false,
         }
       ],
@@ -92,6 +94,7 @@ const tableConfigData = {
         {
           type: 'number',
           default: 'asc',
+          value: undefined,
           isShow: false,
         }
       ],
@@ -110,6 +113,7 @@ const tableConfigData = {
         {
           type: 'date',
           default: 'asc',
+          value: undefined,
           isShow: false,
         }
       ],
@@ -128,6 +132,7 @@ const tableConfigData = {
         {
           type: 'string',
           default: 'asc',
+          value: undefined,
           isShow: false,
         }
       ],
@@ -146,6 +151,7 @@ const tableConfigData = {
         {
           type: 'string',
           default: 'asc',
+          value: undefined,
           isShow: false,
         }
       ],
@@ -164,6 +170,7 @@ const tableConfigData = {
         {
           type: 'string',
           default: 'asc',
+          value: undefined,
           isShow: false,
         }
       ],
@@ -182,6 +189,7 @@ const tableConfigData = {
         {
           type: 'string',
           default: 'asc',
+          value: undefined,
           isShow: false,
         }
       ],
@@ -200,6 +208,7 @@ const tableConfigData = {
         {
           type: 'string',
           default: 'asc',
+          value: undefined,
           isShow: false,
         }
       ],
@@ -214,13 +223,6 @@ const tableConfigData = {
       title: 'Действия',
       type: 'actions',
       align: 'center',
-      sorts: [
-        {
-          type: '',
-          default: 'asc',
-          isShow: false,
-        }
-      ],
       isShow: true,
       width: '100px',
       value: 'actions',
