@@ -1,5 +1,5 @@
 .v-table {
-  margin: 10px;
+  margin: 10px 10px 30px 10px;
 }
 .v-table-header {
   background-color: #fff;
@@ -165,4 +165,101 @@
   top: 0;
   position: sticky;
   z-index: 2;
+}
+.v-table-footer {
+  padding: 5px;
+  border: 1px solid rgba(0, 0, 0, 0.3);
+  font-size: 12px;
+  width: 100%;
+}
+.v-table-footer-total {
+  text-align: center;
+  font-size: 12px;
+}
+.v-table-footer-pagination {
+  width: 100%;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-pack: justify;
+      -ms-flex-pack: justify;
+          justify-content: space-between;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.v-table-footer-pagination-wrap {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+}
+.v-table-footer-pagination-length {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+}
+.v-table-footer-pagination-length__label {
+  margin-right: 5px;
+  font-size: 14px;
+}
+.v-table-footer-pagination__button {
+  padding: 5px;
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  -webkit-box-align: center;
+      -ms-flex-align: center;
+          align-items: center;
+  -webkit-box-pack: center;
+      -ms-flex-pack: center;
+          justify-content: center;
+  border-radius: 3px;
+  margin: 0 2px;
+  font-size: 14px;
+}
+.v-table-footer-pagination__button svg {
+  width: 10px;
+  height: 10px;
+}
+.v-table-footer-pagination__button--prev {
+  -webkit-transform: rotateY(180deg);
+          transform: rotateY(180deg);
+}
+.v-table-footer-pagination__button:hover {
+  cursor: pointer;
+}
+.v-table-footer-pagination-pages {
+  display: -webkit-box;
+  display: -ms-flexbox;
+  display: flex;
+  color: rgba(0, 0, 0, 0.3);
+}
+.v-table-footer-pagination-pages__el {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.v-table-footer-pagination-pages__el span {
+  -webkit-transition: 0.2s;
+  transition: 0.2s;
+}
+.v-table-footer-pagination-pages__el:hover {
+  background-color: rgba(0, 0, 0, 0.1);
+}
+.v-table-footer-pagination-pages__el:hover span {
+  -webkit-transform: translateY(-10%);
+          transform: translateY(-10%);
+}
+.v-table-footer-pagination-pages__el--active {
+  background-color: rgb(64, 105, 241);
+  color: #fff;
+}
+.v-table-footer-pagination-pages__el--active:hover {
+  background-color: rgb(8, 62, 238);
+}
+.v-table-footer-pagination-pages__el--active:hover span {
+  -webkit-transform: translateY(-10%);
+          transform: translateY(-10%);
 }
