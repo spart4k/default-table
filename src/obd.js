@@ -231,13 +231,13 @@ const tableConfigData = {
           type: 'button',
           urlIcon: 'https://uxwing.com/wp-content/themes/uxwing/download/editing-user-action/modify-icon.png',
           function: consoleText,
-          label: 'Test funciton'
+          label: 'Редактировать'
         },
         {
           type: 'button',
           urlIcon: 'https://icons.veryicon.com/png/o/miscellaneous/operation-scenarios-menu-overview/action-delete-2.png',
           function: consoleButton,
-          label: 'Test funciton'
+          label: 'Удалить'
         }
       ]
     },

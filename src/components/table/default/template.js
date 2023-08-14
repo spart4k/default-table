@@ -83,7 +83,24 @@ const template = `
     </table>
     <div class="v-table-footer">
       <div class="v-table-footer-pagination">
-
+        <div class="v-table-footer-pagination-length">
+          <span>
+            10
+          </span>
+        </div>
+        <div class="v-table-footer-pagination-wrap">
+          <div class="">
+            button
+          </div>
+          <div class="v-table-footer-pagination-pages">
+            <div v-for="item, index in 5"  class="">
+              {{ index }}
+            </div>
+          </div>
+          <div class="">
+            button
+          </div>
+        </div>
       </div>
     </div>
     <v-contextmenu :options="contextmenu"/>

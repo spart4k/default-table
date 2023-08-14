@@ -142,12 +142,12 @@ body {
   background-color: #fff;
   -webkit-transition-property: max-height, width;
   transition-property: max-height, width;
-  -webkit-transition: width 0.2s, max-height 0.2s, border-color 0.2s;
-  transition: width 0.2s, max-height 0.2s, border-color 0.2s;
+  -webkit-transition: width 0.15s, max-height 0.15s, border-color 0.15s;
+  transition: width 0.15s, max-height 0.15s, border-color 0.15s;
   -webkit-transform-origin: right;
           transform-origin: right;
-  -webkit-transition-delay: 0s, 0.3s, 0.3s, 0.5s;
-          transition-delay: 0s, 0.3s, 0.3s, 0.5s;
+  -webkit-transition-delay: 0s, 0.25s, 0.25s, 0.5s;
+          transition-delay: 0s, 0.25s, 0.25s, 0.5s;
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
@@ -187,8 +187,8 @@ body {
 .v-contextmenu--hide {
   border-color: transparent;
   padding: 0;
-  -webkit-transition: max-height 0.2s, width 0.2s, border-color 0.2s, padding 0.1s;
-  transition: max-height 0.2s, width 0.2s, border-color 0.2s, padding 0.1s;
-  -webkit-transition-delay: 0s, 0.3s, 0.3s, 0.5s;
-          transition-delay: 0s, 0.3s, 0.3s, 0.5s;
+  -webkit-transition: max-height 0.15s, width 0.15s, border-color 0.15s, padding 0.075s;
+  transition: max-height 0.15s, width 0.15s, border-color 0.15s, padding 0.075s;
+  -webkit-transition-delay: 0s, 0.25s, 0.25s, 0.45s;
+          transition-delay: 0s, 0.25s, 0.25s, 0.45s;
 }

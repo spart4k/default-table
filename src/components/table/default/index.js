@@ -37,7 +37,8 @@ const table = {
         isShow: false,
         x: null,
         y: null,
-        row: {}
+        row: {},
+        actions: {}
       }
     }
   },
@@ -133,6 +134,7 @@ const table = {
       }
     },
     openContext($event, row) {
+      const contextWidth = 200
       if (this.contextmenu.isShow) {
         setTimeout(() => {
           this.contextmenu.isShow = false
@@ -140,12 +142,20 @@ const table = {
       }
       console.log($event.clientX, $event.clientY)
       console.log($event, row)
+      let direction = 'left'
+      let clientX = $event.clientX
+      if ($event.clientX + contextWidth >= window.innerWidth) {
+        direction = 'right'
+        clientX = window.innerWidth - $event.clientX
+      }
       setTimeout(() => {
         this.contextmenu.isShow = true
-        this.contextmenu.x = $event.clientX
+        this.contextmenu.x = clientX
         this.contextmenu.y = $event.clientY
-        this.contextmenu.row = row
-      }, this.contextmenu.isShow ? 250 : 0)
+        this.contextmenu.row = row,
+        this.contextmenu.direction = direction
+        this.contextmenu.actions = this.headActions
+      }, this.contextmenu.isShow ? 450 : 0)
     }
   },
   computed: {
@@ -154,6 +164,9 @@ const table = {
     },
     colspanLength() {
       return this.options.options.selecting ? this.options.head.filter(el => el.isShow).length + 1 : this.options.head.filter(el => el.isShow).length
+    },
+    headActions() {
+      return this.options.head.find((cell) => cell.type === 'actions')
     }
   },
   watch: {

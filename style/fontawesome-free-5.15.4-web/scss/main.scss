@@ -127,9 +127,9 @@ $borderColor: rgba(0,0,0,.3);
     max-height: 10px;
     background-color: #fff;
     transition-property: max-height, width;
-    transition: width .2s, max-height .2s, border-color .2s;
+    transition: width .15s, max-height .15s, border-color .15s;
     transform-origin: right;
-    transition-delay: 0s, .3s, .3s, .5s;
+    transition-delay: 0s, .25s, .25s, .5s;
     //border-radius: 10px;
     border-top-right-radius: 10px;
     border-bottom-right-radius: 10px;
@@ -170,8 +170,8 @@ $borderColor: rgba(0,0,0,.3);
       //max-height: 1px;
       border-color: transparent;
       padding: 0;
-      transition: max-height .2s, width .2s, border-color .2s, padding .1s;
-      transition-delay: 0s, .3s, .3s, .5s;
+      transition: max-height .15s, width .15s, border-color .15s, padding .075s;
+      transition-delay: 0s, .25s, .25s, .45s;
     }
   }
 }

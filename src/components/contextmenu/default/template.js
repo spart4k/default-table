@@ -1,10 +1,10 @@
 export default `
   <transition name="context-open">
-    <div :class="options.isShow ? 'v-contextmenu--show' : 'v-contextmenu--hide'" :style="{ top: options.y, left: options.x }" class="v-contextmenu">
+    <div :class="options.isShow ? 'v-contextmenu--show' : 'v-contextmenu--hide'" :style="{ top: options.y, [options.direction]: options.x }" class="v-contextmenu">
       <div class="v-contextmenu-wrap">
-        <div v-for="(item) in 10" class="v-contextmenu-item">
-          <img src="https://icons.veryicon.com/png/o/miscellaneous/operation-scenarios-menu-overview/action-delete-2.png" alt="">
-          <p>фвфывфвфвыasdasd</p>
+        <div v-for="action, actionsIndex in options.actions.actions" :key="actionsIndex" class="v-contextmenu-item">
+          <img :src="action.urlIcon" alt="">
+          <p>{{ action.label }}</p>
         </div>
       </div>
     </div>
