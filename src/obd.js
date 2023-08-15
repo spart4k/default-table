@@ -52,6 +52,7 @@ const tableConfigData = {
       title: 'Сотрудник',
       type: 'default',
       align: 'center',
+      fixed: true,
       sorts: [
         {
           type: 'string',
@@ -71,6 +72,7 @@ const tableConfigData = {
       title: 'Отдел',
       type: 'default',
       align: 'center',
+      fixed: true,
       sorts: [
         {
           type: 'string',
@@ -90,6 +92,7 @@ const tableConfigData = {
       title: 'Ставка',
       type: 'default',
       align: 'left',
+      fixed: false,
       sorts: [
         {
           type: 'number',
@@ -109,6 +112,7 @@ const tableConfigData = {
       title: 'Дата принятие',
       type: 'default',
       align: 'center',
+      fixed: false,
       sorts: [
         {
           type: 'date',
@@ -128,6 +132,7 @@ const tableConfigData = {
       title: 'Образование',
       type: 'default',
       align: 'center',
+      fixed: false,
       sorts: [
         {
           type: 'string',
@@ -147,6 +152,7 @@ const tableConfigData = {
       title: 'Автомобиль',
       type: 'default',
       align: 'center',
+      fixed: false,
       sorts: [
         {
           type: 'string',
@@ -166,6 +172,7 @@ const tableConfigData = {
       title: 'universe1',
       type: 'default',
       align: 'center',
+      fixed: false,
       sorts: [
         {
           type: 'string',
@@ -185,6 +192,7 @@ const tableConfigData = {
       title: 'universe2',
       type: 'default',
       align: 'center',
+      fixed: false,
       sorts: [
         {
           type: 'string',
@@ -204,6 +212,7 @@ const tableConfigData = {
       title: 'universe3',
       type: 'default',
       align: 'center',
+      fixed: false,
       sorts: [
         {
           type: 'string',
@@ -223,6 +232,7 @@ const tableConfigData = {
       title: 'Действия',
       type: 'actions',
       align: 'center',
+      fixed: false,
       isShow: true,
       width: '100px',
       value: 'actions',
@@ -242,5 +252,11 @@ const tableConfigData = {
       ]
     },
   ],
-  data: []
+  data: {
+    rows: [],
+    totalRows: null,
+    pageLength: null,
+    currentPage: null,
+    totalPages: null
+  }
 }

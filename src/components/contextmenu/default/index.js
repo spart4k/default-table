@@ -12,7 +12,7 @@ export default {
     options: {
       type: Object,
       defualt: () => {}
-    }
+    },
   },
   data() {
     return {
@@ -21,10 +21,10 @@ export default {
   methods: {
     handlerOutside(e) {
       const context = document.querySelector('.v-contextmenu')
-      if (context.contains(e.target)){
+      if (context.contains(e.target)) {
         // Clicked in box
         return
-      } else{
+      } else {
         // Clicked outside the box
         console.log('close')
         this.options.isShow = false

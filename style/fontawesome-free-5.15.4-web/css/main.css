@@ -128,12 +128,6 @@ body {
   -webkit-transition: 0.2s;
   transition: 0.2s;
 }
-.v-icon-close:hover {
-  -webkit-transform-origin: center center;
-          transform-origin: center center;
-  -webkit-transform: rotate(180deg);
-          transform: rotate(180deg);
-}
 .v-contextmenu {
   position: fixed;
   width: 0;

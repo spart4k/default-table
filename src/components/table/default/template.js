@@ -15,7 +15,7 @@ const template = `
           <th align="center" v-if="options.options.selecting" width="5%">
             <!--s-->
           </th>
-          <th :align="head.align" v-show="head.isShow" :id="head.value + '-table-header'" :width="head.width" class="v-table-header-row-cell" v-for="(head, index) in options.head">
+          <th :style="{ left: getWidth(head.value + '-table-header') }" :align="head.align" :class="head.fixed ? 'v-table-header-row-cell--fixed' : ''" v-show="head.isShow" :id="head.value + '-table-header'" :width="head.width" class="v-table-header-row-cell" v-for="(head, index) in options.head">
             <div class="v-table-header-row-cell-wrap">
               <span @click="openSort(head)">{{ head.title }}</span>
               <transition name="accordion">
@@ -41,8 +41,8 @@ const template = `
         </tr>
       </thead>
       <tbody class="v-table-body">
-        <template v-for="(row, indexRow) in options.data" >
-          <tr :key="indexRow" :class="row.row.selected ? 'v-table-body-row--selected' : '' " @contextmenu.prevent="openContext($event, row)" @click="openChildRow($event, row)" class="v-table-body-row">
+        <template v-for="(row, indexRow) in options.data.rows" >
+          <tr :key="indexRow" :class="row.row.selected ? 'v-table-body-row--selected' : '' " @contextmenu="openContext($event, row)" @click="openChildRow($event, row)" class="v-table-body-row">
             <td class="v-table-body-row-cell__checkbox"  align="center" v-if="options.options.selecting" width="5%">
               <div @click.stop class="v-table-checkbox">
                 <label>

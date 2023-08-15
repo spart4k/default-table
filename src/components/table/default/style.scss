@@ -5,6 +5,7 @@ $tablePanelHeight: 41px;
 .v {
   &-table {
     margin: 10px 10px 30px 10px;
+    position: relative;
     &-header {
       background-color: #fff;
       //border: 1px solid $borderColor;
@@ -70,6 +71,9 @@ $tablePanelHeight: 41px;
               margin-top: 5px;
             }
 
+          }
+          &--fixed {
+            position: sticky;
           }
           &:hover {
             cursor: pointer;

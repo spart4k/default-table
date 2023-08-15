@@ -39,6 +39,12 @@ const table = {
         y: null,
         row: {},
         actions: {}
+      },
+      pagination: {
+        totalRows: null,
+        currentPage: null,
+        totalPages: null,
+        pageLength: null
       }
     }
   },
@@ -134,6 +140,11 @@ const table = {
       }
     },
     openContext($event, row) {
+      if (!this.contextmenu.isShow) {
+        $event.preventDefault();
+      } else {
+        return
+      }
       const contextWidth = 200
       if (this.contextmenu.isShow) {
         setTimeout(() => {
@@ -156,6 +167,14 @@ const table = {
         this.contextmenu.direction = direction
         this.contextmenu.actions = this.headActions
       }, this.contextmenu.isShow ? 450 : 0)
+    },
+    getWidth(el) {
+      const element = document.getElementById(el)
+      console.log(element)
+      setTimeout(() => {
+        console.log(element.getBoundingClientRect())
+      }, 0)
+      return '10px'
     }
   },
   computed: {
@@ -192,6 +211,10 @@ const table = {
     })
     this.wrapingRow()
     window.addEventListener('resize', () => this.wrapingRow())
+    this.pagination = {
+      ...this.options.data
+    }
+
   },
   template
 }

@@ -1,5 +1,6 @@
 .v-table {
   margin: 10px 10px 30px 10px;
+  position: relative;
 }
 .v-table-header {
   background-color: #fff;
@@ -61,6 +62,9 @@
 }
 .v-table-header-row-cell-sort__search {
   margin-top: 5px;
+}
+.v-table-header-row-cell--fixed {
+  position: sticky;
 }
 .v-table-header-row-cell:hover {
   cursor: pointer;
